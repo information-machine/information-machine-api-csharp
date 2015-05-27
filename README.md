@@ -6,11 +6,11 @@ File clienttest.txt contains several parameters in order to fully test the api u
 Each line of this file represents a certain expected value that you need to give in order to test the api.
 The file initially contains the following:
 
-YOUR_CLIENT_ID
-YOUR_CLIENT_SECRET
-STORE_NAME(EXAMPLE:WALMART)
-USERNAME_FOR_GIVEN_STORE
-PASSWORD_FOR_GIVEN_STORE
+1. YOUR_CLIENT_ID
+2. YOUR_CLIENT_SECRET
+3. STORE_NAME(EXAMPLE:WALMART)
+4. USERNAME_FOR_GIVEN_STORE
+5. PASSWORD_FOR_GIVEN_STORE
 
 So, you need to replace the lines in clienttest.txt file with corresponding value.
 
