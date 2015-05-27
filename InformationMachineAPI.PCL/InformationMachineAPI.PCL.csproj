@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <RootNamespace>InformationMachineAPI.PCL</RootNamespace>
+    <AssemblyName>InformationMachineAPI.PCL</AssemblyName>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin/DEBUG/</OutputPath>
+    <ProjectGuid>{F9F70CD0-956C-4921-B60C-3BB70574D6AC}</ProjectGuid>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <NuGetPackageImportStamp>ee2bb91c</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net45+win8+wpa81\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net45+win8+wpa81\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="unirest-net">
+      <HintPath>..\packages\Unirest-API.1.0.7.1\lib\unirest-net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\CreateUserWrapper.cs" />
+    <Compile Include="Models\GetAllUsersWrapper.cs" />
+    <Compile Include="Models\DeleteUserWrapper.cs" />
+    <Compile Include="Models\GetSingleUserWrapper.cs" />
+    <Compile Include="Models\UploadBarcodeRequest.cs" />
+    <Compile Include="Models\UploadBarcodeWrapper.cs" />
+    <Compile Include="Models\UploadBarcodeResponse.cs" />
+    <Compile Include="Models\ProductData.cs" />
+    <Compile Include="Models\NutrientData.cs" />
+    <Compile Include="Models\MetaBase.cs" />
+    <Compile Include="Models\GetProductAlternativeTypesWrapper.cs" />
+    <Compile Include="Models\ProductAlternativeTypeInfo.cs" />
+    <Compile Include="Models\GetUOMsWrapper.cs" />
+    <Compile Include="Models\UOMInfo.cs" />
+    <Compile Include="Models\GetCategoriesWrapper.cs" />
+    <Compile Include="Models\CategoryInfo.cs" />
+    <Compile Include="Models\GetNutrientsWrapper.cs" />
+    <Compile Include="Models\NutrientInfo.cs" />
+    <Compile Include="Models\GetStoresWrapper.cs" />
+    <Compile Include="Models\StoreInfo.cs" />
+    <Compile Include="Models\GetTagsWrapper.cs" />
+    <Compile Include="Models\TagInfo.cs" />
+    <Compile Include="Models\GetProductsWrapper.cs" />
+    <Compile Include="Models\MetaPaged.cs" />
+    <Compile Include="Models\GetProductWrapper.cs" />
+    <Compile Include="Models\GetProductAlternativesWrapper.cs" />
+    <Compile Include="Models\GetProductPurchasesWrapper.cs" />
+    <Compile Include="Models\PurchasedProduct.cs" />
+    <Compile Include="Models\GetProductPricesWrapper.cs" />
+    <Compile Include="Models\PriceData.cs" />
+    <Compile Include="Models\PriceInfo.cs" />
+    <Compile Include="Models\GetProductsAlternativesWrapper.cs" />
+    <Compile Include="Models\ProductAlternativesRecord.cs" />
+    <Compile Include="Models\GetUserProducts.cs" />
+    <Compile Include="Models\GetAllUserPurchasesWrapper.cs" />
+    <Compile Include="Models\UserPurchase.cs" />
+    <Compile Include="Models\UserStore.cs" />
+    <Compile Include="Models\UserData.cs" />
+    <Compile Include="Models\PurchaseItemData.cs" />
+    <Compile Include="Models\PurchaseItemProduct.cs" />
+    <Compile Include="Models\GetSingleUserPurchaseWrapper.cs" />
+    <Compile Include="Models\UploadReceiptRequest.cs" />
+    <Compile Include="Models\UploadReceiptWrapper.cs" />
+    <Compile Include="Models\ConnectUserStoreRequest.cs" />
+    <Compile Include="Models\ConnectStoreWrapper.cs" />
+    <Compile Include="Models\ConnectUserStoreResponse.cs" />
+    <Compile Include="Models\GetAllStoresWrapper.cs" />
+    <Compile Include="Models\GetSingleStoresWrapper.cs" />
+    <Compile Include="Models\GetSingleUserStoreResponse.cs" />
+    <Compile Include="Models\DeleteSingleStoreWrapper.cs" />
+    <Compile Include="Models\UpdateUserStoreRequest.cs" />
+    <Compile Include="Models\UpdateStoreConnectionWrapper.cs" />
+    <Compile Include="Models\RegisterUserRequest.cs" />
+    <Compile Include="Models\RegisterUserResponse.cs" />
+    <Compile Include="Models\GetSingleUserResponse.cs" />
+    <Compile Include="Controllers\BarcodeController.cs" />
+    <Compile Include="Controllers\LookupController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\PurchasesController.cs" />
+    <Compile Include="Controllers\ReceiptController.cs" />
+    <Compile Include="Controllers\StoresController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="APIHelper.cs" />
+    <Compile Include="APIException.cs" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="$(SolutionDir)\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('$(SolutionDir)\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
