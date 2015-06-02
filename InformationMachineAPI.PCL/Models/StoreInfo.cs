@@ -23,6 +23,7 @@ namespace InformationMachineAPI.PCL.Models
         private string name;
         private bool? restaurant;
         private bool? canScrape;
+        private string imageLink;
 
         /// <summary>
         /// TODO: Write general description for this method
@@ -89,6 +90,23 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.canScrape = value;
                 onPropertyChanged("CanScrape");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("image_link")]
+        public string ImageLink 
+        { 
+            get 
+            {
+                return this.imageLink; 
+            } 
+            set 
+            {
+                this.imageLink = value;
+                onPropertyChanged("ImageLink");
             }
         }
 
