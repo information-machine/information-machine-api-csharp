@@ -17,7 +17,7 @@ using InformationMachineAPI.PCL.Models;
  
 namespace InformationMachineAPI.PCL.Controllers
 {
-    public class UsersController
+    public class UserManagementController
     {
  
 
@@ -32,7 +32,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <summary>
         /// Constructor with authentication and configuration parameters
         /// </summary>
-        public UsersController(string clientId, string clientSecret)
+        public UserManagementController(string clientId, string clientSecret)
         {
             this.clientId = clientId;
             this.clientSecret = clientSecret;
@@ -44,7 +44,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <param name="page">Optional parameter: TODO: type parameter description here</param>
         /// <param name="perPage">Optional parameter: default:10, max:50</param>
         /// <return>Returns the GetAllUsersWrapper response from the API call</return>
-        public GetAllUsersWrapper UsersGetAllUsers(
+        public GetAllUsersWrapper UserManagementGetAllUsers(
                 int? page = null,
                 int? perPage = null)
         {
@@ -91,11 +91,11 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Register a new user by specifying "email", "zip" and "user_id". The “user_id” is mandatory and it represents the identifier you will use to identify your user in the IM API infrastructure.Note: The following characters are restricted within "user_id" string ---&gt; { '/', '^', '[', '-', '\\', 'w', '.', ']', '+', '$', '/' }
+        /// Register a new user by specifying "email", "zip" and "user_id". The “user_id” is mandatory and it represents the identifier you will use to identify your user in the IM API infrastructure.Note: The following characters are restricted within "user_id" string ---&gt; { '/', '^', '[',  '\\', 'w', '.', ']', '+', '$', '/' }
         /// </summary>
         /// <param name="payload">Required parameter: TODO: type parameter description here</param>
         /// <return>Returns the CreateUserWrapper response from the API call</return>
-        public CreateUserWrapper UsersCreateUser(
+        public CreateUserWrapper UserManagementCreateUser(
                 RegisterUserRequest payload)
         {
             //the base uri for api requests
@@ -151,7 +151,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// </summary>
         /// <param name="id">Required parameter: TODO: type parameter description here</param>
         /// <return>Returns the DeleteUserWrapper response from the API call</return>
-        public DeleteUserWrapper UsersDeleteUser(
+        public DeleteUserWrapper UserManagementDeleteUser(
                 string id)
         {
             //the base uri for api requests
@@ -196,11 +196,11 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Get user associated with your account specifying “id”.
+        /// Get user associated with your account specifying “id” of a user.
         /// </summary>
         /// <param name="id">Required parameter: TODO: type parameter description here</param>
         /// <return>Returns the GetSingleUserWrapper response from the API call</return>
-        public GetSingleUserWrapper UsersGetSingleUser(
+        public GetSingleUserWrapper UserManagementGetSingleUser(
                 string id)
         {
             //the base uri for api requests

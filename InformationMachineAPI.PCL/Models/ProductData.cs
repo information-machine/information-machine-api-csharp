@@ -39,6 +39,7 @@ namespace InformationMachineAPI.PCL.Models
         private string upc;
         private List<string> tags;
         private string category;
+        private int? categoryId;
         private string name;
         private int? id;
 
@@ -379,6 +380,23 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.category = value;
                 onPropertyChanged("Category");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("category_id")]
+        public int? CategoryId 
+        { 
+            get 
+            {
+                return this.categoryId; 
+            } 
+            set 
+            {
+                this.categoryId = value;
+                onPropertyChanged("CategoryId");
             }
         }
 

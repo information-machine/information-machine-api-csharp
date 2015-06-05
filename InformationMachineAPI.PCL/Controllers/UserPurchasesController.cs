@@ -17,7 +17,7 @@ using InformationMachineAPI.PCL.Models;
  
 namespace InformationMachineAPI.PCL.Controllers
 {
-    public class PurchasesController
+    public class UserPurchasesController
     {
  
 
@@ -32,7 +32,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <summary>
         /// Constructor with authentication and configuration parameters
         /// </summary>
-        public PurchasesController(string clientId, string clientSecret)
+        public UserPurchasesController(string clientId, string clientSecret)
         {
             this.clientId = clientId;
             this.clientSecret = clientSecret;
@@ -46,7 +46,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <param name="perPage">Optional parameter: default:10, max:50</param>
         /// <param name="fullResp">Optional parameter: default:false (set true for response with purchase item details)</param>
         /// <return>Returns the GetAllUserPurchasesWrapper response from the API call</return>
-        public GetAllUserPurchasesWrapper PurchasesGetAllUserPurchases(
+        public GetAllUserPurchasesWrapper UserPurchasesGetAllUserPurchases(
                 string userId,
                 int? page = null,
                 int? perPage = null,
@@ -107,7 +107,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <param name="purchaseId">Required parameter: TODO: type parameter description here</param>
         /// <param name="fullResp">Optional parameter: default:false (set true for response with purchase item details)</param>
         /// <return>Returns the GetSingleUserPurchaseWrapper response from the API call</return>
-        public GetSingleUserPurchaseWrapper PurchasesGetSingleUserPurchase(
+        public GetSingleUserPurchaseWrapper UserPurchasesGetSingleUserPurchase(
                 string userId,
                 string purchaseId,
                 bool? fullResp = null)

@@ -41,17 +41,19 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <summary>
         /// You can query the IM product database by either product name or UPC/EAN/ISBN identifier. Note: If both parameters are specified, UPC/EAN/ISBN has higher priority.
         /// </summary>
-        /// <param name="name">Optional parameter: TODO: type parameter description here</param>
-        /// <param name="id">Optional parameter: TODO: type parameter description here</param>
+        /// <param name="name">Optional parameter: Product name (or part)</param>
+        /// <param name="productIdentifier">Optional parameter: UPC/EAN/ISBN</param>
         /// <param name="page">Optional parameter: TODO: type parameter description here</param>
         /// <param name="perPage">Optional parameter: default:10, max:50</param>
+        /// <param name="requestData">Optional parameter: Additional request data sent by IM API customer. Expected format:"Key1:Value1;Key2:Value2"</param>
         /// <param name="fullResp">Optional parameter: default:false (set true for response with nutrients)</param>
         /// <return>Returns the GetProductsWrapper response from the API call</return>
-        public GetProductsWrapper ProductsGetProducts(
+        public GetProductsWrapper ProductsSearchProducts(
                 string name = null,
-                string id = null,
+                string productIdentifier = null,
                 int? page = null,
                 int? perPage = null,
+                string requestData = null,
                 bool? fullResp = null)
         {
             //the base uri for api requests
@@ -66,9 +68,10 @@ namespace InformationMachineAPI.PCL.Controllers
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
                     { "name", name },
-                    { "id", id },
+                    { "product_identifier", productIdentifier },
                     { "page", page },
                     { "per_page", perPage },
+                    { "request_data", requestData },
                     { "full_resp", fullResp },
                     { "client_id", clientId },
                     { "client_secret", clientSecret }
@@ -100,7 +103,7 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Get details about a single product in the IM database by specifying a product ID.
+        /// Get details about a single product in the IM database by specifying a Information Machine Product ID.
         /// </summary>
         /// <param name="productId">Required parameter: TODO: type parameter description here</param>
         /// <param name="fullResp">Optional parameter: default:false (set true for response with nutrients)</param>
@@ -153,62 +156,6 @@ namespace InformationMachineAPI.PCL.Controllers
                 throw new APIException(@"HTTP Response Not OK", response.Code);
 
             return APIHelper.JsonDeserialize<GetProductWrapper>(response.Body);
-        }
-
-        /// <summary>
-        /// Get alternatives for a specified product. Note: Must specify both product ID and ID for desired alternative type.
-        /// </summary>
-        /// <param name="productId">Required parameter: TODO: type parameter description here</param>
-        /// <param name="alternativeTypeId">Required parameter: TODO: type parameter description here</param>
-        /// <return>Returns the GetProductAlternativesWrapper response from the API call</return>
-        public GetProductAlternativesWrapper ProductsGetProductAlternatives(
-                string productId,
-                string alternativeTypeId)
-        {
-            //the base uri for api requests
-            string baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder queryBuilder = new StringBuilder(baseUri);
-            queryBuilder.Append("/v1/products/{product_id}/alternatives/{alternative_type_id}");
-
-            //process optional template parameters
-            APIHelper.AppendUrlWithTemplateParameters(queryBuilder, new Dictionary<string, object>()
-                {
-                    { "product_id", productId },
-                    { "alternative_type_id", alternativeTypeId }
-                });
-
-            //process optional query parameters
-            APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
-                {
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
-                });
-
-            //validate and preprocess url
-            string queryUrl = APIHelper.CleanUrl(queryBuilder);
-
-            //prepare and invoke the API call request to fetch the response
-            HttpRequest request = Unirest.get(queryUrl)
-                //append request with appropriate headers and parameters
-                .header("user-agent", "IAMDATA V1")
-                .header("accept", "application/json");
-
-            //invoke request and get response
-            HttpResponse<String> response = request.asString();
-
-            //Error handling using HTTP status codes
-            if (response.Code == 404)
-                throw new APIException(@"Not found", 404);
-
-            else if (response.Code == 401)
-                throw new APIException(@"Unauthorized", 401);
-
-            else if ((response.Code < 200) || (response.Code > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", response.Code);
-
-            return APIHelper.JsonDeserialize<GetProductAlternativesWrapper>(response.Body);
         }
 
         /// <summary>
@@ -273,10 +220,10 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <summary>
         /// Get prices (from available stores) for specified product IDs. Note: It is possible to query 20 product IDs per each request. Please separate IDs with commas (e.g.: “325365, 89300”).
         /// </summary>
-        /// <param name="productIds">Optional parameter: TODO: type parameter description here</param>
+        /// <param name="productIds">Required parameter: TODO: type parameter description here</param>
         /// <return>Returns the GetProductPricesWrapper response from the API call</return>
         public GetProductPricesWrapper ProductsGetProductPrices(
-                string productIds = null)
+                string productIds)
         {
             //the base uri for api requests
             string baseUri = Configuration.BaseUri;
@@ -320,13 +267,13 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Get product alternatives for a specified alternative type (e.g.: “type_id: 7” will display alternatives of the “general” type) for a list of products specified by product IDs. Note: See “Lookup” section, “product_alternative_type” for list of all possible alternative types.
+        /// Get product alternatives for a specified alternative type (e.g.: “type_id: 7” will display alternatives of the “general” type) for a list of products specified by product IDs. Note: See “Lookup” section, “product_alternative_type” for list of all possible alternative types. List of product ids must not contain more than 20 ids or else Bad Request will be returned.
         /// </summary>
-        /// <param name="productIds">Optional parameter: TODO: type parameter description here</param>
+        /// <param name="productIds">Required parameter: TODO: type parameter description here</param>
         /// <param name="typeId">Optional parameter: TODO: type parameter description here</param>
         /// <return>Returns the GetProductsAlternativesWrapper response from the API call</return>
         public GetProductsAlternativesWrapper ProductsGetProductsAlternatives(
-                string productIds = null,
+                string productIds,
                 string typeId = null)
         {
             //the base uri for api requests

@@ -53,12 +53,11 @@ namespace IM.API.ClientTest
             string email = "testuser@iamdata.co";
             string userId = "testuserId1234";
 
-            UsersController usersController = new UsersController(clientId, clientSecret);
-            StoresController storesController = new StoresController(clientId, clientSecret);
-            PurchasesController purchasesController = new PurchasesController(clientId, clientSecret);
-            BarcodeController barcodeController = new BarcodeController(clientId, clientSecret);
-            ReceiptController receiptController = new ReceiptController(clientId, clientSecret);
-
+            UserManagementController usersController = new UserManagementController(clientId, clientSecret);
+            UserStoresController storesController = new UserStoresController(clientId, clientSecret);
+            UserPurchasesController purchasesController = new UserPurchasesController(clientId, clientSecret);
+            UserScansController userScansController = new UserScansController(clientId, clientSecret);
+            
             UsersControllerTest(email, usersController, userId);
 
             string encodedImage = File.ReadAllText("encoded_logo.txt");
@@ -69,7 +68,7 @@ namespace IM.API.ClientTest
                 ReceiptId = receiptId
             };
 
-            receiptController.ReceiptUploadReceipt(receiptRequest, userId);
+            userScansController.UserScansUploadReceipt(receiptRequest, userId);
 
             ConnectUserStoreRequest storeConnect = new ConnectUserStoreRequest()
             {
@@ -78,12 +77,12 @@ namespace IM.API.ClientTest
                 Password = password
             };
 
-            ConnectUserStoreResponse userStore = storesController.StoresConnectStore(storeConnect, userId).Result;
+            ConnectUserStoreResponse userStore = storesController.UserStoresConnectStore(storeConnect, userId).Result;
 
             bool storeConnectionValid = CheckStoreValidity(storesController, userId, userStore.Id.Value);
             if (!storeConnectionValid)
             {
-                storesController.StoresDeleteSingleStore(userId, userStore.Id.Value);
+                storesController.UserStoresDeleteSingleStore(userId, userStore.Id.Value);
                 throw new Exception("Error: could not connect to store");
             }
 
@@ -93,14 +92,14 @@ namespace IM.API.ClientTest
                 Password = password
             };
 
-            storesController.StoresUpdateStoreConnection(updateUserStoreRequest, userId, userStore.Id.Value);
+            storesController.UserStoresUpdateStoreConnection(updateUserStoreRequest, userId, userStore.Id.Value);
 
             if (!WaitForScrapeToFinish(storesController, userId, userStore.Id.Value))
             {
                 throw new Exception("Error: scrape is not finished");
             }
 
-            List<UserStore> stores = storesController.StoresGetAllStores(userId).Result;
+            List<UserStore> stores = storesController.UserStoresGetAllStores(userId).Result;
             if (stores.Count == 0 || stores[0].Id <= 0)
             {
                 throw new Exception("Error: could not get all stores");
@@ -112,13 +111,13 @@ namespace IM.API.ClientTest
                 throw new Exception("Error: get user products");
             }
 
-            List<UserPurchase> userPurchases = purchasesController.PurchasesGetAllUserPurchases(userId, 1, 15, true).Result;
+            List<UserPurchase> userPurchases = purchasesController.UserPurchasesGetAllUserPurchases(userId, 1, 15, true).Result;
             if (userPurchases.Count == 0)
             {
                 throw new Exception("Error: get all user purchases");
             }
 
-            UserPurchase userPurchase = purchasesController.PurchasesGetSingleUserPurchase(userId, userPurchases[0].Id.ToString(), true).Result;
+            UserPurchase userPurchase = purchasesController.UserPurchasesGetSingleUserPurchase(userId, userPurchases[0].Id.ToString(), true).Result;
             if (userPurchase == null || userPurchase.Id != userPurchases[0].Id)
             {
                 throw new Exception("Error: get single user purchases");
@@ -130,23 +129,23 @@ namespace IM.API.ClientTest
                 BarCodeType = "UPC-A"
             };
 
-            UploadBarcodeResponse barcodeResponse = barcodeController.BarcodeUploadBarcode(barcodeRequest, userId).Result;
+            UploadBarcodeResponse barcodeResponse = userScansController.UserScansUploadBarcode(barcodeRequest, userId).Result;
             if (barcodeResponse.BarCodeType != "UPC-A" || barcodeResponse.BarCode != "021130126026")
             {
                 throw new Exception("Error: upload barcode");
             }
 
-            storesController.StoresDeleteSingleStore(userId, userStore.Id.Value);
+            storesController.UserStoresDeleteSingleStore(userId, userStore.Id.Value);
 
-            usersController.UsersDeleteUser(userId);
+            usersController.UserManagementDeleteUser(userId);
         }
 
-        private static bool WaitForScrapeToFinish(StoresController storesController, string userIdentifier, int storeId)
+        private static bool WaitForScrapeToFinish(UserStoresController storesController, string userIdentifier, int storeId)
         {
             // try to see if the users credentials are valid
             for (int i = 0; i < 30; i++)
             {
-                var connectedStore = storesController.StoresGetSingleStore(userIdentifier, storeId);
+                var connectedStore = storesController.UserStoresGetSingleStore(userIdentifier, storeId);
 
                 if (connectedStore != null &&
                     connectedStore.Result.ScrapeStatus == "Done")
@@ -160,17 +159,24 @@ namespace IM.API.ClientTest
             return false;
         }
 
-        private static bool CheckStoreValidity(StoresController storesController, string userIdentifier, int storeId)
+        private static bool CheckStoreValidity(UserStoresController storesController, string userIdentifier, int storeId)
         {
             // try to see if the users credentials are valid
             for (int i = 0; i < 15; i++)
             {
-                var connectedStore = storesController.StoresGetSingleStore(userIdentifier, storeId);
+                var connectedStore = storesController.UserStoresGetSingleStore(userIdentifier, storeId);
 
-                if (connectedStore != null &&
-                    connectedStore.Result.CredentialsStatus == "Verified")
+                if (connectedStore != null)
                 {
-                    return true;
+                    if (connectedStore.Result.CredentialsStatus == "Verified")
+                    {
+                        return true;
+                    }
+
+                    if (connectedStore.Result.CredentialsStatus == "Invalid")
+                    {
+                        return false;
+                    }
                 }
 
                 Thread.Sleep(3000);
@@ -179,7 +185,7 @@ namespace IM.API.ClientTest
             return false;
         }
 
-        private static void UsersControllerTest(string email, UsersController usersController, string userId)
+        private static void UsersControllerTest(string email, UserManagementController usersController, string userId)
         {
             RegisterUserRequest registerUserRequest = new RegisterUserRequest()
             {
@@ -188,21 +194,21 @@ namespace IM.API.ClientTest
                 Zip = "21000"
             };
 
-            CreateUserWrapper user = usersController.UsersCreateUser(registerUserRequest);
+            CreateUserWrapper user = usersController.UserManagementCreateUser(registerUserRequest);
 
             if (user.Result.Email != email || user.Result.UserId != userId)
             {
                 throw new Exception("Error: create user");
             }
 
-            GetAllUsersWrapper allUsers = usersController.UsersGetAllUsers();
+            GetAllUsersWrapper allUsers = usersController.UserManagementGetAllUsers();
 
             if (allUsers.Result.Count == 0)
             {
                 throw new Exception("Error: get all users");
             }
 
-            GetSingleUserWrapper userResponse = usersController.UsersGetSingleUser(userId);
+            GetSingleUserWrapper userResponse = usersController.UserManagementGetSingleUser(userId);
             if (userResponse.Result.Email != email)
             {
                 throw new Exception("Error: get single user");
@@ -263,7 +269,7 @@ namespace IM.API.ClientTest
 
         private static void ProductsControllerTest(ProductsController productsController)
         {
-            List<ProductData> kaleProducts = productsController.ProductsGetProducts("Kale", null, 1, 25, true).Result;
+            List<ProductData> kaleProducts = productsController.ProductsSearchProducts("Kale", null, 1, 25, null, true).Result;
             if (kaleProducts.Count == 0 || kaleProducts[0].Name == null)
             {
                 throw new Exception("Error: get products");
@@ -274,19 +280,19 @@ namespace IM.API.ClientTest
                 throw new Exception("Error: get detail product info");
             }
 
-            var secondPageKaleProducts = productsController.ProductsGetProducts("Kale", null, 2, 25, true).Result;
+            var secondPageKaleProducts = productsController.ProductsSearchProducts("Kale", null, 2, 25, null, true).Result;
             if (secondPageKaleProducts.Count == 0 || secondPageKaleProducts[0].Name == null || secondPageKaleProducts[0].Id == kaleProducts[0].Id)
             {
                 throw new Exception("Error: get 2nd page products");
             }
 
-            List<ProductData> upcProduct = productsController.ProductsGetProducts(null, "014100044208", 1, 25, true).Result;
+            List<ProductData> upcProduct = productsController.ProductsSearchProducts(null, "014100044208", 1, 25, null, true).Result;
             if (upcProduct.Count == 0 || upcProduct[0].Name != "Pepperidge Farm Classic BBQ Cracker Chips, 6 Oz")
             {
                 throw new Exception("Error: get upc products");
             }
 
-            List<ProductData> eanProduct = productsController.ProductsGetProducts(null, "096619872404", null, null, true).Result;
+            List<ProductData> eanProduct = productsController.ProductsSearchProducts(null, "096619872404", null, null, null, true).Result;
             if (eanProduct.Count == 0 || eanProduct[0].Name != "Beckett Basketball Monthly Houston Rocket English")
             {
                 throw new Exception("Error: get ean products");
@@ -296,13 +302,7 @@ namespace IM.API.ClientTest
             if (productFull == null || productFull.Name != "Peanut Butter Chocolate Party Size Candies")
             {
                 throw new Exception("Error: get full product");
-            }
-
-            List<ProductData> productAlternatives = productsController.ProductsGetProductAlternatives("120907", ((int)AlternativeTypes.General).ToString()).Result;
-            if (productAlternatives.Count == 0 || productAlternatives[0].Name != "Roland Feng Shui Green Peas Hot Wasabi Coated")
-            {
-                throw new Exception("Error: get full product");
-            }
+            }            
 
             List<ProductAlternativesRecord> productsAlternatives = productsController.ProductsGetProductsAlternatives("120907, 120902", ((int)AlternativeTypes.General).ToString()).Result;
             if (productsAlternatives.Count == 0 || productsAlternatives[0].ProductAlternatives[0].Name != "Lightlife Smart Deli Veggie Slices Roast Turkey")

@@ -17,7 +17,7 @@ using InformationMachineAPI.PCL.Models;
  
 namespace InformationMachineAPI.PCL.Controllers
 {
-    public class StoresController
+    public class UserStoresController
     {
  
 
@@ -32,7 +32,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <summary>
         /// Constructor with authentication and configuration parameters
         /// </summary>
-        public StoresController(string clientId, string clientSecret)
+        public UserStoresController(string clientId, string clientSecret)
         {
             this.clientId = clientId;
             this.clientSecret = clientSecret;
@@ -45,7 +45,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <param name="page">Optional parameter: TODO: type parameter description here</param>
         /// <param name="perPage">Optional parameter: TODO: type parameter description here</param>
         /// <return>Returns the GetAllStoresWrapper response from the API call</return>
-        public GetAllStoresWrapper StoresGetAllStores(
+        public GetAllStoresWrapper UserStoresGetAllStores(
                 string userId,
                 int? page = null,
                 int? perPage = null)
@@ -103,7 +103,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <param name="payload">Required parameter: TODO: type parameter description here</param>
         /// <param name="userId">Required parameter: TODO: type parameter description here</param>
         /// <return>Returns the ConnectStoreWrapper response from the API call</return>
-        public ConnectStoreWrapper StoresConnectStore(
+        public ConnectStoreWrapper UserStoresConnectStore(
                 ConnectUserStoreRequest payload,
                 string userId)
         {
@@ -166,7 +166,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <param name="userId">Required parameter: TODO: type parameter description here</param>
         /// <param name="id">Required parameter: TODO: type parameter description here</param>
         /// <return>Returns the GetSingleStoresWrapper response from the API call</return>
-        public GetSingleStoresWrapper StoresGetSingleStore(
+        public GetSingleStoresWrapper UserStoresGetSingleStore(
                 string userId,
                 int id)
         {
@@ -223,7 +223,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <param name="userId">Required parameter: TODO: type parameter description here</param>
         /// <param name="id">Required parameter: TODO: type parameter description here</param>
         /// <return>Returns the UpdateStoreConnectionWrapper response from the API call</return>
-        public UpdateStoreConnectionWrapper StoresUpdateStoreConnection(
+        public UpdateStoreConnectionWrapper UserStoresUpdateStoreConnection(
                 UpdateUserStoreRequest payload,
                 string userId,
                 int id)
@@ -285,7 +285,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <param name="userId">Required parameter: TODO: type parameter description here</param>
         /// <param name="id">Required parameter: TODO: type parameter description here</param>
         /// <return>Returns the DeleteSingleStoreWrapper response from the API call</return>
-        public DeleteSingleStoreWrapper StoresDeleteSingleStore(
+        public DeleteSingleStoreWrapper UserStoresDeleteSingleStore(
                 string userId,
                 int id)
         {

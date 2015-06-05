@@ -1,4 +1,4 @@
-# Information Machine Api
+# Information Machine API
 
 How To Configure:
 =================
