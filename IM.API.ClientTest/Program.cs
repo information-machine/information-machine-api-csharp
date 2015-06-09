@@ -287,7 +287,7 @@ namespace IM.API.ClientTest
             }
 
             List<ProductData> upcProduct = productsController.ProductsSearchProducts(null, "014100044208", 1, 25, null, true).Result;
-            if (upcProduct.Count == 0 || upcProduct[0].Name != "Pepperidge Farm Classic BBQ Cracker Chips, 6 Oz")
+            if (upcProduct.Count == 0 || upcProduct[0].Name != "Pepperidge Farm Classic Bbq Cracker Chips, 6 Oz")
             {
                 throw new Exception("Error: get upc products");
             }
@@ -310,8 +310,8 @@ namespace IM.API.ClientTest
                 throw new Exception("Error: get full product");
             }
 
-            List<PriceData> productPrices = productsController.ProductsGetProductPrices("314878, 314328").Result;
-            if (productPrices.Count == 0 || productPrices[0].Prices[0].StoreId != 2)
+            List<PriceData> productPrices = productsController.ProductsGetProductPrices("149109, 113427").Result;
+            if (productPrices.Count == 0 || productPrices[0].Prices[0].StoreId != 4)
             {
                 throw new Exception("Error: get full product");
             }
