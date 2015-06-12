@@ -218,7 +218,7 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Get prices (from available stores) for specified product IDs. Note: It is possible to query 20 product IDs per each request. Please separate IDs with commas (e.g.: “325365, 89300”).
+        /// Get prices (from available stores) for specified product IDs. Note: It is possible to query 20 product IDs per each request. Please separate IDs with commas (e.g.: "325365, 89300").
         /// </summary>
         /// <param name="productIds">Required parameter: TODO: type parameter description here</param>
         /// <return>Returns the GetProductPricesWrapper response from the API call</return>
@@ -267,7 +267,7 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Get product alternatives for a specified alternative type (e.g.: “type_id: 7” will display alternatives of the “general” type) for a list of products specified by product IDs. Note: See “Lookup” section, “product_alternative_type” for list of all possible alternative types. List of product ids must not contain more than 20 ids or else Bad Request will be returned.
+        /// Get product alternatives for a specified alternative type (e.g.: "type_id: 7" will display alternatives of the "general" type) for a list of products specified by product IDs. Note: See "Lookup" section, "product_alternative_type" for list of all possible alternative types. List of product ids must not contain more than 20 ids or else Bad Request will be returned.
         /// </summary>
         /// <param name="productIds">Required parameter: TODO: type parameter description here</param>
         /// <param name="typeId">Optional parameter: TODO: type parameter description here</param>
@@ -322,7 +322,7 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Get full history of products purchased by a specified user at connected stores, must define “user_id".
+        /// Get full history of products purchased by a specified user at connected stores, must define "user_id".
         /// </summary>
         /// <param name="userId">Required parameter: TODO: type parameter description here</param>
         /// <param name="page">Optional parameter: TODO: type parameter description here</param>

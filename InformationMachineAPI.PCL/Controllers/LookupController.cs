@@ -131,7 +131,7 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Get a list of all potential product categories.  Product categories follow a hierarchical structure that is defined through the “parent_id” field.
+        /// Get a list of all potential product categories.  Product categories follow a hierarchical structure that is defined through the "parent_id" field.
         /// </summary>
         /// <return>Returns the GetCategoriesWrapper response from the API call</return>
         public GetCategoriesWrapper LookupGetCategories()
@@ -223,7 +223,7 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Get a list of all stores in the IM API infrastructure. This list is constantly expanding. For stores that have “can_scrape” flag set to “1”, you can use the IM infrastructure to retrieve purchase history. To do this, connect the store using the endpoints under the “Users” section below.
+        /// Get a list of all stores in the IM API infrastructure. This list is constantly expanding. For stores that have "can_scrape" flag set to "1", you can use the IM infrastructure to retrieve purchase history. To do this, connect the store using the endpoints under the "Users" section below.
         /// </summary>
         /// <return>Returns the GetStoresWrapper response from the API call</return>
         public GetStoresWrapper LookupGetStores()

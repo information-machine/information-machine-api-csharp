@@ -91,7 +91,7 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Register a new user by specifying "email", "zip" and "user_id". The “user_id” is mandatory and it represents the identifier you will use to identify your user in the IM API infrastructure.Note: The following characters are restricted within "user_id" string ---&gt; { '/', '^', '[',  '\\', 'w', '.', ']', '+', '$', '/' }
+        /// Register a new user by specifying "email", "zip" and "user_id". The "user_id" is mandatory and it represents the identifier you will use to identify your user in the IM API infrastructure.Note: The following characters are restricted within "user_id" string ---&gt; { '/', '^', '[',  '\\', 'w', '.', ']', '+', '$', '/' }
         /// </summary>
         /// <param name="payload">Required parameter: TODO: type parameter description here</param>
         /// <return>Returns the CreateUserWrapper response from the API call</return>
@@ -196,7 +196,7 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Get user associated with your account specifying “id” of a user.
+        /// Get user associated with your account specifying "id" of a user.
         /// </summary>
         /// <param name="id">Required parameter: TODO: type parameter description here</param>
         /// <return>Returns the GetSingleUserWrapper response from the API call</return>

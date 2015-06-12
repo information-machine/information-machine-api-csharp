@@ -99,7 +99,7 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Upload a receipt with unique ID (“receipt_id”) and associate it to a specified user using “user_id” parameter. Note: Uploaded receipt image should be Base 64 encoded. For testing purposes you can find our Base 64 encoded logo here: http://api.iamdata.co/images/base64/encoded_logo.txt
+        /// Upload a receipt with unique ID ("receipt_id") and associate it to a specified user using "user_id" parameter. Note: Uploaded receipt image should be Base 64 encoded. For testing purposes you can find our Base 64 encoded logo here: http://api.iamdata.co/images/base64/encoded_logo.txt
         /// </summary>
         /// <param name="payload">Required parameter: TODO: type parameter description here</param>
         /// <param name="userId">Required parameter: TODO: type parameter description here</param>

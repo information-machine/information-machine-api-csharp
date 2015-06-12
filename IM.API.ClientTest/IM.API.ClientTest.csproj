@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APITestException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,7 +64,7 @@
     <ProjectReference Include="..\InformationMachineAPI.PCL\InformationMachineAPI.PCL.csproj">
       <Project>{f9f70cd0-956c-4921-b60c-3bb70574d6ac}</Project>
       <Name>InformationMachineAPI.PCL</Name>
-	  <Properties>SkipValidatePackageReferences=true</Properties>
+      <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

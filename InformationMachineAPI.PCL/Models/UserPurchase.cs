@@ -27,6 +27,8 @@ namespace InformationMachineAPI.PCL.Models
         private double? totalWithoutTax;
         private double? tax;
         private string orderNumber;
+        private string receiptId;
+        private string receiptImageUrl;
 
         /// <summary>
         /// TODO: Write general description for this method
@@ -161,6 +163,40 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.orderNumber = value;
                 onPropertyChanged("OrderNumber");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("receipt_id")]
+        public string ReceiptId 
+        { 
+            get 
+            {
+                return this.receiptId; 
+            } 
+            set 
+            {
+                this.receiptId = value;
+                onPropertyChanged("ReceiptId");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("receipt_image_url")]
+        public string ReceiptImageUrl 
+        { 
+            get 
+            {
+                return this.receiptImageUrl; 
+            } 
+            set 
+            {
+                this.receiptImageUrl = value;
+                onPropertyChanged("ReceiptImageUrl");
             }
         }
 

@@ -38,14 +38,13 @@ namespace IM.API.ClientTest
                 ProductsControllerTest(productsController);
 
                 TestUserPurchase(productsController, clientId, clientSecret, superMarketId, username, password);
+
+                Console.WriteLine("All tests passed");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                Environment.Exit(1);
             }
-
-            Console.WriteLine("All tests passed");
         }
 
         private static void TestUserPurchase(ProductsController productsController, string clientId, string clientSecret, int superMarketId, string username, string password)
@@ -83,7 +82,7 @@ namespace IM.API.ClientTest
             if (!storeConnectionValid)
             {
                 storesController.UserStoresDeleteSingleStore(userId, userStore.Id.Value);
-                throw new Exception("Error: could not connect to store");
+                throw new APITestException("Error: could not connect to store");
             }
 
             UpdateUserStoreRequest updateUserStoreRequest = new UpdateUserStoreRequest()
@@ -96,31 +95,31 @@ namespace IM.API.ClientTest
 
             if (!WaitForScrapeToFinish(storesController, userId, userStore.Id.Value))
             {
-                throw new Exception("Error: scrape is not finished");
+                throw new APITestException("Error: scrape is not finished");
             }
 
             List<UserStore> stores = storesController.UserStoresGetAllStores(userId).Result;
             if (stores.Count == 0 || stores[0].Id <= 0)
             {
-                throw new Exception("Error: could not get all stores");
+                throw new APITestException("Error: could not get all stores");
             }
 
             List<ProductData> userProducts = productsController.ProductsGetUserProducts(userId, 1, 15, true, true).Result;
             if (userProducts.Count == 0)
             {
-                throw new Exception("Error: get user products");
+                throw new APITestException("Error: get user products");
             }
 
-            List<UserPurchase> userPurchases = purchasesController.UserPurchasesGetAllUserPurchases(userId, 1, 15, true).Result;
+            List<UserPurchase> userPurchases = purchasesController.UserPurchasesGetAllUserPurchases(userId, 1, 15, null, null, null, null, true).Result;
             if (userPurchases.Count == 0)
             {
-                throw new Exception("Error: get all user purchases");
+                throw new APITestException("Error: get all user purchases");
             }
 
             UserPurchase userPurchase = purchasesController.UserPurchasesGetSingleUserPurchase(userId, userPurchases[0].Id.ToString(), true).Result;
             if (userPurchase == null || userPurchase.Id != userPurchases[0].Id)
             {
-                throw new Exception("Error: get single user purchases");
+                throw new APITestException("Error: get single user purchases");
             }
 
             UploadBarcodeRequest barcodeRequest = new UploadBarcodeRequest()
@@ -132,7 +131,7 @@ namespace IM.API.ClientTest
             UploadBarcodeResponse barcodeResponse = userScansController.UserScansUploadBarcode(barcodeRequest, userId).Result;
             if (barcodeResponse.BarCodeType != "UPC-A" || barcodeResponse.BarCode != "021130126026")
             {
-                throw new Exception("Error: upload barcode");
+                throw new APITestException("Error: upload barcode");
             }
 
             storesController.UserStoresDeleteSingleStore(userId, userStore.Id.Value);
@@ -143,7 +142,7 @@ namespace IM.API.ClientTest
         private static bool WaitForScrapeToFinish(UserStoresController storesController, string userIdentifier, int storeId)
         {
             // try to see if the users credentials are valid
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 120; i++)
             {
                 var connectedStore = storesController.UserStoresGetSingleStore(userIdentifier, storeId);
 
@@ -198,20 +197,20 @@ namespace IM.API.ClientTest
 
             if (user.Result.Email != email || user.Result.UserId != userId)
             {
-                throw new Exception("Error: create user");
+                throw new APITestException("Error: create user");
             }
 
             GetAllUsersWrapper allUsers = usersController.UserManagementGetAllUsers();
 
             if (allUsers.Result.Count == 0)
             {
-                throw new Exception("Error: get all users");
+                throw new APITestException("Error: get all users");
             }
 
             GetSingleUserWrapper userResponse = usersController.UserManagementGetSingleUser(userId);
             if (userResponse.Result.Email != email)
             {
-                throw new Exception("Error: get single user");
+                throw new APITestException("Error: get single user");
             }
         }
 
@@ -222,37 +221,37 @@ namespace IM.API.ClientTest
             var categories = lookupController.LookupGetCategories().Result;
             if (categories.Count == 0 || categories[0].Id != 1)
             {
-                throw new Exception("Error: categories");
+                throw new APITestException("Error: categories");
             }
 
             var nutrients = lookupController.LookupGetNutrients().Result;
             if (nutrients.Count == 0 || nutrients[0].Id != 7)
             {
-                throw new Exception("Error: nutrients");
+                throw new APITestException("Error: nutrients");
             }
 
             var alternatives = lookupController.LookupGetProductAlternativeTypes().Result;
             if (alternatives.Count == 0 || alternatives[0].Id != 1 || alternatives[0].Name != "Reduce Sodium")
             {
-                throw new Exception("Error: alternatives");
+                throw new APITestException("Error: alternatives");
             }
 
             var tags = lookupController.LookupGetTags().Result;
             if (tags.Count == 0 || tags[0].Id != 29 || tags[0].Name != "Low Fat")
             {
-                throw new Exception("Error: tags");
+                throw new APITestException("Error: tags");
             }
 
             var unitsOfMeasurement = lookupController.LookupGetUOMs().Result;
             if (unitsOfMeasurement.Count == 0 || unitsOfMeasurement[0].Id != 1 || unitsOfMeasurement[0].Name != "g")
             {
-                throw new Exception("Error: units of measurements");
+                throw new APITestException("Error: units of measurements");
             }
 
             var stores = lookupController.LookupGetStores().Result;
             if (stores.Count == 0 || stores[0].Id != 1 || stores[0].Name != "FreshDirect")
             {
-                throw new Exception("Error: stores");
+                throw new APITestException("Error: stores");
             }
 
             for (int i = 0; i < stores.Count; i++)
@@ -272,48 +271,48 @@ namespace IM.API.ClientTest
             List<ProductData> kaleProducts = productsController.ProductsSearchProducts("Kale", null, 1, 25, null, true).Result;
             if (kaleProducts.Count == 0 || kaleProducts[0].Name == null)
             {
-                throw new Exception("Error: get products");
+                throw new APITestException("Error: get products");
             }
 
             if (string.IsNullOrEmpty(kaleProducts[0].Nutrients[0].Name))
             {
-                throw new Exception("Error: get detail product info");
+                throw new APITestException("Error: get detail product info");
             }
 
             var secondPageKaleProducts = productsController.ProductsSearchProducts("Kale", null, 2, 25, null, true).Result;
             if (secondPageKaleProducts.Count == 0 || secondPageKaleProducts[0].Name == null || secondPageKaleProducts[0].Id == kaleProducts[0].Id)
             {
-                throw new Exception("Error: get 2nd page products");
+                throw new APITestException("Error: get 2nd page products");
             }
 
             List<ProductData> upcProduct = productsController.ProductsSearchProducts(null, "014100044208", 1, 25, null, true).Result;
             if (upcProduct.Count == 0 || upcProduct[0].Name != "Pepperidge Farm Classic Bbq Cracker Chips, 6 Oz")
             {
-                throw new Exception("Error: get upc products");
+                throw new APITestException("Error: get upc products");
             }
 
             List<ProductData> eanProduct = productsController.ProductsSearchProducts(null, "096619872404", null, null, null, true).Result;
             if (eanProduct.Count == 0 || eanProduct[0].Name != "Beckett Basketball Monthly Houston Rocket English")
             {
-                throw new Exception("Error: get ean products");
+                throw new APITestException("Error: get ean products");
             }
 
             ProductData productFull = productsController.ProductsGetProduct("380728", true).Result;
             if (productFull == null || productFull.Name != "Peanut Butter Chocolate Party Size Candies")
             {
-                throw new Exception("Error: get full product");
+                throw new APITestException("Error: get full product");
             }            
 
             List<ProductAlternativesRecord> productsAlternatives = productsController.ProductsGetProductsAlternatives("120907, 120902", ((int)AlternativeTypes.General).ToString()).Result;
             if (productsAlternatives.Count == 0 || productsAlternatives[0].ProductAlternatives[0].Name != "Lightlife Smart Deli Veggie Slices Roast Turkey")
             {
-                throw new Exception("Error: get full product");
+                throw new APITestException("Error: get full product");
             }
 
             List<PriceData> productPrices = productsController.ProductsGetProductPrices("149109, 113427").Result;
             if (productPrices.Count == 0 || productPrices[0].Prices[0].StoreId != 4)
             {
-                throw new Exception("Error: get full product");
+                throw new APITestException("Error: get full product");
             }
         }
     }
