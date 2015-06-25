@@ -31,13 +31,14 @@ namespace IM.API.ClientTest
                 var supermarketName = config[2];
                 var username = config[3];
                 var password = config[4];
+                LookupController.Initialize(clientId, clientSecret);
+                ProductsController.Initialize(clientId, clientSecret);
 
-                var superMarketId = LookupControllerTest(new LookupController(clientId, clientSecret), supermarketName);
-                ProductsController productsController = new ProductsController(clientId, clientSecret);
+                var superMarketId = LookupControllerTest(LookupController.GetInstance(), supermarketName);
 
-                ProductsControllerTest(productsController);
+                ProductsControllerTest(ProductsController.GetInstance());
 
-                TestUserPurchase(productsController, clientId, clientSecret, superMarketId, username, password);
+                TestUserPurchase(ProductsController.GetInstance(), clientId, clientSecret, superMarketId, username, password);
 
                 Console.WriteLine("All tests passed");
             }
@@ -52,10 +53,15 @@ namespace IM.API.ClientTest
             string email = "testuser@iamdata.co";
             string userId = "testuserId1234";
 
-            UserManagementController usersController = new UserManagementController(clientId, clientSecret);
-            UserStoresController storesController = new UserStoresController(clientId, clientSecret);
-            UserPurchasesController purchasesController = new UserPurchasesController(clientId, clientSecret);
-            UserScansController userScansController = new UserScansController(clientId, clientSecret);
+            UserManagementController.Initialize(clientId, clientSecret);
+            UserStoresController.Initialize(clientId, clientSecret);
+            UserPurchasesController.Initialize(clientId, clientSecret);
+            UserScansController.Initialize(clientId, clientSecret);
+
+            UserManagementController usersController = UserManagementController.GetInstance();
+            UserStoresController storesController = UserStoresController.GetInstance();
+            UserPurchasesController purchasesController = UserPurchasesController.GetInstance();
+            UserScansController userScansController = UserScansController.GetInstance();
             
             UsersControllerTest(email, usersController, userId);
 
@@ -110,7 +116,7 @@ namespace IM.API.ClientTest
                 throw new APITestException("Error: get user products");
             }
 
-            List<UserPurchase> userPurchases = purchasesController.UserPurchasesGetAllUserPurchases(userId, 1, 15, null, null, null, null, true).Result;
+            List<UserPurchase> userPurchases = purchasesController.UserPurchasesGetAllUserPurchases(userId, 1, 15, null, null, null, null, null, null, null, null, true).Result;
             if (userPurchases.Count == 0)
             {
                 throw new APITestException("Error: get all user purchases");

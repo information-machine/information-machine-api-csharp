@@ -19,8 +19,6 @@ namespace InformationMachineAPI.PCL.Controllers
 {
     public class UserScansController
     {
- 
-
         //private fields for configuration
 
         //Id of your app 
@@ -28,15 +26,41 @@ namespace InformationMachineAPI.PCL.Controllers
 
         //Secret key which authorizes you to use this API 
         private string clientSecret;
+        #region Singleton Pattern
+
+        //private static variables for the singleton pattern
+        private static object syncObject = new object();
+        private static UserScansController instance = null;
 
         /// <summary>
-        /// Constructor with authentication and configuration parameters
+        /// Singleton pattern implementation
         /// </summary>
-        public UserScansController(string clientId, string clientSecret)
+        public static UserScansController GetInstance()
         {
-            this.clientId = clientId;
-            this.clientSecret = clientSecret;
+            lock (syncObject)
+            {
+                if (null == instance)
+                {
+                    throw new Exception ("Please initialize before accessing the singleton instance");
+                }
+            }
+            return instance;
         }
+
+        /// <summary>
+        /// Initialize instance with authentication and configuration parameters
+        /// </summary>
+        public static void Initialize(string clientId, string clientSecret)
+        {
+            lock (syncObject)
+            {
+                instance = new UserScansController();
+                instance.clientId = clientId;
+                instance.clientSecret = clientSecret;
+            }
+        }
+
+        #endregion Singleton Pattern
 
         /// <summary>
         /// Upload a new product by barcode and associate it to a specified user.  Note: Execution might take up to 15 seconds, depending on whether barcode exists in database or IM service must gather data around uploaded barcode.  POST payload example: { "bar_code" : "021130126026", "bar_code_type" : "UPC-A" }

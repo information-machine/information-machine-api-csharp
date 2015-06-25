@@ -19,8 +19,6 @@ namespace InformationMachineAPI.PCL.Controllers
 {
     public class ProductsController
     {
- 
-
         //private fields for configuration
 
         //Id of your app 
@@ -28,15 +26,41 @@ namespace InformationMachineAPI.PCL.Controllers
 
         //Secret key which authorizes you to use this API 
         private string clientSecret;
+        #region Singleton Pattern
+
+        //private static variables for the singleton pattern
+        private static object syncObject = new object();
+        private static ProductsController instance = null;
 
         /// <summary>
-        /// Constructor with authentication and configuration parameters
+        /// Singleton pattern implementation
         /// </summary>
-        public ProductsController(string clientId, string clientSecret)
+        public static ProductsController GetInstance()
         {
-            this.clientId = clientId;
-            this.clientSecret = clientSecret;
+            lock (syncObject)
+            {
+                if (null == instance)
+                {
+                    throw new Exception ("Please initialize before accessing the singleton instance");
+                }
+            }
+            return instance;
         }
+
+        /// <summary>
+        /// Initialize instance with authentication and configuration parameters
+        /// </summary>
+        public static void Initialize(string clientId, string clientSecret)
+        {
+            lock (syncObject)
+            {
+                instance = new ProductsController();
+                instance.clientId = clientId;
+                instance.clientSecret = clientSecret;
+            }
+        }
+
+        #endregion Singleton Pattern
 
         /// <summary>
         /// You can query the IM product database by either product name or UPC/EAN/ISBN identifier. Note: If both parameters are specified, UPC/EAN/ISBN has higher priority.

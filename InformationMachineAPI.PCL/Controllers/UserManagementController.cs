@@ -19,8 +19,6 @@ namespace InformationMachineAPI.PCL.Controllers
 {
     public class UserManagementController
     {
- 
-
         //private fields for configuration
 
         //Id of your app 
@@ -28,15 +26,41 @@ namespace InformationMachineAPI.PCL.Controllers
 
         //Secret key which authorizes you to use this API 
         private string clientSecret;
+        #region Singleton Pattern
+
+        //private static variables for the singleton pattern
+        private static object syncObject = new object();
+        private static UserManagementController instance = null;
 
         /// <summary>
-        /// Constructor with authentication and configuration parameters
+        /// Singleton pattern implementation
         /// </summary>
-        public UserManagementController(string clientId, string clientSecret)
+        public static UserManagementController GetInstance()
         {
-            this.clientId = clientId;
-            this.clientSecret = clientSecret;
+            lock (syncObject)
+            {
+                if (null == instance)
+                {
+                    throw new Exception ("Please initialize before accessing the singleton instance");
+                }
+            }
+            return instance;
         }
+
+        /// <summary>
+        /// Initialize instance with authentication and configuration parameters
+        /// </summary>
+        public static void Initialize(string clientId, string clientSecret)
+        {
+            lock (syncObject)
+            {
+                instance = new UserManagementController();
+                instance.clientId = clientId;
+                instance.clientSecret = clientSecret;
+            }
+        }
+
+        #endregion Singleton Pattern
 
         /// <summary>
         /// Get all users associated with your account.
@@ -236,11 +260,11 @@ namespace InformationMachineAPI.PCL.Controllers
             HttpResponse<String> response = request.asString();
 
             //Error handling using HTTP status codes
-            if (response.Code == 400)
-                throw new APIException(@"Bad request", 400);
-
-            else if (response.Code == 401)
+            if (response.Code == 401)
                 throw new APIException(@"Unauthorized", 401);
+
+            else if (response.Code == 404)
+                throw new APIException(@"Not Found", 404);
 
             else if ((response.Code < 200) || (response.Code > 206)) //[200,206] = HTTP OK
                 throw new APIException(@"HTTP Response Not OK", response.Code);

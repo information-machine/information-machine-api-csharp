@@ -17,7 +17,7 @@ using InformationMachineAPI.PCL.Models;
  
 namespace InformationMachineAPI.PCL.Controllers
 {
-    public class UserStoresController
+    public class UserCartsController
     {
         //private fields for configuration
 
@@ -30,12 +30,12 @@ namespace InformationMachineAPI.PCL.Controllers
 
         //private static variables for the singleton pattern
         private static object syncObject = new object();
-        private static UserStoresController instance = null;
+        private static UserCartsController instance = null;
 
         /// <summary>
         /// Singleton pattern implementation
         /// </summary>
-        public static UserStoresController GetInstance()
+        public static UserCartsController GetInstance()
         {
             lock (syncObject)
             {
@@ -54,7 +54,7 @@ namespace InformationMachineAPI.PCL.Controllers
         {
             lock (syncObject)
             {
-                instance = new UserStoresController();
+                instance = new UserCartsController();
                 instance.clientId = clientId;
                 instance.clientSecret = clientSecret;
             }
@@ -63,23 +63,19 @@ namespace InformationMachineAPI.PCL.Controllers
         #endregion Singleton Pattern
 
         /// <summary>
-        /// Get all store connections for a specified user, must identify user by "user_id". Note: Within response focus on the following  properties: "scrape_status" and "credentials_status". Possible values for "scrape_status": "Not defined""Pending" - (scraping request is in queue and waiting to be processed)"Scraping" - (scraping is in progress)"Done" - (scraping is finished)"Done With Warning" - (not all purchases were scraped)Possible values for "credentials_status":"Not defined""Verified" - (scraping bots are able to log in to store site)"Invalid" - (supplied user name or password are not valid)"Unknown" - (user name or password are not know)"Checking" - (credentials verification is in progress)
+        /// Get all carts (including items in carts) associated with a specified user ID.
         /// </summary>
-        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
-        /// <param name="page">Optional parameter: TODO: type parameter description here</param>
-        /// <param name="perPage">Optional parameter: TODO: type parameter description here</param>
-        /// <return>Returns the GetAllStoresWrapper response from the API call</return>
-        public GetAllStoresWrapper UserStoresGetAllStores(
-                string userId,
-                int? page = null,
-                int? perPage = null)
+        /// <param name="userId">Required parameter: ID of a user</param>
+        /// <return>Returns the GetCartsWrapper response from the API call</return>
+        public GetCartsWrapper UserCartsGetCarts(
+                string userId)
         {
             //the base uri for api requests
             string baseUri = Configuration.BaseUri;
 
             //prepare query string for API call
             StringBuilder queryBuilder = new StringBuilder(baseUri);
-            queryBuilder.Append("/v1/users/{user_id}/stores");
+            queryBuilder.Append("/users/{user_id}/carts");
 
             //process optional template parameters
             APIHelper.AppendUrlWithTemplateParameters(queryBuilder, new Dictionary<string, object>()
@@ -90,8 +86,6 @@ namespace InformationMachineAPI.PCL.Controllers
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
-                    { "page", page },
-                    { "per_page", perPage },
                     { "client_id", clientId },
                     { "client_secret", clientSecret }
                 });
@@ -115,28 +109,31 @@ namespace InformationMachineAPI.PCL.Controllers
             else if (response.Code == 404)
                 throw new APIException(@"Not Found", 404);
 
+            else if (response.Code == 422)
+                throw new APIException(@"Unprocessable Entity", 422);
+
             else if ((response.Code < 200) || (response.Code > 206)) //[200,206] = HTTP OK
                 throw new APIException(@"HTTP Response Not OK", response.Code);
 
-            return APIHelper.JsonDeserialize<GetAllStoresWrapper>(response.Body);
+            return APIHelper.JsonDeserialize<GetCartsWrapper>(response.Body);
         }
 
         /// <summary>
-        /// Connect a user's store by specifying the user ID ("user_id"), store ID ("store_id") and user's credentials for specified store ("username" and "password"). Note: Within response you should focus on the following properties: "scrape_status" and "credentials_status". Possible values for "scrape_status": "Not defined""Pending" - (scraping request is in queue and waiting to be processed)"Scraping" - (scraping is in progress)"Done" - (scraping is finished)"Done With Warning" - (not all purchases were scraped)Possible values for "credentials_status":"Not defined""Verified" - (scraping bots are able to log in to store site)"Invalid" - (supplied user name or password are not valid)"Unknown" - (user name or password are not know)"Checking" - (credentials verification is in progress)
+        /// IM API will generate Cart ID and return it in the response
         /// </summary>
+        /// <param name="userId">Required parameter: ID of a user</param>
         /// <param name="payload">Required parameter: TODO: type parameter description here</param>
-        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
-        /// <return>Returns the ConnectStoreWrapper response from the API call</return>
-        public ConnectStoreWrapper UserStoresConnectStore(
-                ConnectUserStoreRequest payload,
-                string userId)
+        /// <return>Returns the AddCartWrapper response from the API call</return>
+        public AddCartWrapper UserCartsCreateCart(
+                string userId,
+                AddCartRequest payload)
         {
             //the base uri for api requests
             string baseUri = Configuration.BaseUri;
 
             //prepare query string for API call
             StringBuilder queryBuilder = new StringBuilder(baseUri);
-            queryBuilder.Append("/v1/users/{user_id}/stores");
+            queryBuilder.Append("/users/{user_id}/carts");
 
             //process optional template parameters
             APIHelper.AppendUrlWithTemplateParameters(queryBuilder, new Dictionary<string, object>()
@@ -167,13 +164,13 @@ namespace InformationMachineAPI.PCL.Controllers
 
             //Error handling using HTTP status codes
             if (response.Code == 400)
-                throw new APIException(@"Bad request", 400);
+                throw new APIException(@"Bad Request", 400);
 
             else if (response.Code == 401)
                 throw new APIException(@"Unauthorized", 401);
 
-            else if (response.Code == 404)
-                throw new APIException(@"Not Found", 404);
+            else if (response.Code == 422)
+                throw new APIException(@"Unprocessable Entity", 422);
 
             else if (response.Code == 500)
                 throw new APIException(@"Internal Server Error", 500);
@@ -181,31 +178,31 @@ namespace InformationMachineAPI.PCL.Controllers
             else if ((response.Code < 200) || (response.Code > 206)) //[200,206] = HTTP OK
                 throw new APIException(@"HTTP Response Not OK", response.Code);
 
-            return APIHelper.JsonDeserialize<ConnectStoreWrapper>(response.Body);
+            return APIHelper.JsonDeserialize<AddCartWrapper>(response.Body);
         }
 
         /// <summary>
-        /// Get single store connection by specifying user ("user_id") and store connection ID ("user_store_id" - generated upon successful store connection). Note: Within response focus on the following properties: "scrape_status" and "credentials_status". Possible values for "scrape_status": "Not defined""Pending" - (scraping request is in queue and waiting to be processed)"Scraping" - (scraping is in progress)"Done" - (scraping is finished)"Done With Warning" - (not all purchases were scraped)Possible values for "credentials_status":"Not defined""Verified" - (scraping bots are able to log in to store site)"Invalid" - (supplied user name or password are not valid)"Unknown" - (user name or password are not know)"Checking" - (credentials verification is in progress)
+        /// Get detailed information on a single user cart by specifying User ID and Cart ID. Cart items are included in response.
         /// </summary>
-        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
-        /// <param name="id">Required parameter: TODO: type parameter description here</param>
-        /// <return>Returns the GetSingleStoresWrapper response from the API call</return>
-        public GetSingleStoresWrapper UserStoresGetSingleStore(
+        /// <param name="userId">Required parameter: ID of a user</param>
+        /// <param name="cartId">Required parameter: ID if a cart</param>
+        /// <return>Returns the GetCartWrapper response from the API call</return>
+        public GetCartWrapper UserCartsGetCart(
                 string userId,
-                int id)
+                string cartId)
         {
             //the base uri for api requests
             string baseUri = Configuration.BaseUri;
 
             //prepare query string for API call
             StringBuilder queryBuilder = new StringBuilder(baseUri);
-            queryBuilder.Append("/v1/users/{user_id}/stores/{id}");
+            queryBuilder.Append("/users/{user_id}/carts/{cart_id}");
 
             //process optional template parameters
             APIHelper.AppendUrlWithTemplateParameters(queryBuilder, new Dictionary<string, object>()
                 {
                     { "user_id", userId },
-                    { "id", id }
+                    { "cart_id", cartId }
                 });
 
             //process optional query parameters
@@ -234,36 +231,39 @@ namespace InformationMachineAPI.PCL.Controllers
             else if (response.Code == 404)
                 throw new APIException(@"Not Found", 404);
 
+            else if (response.Code == 422)
+                throw new APIException(@"Unprocessable Entity", 422);
+
             else if ((response.Code < 200) || (response.Code > 206)) //[200,206] = HTTP OK
                 throw new APIException(@"HTTP Response Not OK", response.Code);
 
-            return APIHelper.JsonDeserialize<GetSingleStoresWrapper>(response.Body);
+            return APIHelper.JsonDeserialize<GetCartWrapper>(response.Body);
         }
 
         /// <summary>
-        /// Update username and/or password of existing store connection, for a specified user ID ("user_id") and user store ID ("user_store_id"  - generated on store connect).
+        /// Add item/product to a cart, must specify product UPC and Cart ID.
         /// </summary>
+        /// <param name="userId">Required parameter: ID of a user</param>
+        /// <param name="cartId">Required parameter: ID if a cart</param>
         /// <param name="payload">Required parameter: TODO: type parameter description here</param>
-        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
-        /// <param name="id">Required parameter: TODO: type parameter description here</param>
-        /// <return>Returns the UpdateStoreConnectionWrapper response from the API call</return>
-        public UpdateStoreConnectionWrapper UserStoresUpdateStoreConnection(
-                UpdateUserStoreRequest payload,
+        /// <return>Returns the AddCartItemWrapper response from the API call</return>
+        public AddCartItemWrapper UserCartsAddCartItem(
                 string userId,
-                int id)
+                string cartId,
+                AddCartItemRequest payload)
         {
             //the base uri for api requests
             string baseUri = Configuration.BaseUri;
 
             //prepare query string for API call
             StringBuilder queryBuilder = new StringBuilder(baseUri);
-            queryBuilder.Append("/v1/users/{user_id}/stores/{id}");
+            queryBuilder.Append("/users/{user_id}/carts/{cart_id}");
 
             //process optional template parameters
             APIHelper.AppendUrlWithTemplateParameters(queryBuilder, new Dictionary<string, object>()
                 {
                     { "user_id", userId },
-                    { "id", id }
+                    { "cart_id", cartId }
                 });
 
             //process optional query parameters
@@ -277,7 +277,7 @@ namespace InformationMachineAPI.PCL.Controllers
             string queryUrl = APIHelper.CleanUrl(queryBuilder);
 
             //prepare and invoke the API call request to fetch the response
-            HttpRequest request = Unirest.put(queryUrl)
+            HttpRequest request = Unirest.post(queryUrl)
                 //append request with appropriate headers and parameters
                 .header("user-agent", "IAMDATA V1")
                 .header("accept", "application/json")
@@ -288,11 +288,14 @@ namespace InformationMachineAPI.PCL.Controllers
             HttpResponse<String> response = request.asString();
 
             //Error handling using HTTP status codes
-            if (response.Code == 401)
+            if (response.Code == 400)
+                throw new APIException(@"Bad Request", 400);
+
+            else if (response.Code == 401)
                 throw new APIException(@"Unauthorized", 401);
 
-            else if (response.Code == 404)
-                throw new APIException(@"Not Found", 404);
+            else if (response.Code == 422)
+                throw new APIException(@"Unprocessable Entity", 422);
 
             else if (response.Code == 500)
                 throw new APIException(@"Internal Server Error", 500);
@@ -300,31 +303,31 @@ namespace InformationMachineAPI.PCL.Controllers
             else if ((response.Code < 200) || (response.Code > 206)) //[200,206] = HTTP OK
                 throw new APIException(@"HTTP Response Not OK", response.Code);
 
-            return APIHelper.JsonDeserialize<UpdateStoreConnectionWrapper>(response.Body);
+            return APIHelper.JsonDeserialize<AddCartItemWrapper>(response.Body);
         }
 
         /// <summary>
-        /// Delete store connection for a specified user ("user_id") and specified store ("user_store_id"  - generated on store connect).
+        /// Use specified Cart ID to delete cart and all associated items in specified cart.
         /// </summary>
-        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
-        /// <param name="id">Required parameter: TODO: type parameter description here</param>
-        /// <return>Returns the DeleteSingleStoreWrapper response from the API call</return>
-        public DeleteSingleStoreWrapper UserStoresDeleteSingleStore(
+        /// <param name="userId">Required parameter: ID of a user</param>
+        /// <param name="cartId">Required parameter: ID if a cart</param>
+        /// <return>Returns the DeleteCartWrapper response from the API call</return>
+        public DeleteCartWrapper UserCartsDeleteCart(
                 string userId,
-                int id)
+                string cartId)
         {
             //the base uri for api requests
             string baseUri = Configuration.BaseUri;
 
             //prepare query string for API call
             StringBuilder queryBuilder = new StringBuilder(baseUri);
-            queryBuilder.Append("/v1/users/{user_id}/stores/{id}");
+            queryBuilder.Append("/users/{user_id}/carts/{cart_id}");
 
             //process optional template parameters
             APIHelper.AppendUrlWithTemplateParameters(queryBuilder, new Dictionary<string, object>()
                 {
                     { "user_id", userId },
-                    { "id", id }
+                    { "cart_id", cartId }
                 });
 
             //process optional query parameters
@@ -350,13 +353,140 @@ namespace InformationMachineAPI.PCL.Controllers
             if (response.Code == 401)
                 throw new APIException(@"Unauthorized", 401);
 
-            else if (response.Code == 500)
-                throw new APIException(@"Internal Server Error", 500);
+            else if (response.Code == 404)
+                throw new APIException(@"Not Found", 404);
+
+            else if (response.Code == 422)
+                throw new APIException(@"Unprocessable Entity", 422);
 
             else if ((response.Code < 200) || (response.Code > 206)) //[200,206] = HTTP OK
                 throw new APIException(@"HTTP Response Not OK", response.Code);
 
-            return APIHelper.JsonDeserialize<DeleteSingleStoreWrapper>(response.Body);
+            return APIHelper.JsonDeserialize<DeleteCartWrapper>(response.Body);
+        }
+
+        /// <summary>
+        /// Remove item/product from a cart, must specify Cart and Cart Item ID.
+        /// </summary>
+        /// <param name="userId">Required parameter: ID of a user</param>
+        /// <param name="cartId">Required parameter: ID if a cart</param>
+        /// <param name="cartItemId">Required parameter: ID if a cart item</param>
+        /// <return>Returns the DeleteCartItemWrapper response from the API call</return>
+        public DeleteCartItemWrapper UserCartsRemoveCartItem(
+                string userId,
+                string cartId,
+                string cartItemId)
+        {
+            //the base uri for api requests
+            string baseUri = Configuration.BaseUri;
+
+            //prepare query string for API call
+            StringBuilder queryBuilder = new StringBuilder(baseUri);
+            queryBuilder.Append("/users/{user_id}/carts/{cart_id}/items/{cart_item_id}");
+
+            //process optional template parameters
+            APIHelper.AppendUrlWithTemplateParameters(queryBuilder, new Dictionary<string, object>()
+                {
+                    { "user_id", userId },
+                    { "cart_id", cartId },
+                    { "cart_item_id", cartItemId }
+                });
+
+            //process optional query parameters
+            APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
+                {
+                    { "client_id", clientId },
+                    { "client_secret", clientSecret }
+                });
+
+            //validate and preprocess url
+            string queryUrl = APIHelper.CleanUrl(queryBuilder);
+
+            //prepare and invoke the API call request to fetch the response
+            HttpRequest request = Unirest.delete(queryUrl)
+                //append request with appropriate headers and parameters
+                .header("user-agent", "IAMDATA V1")
+                .header("accept", "application/json");
+
+            //invoke request and get response
+            HttpResponse<String> response = request.asString();
+
+            //Error handling using HTTP status codes
+            if (response.Code == 401)
+                throw new APIException(@"Unauthorized", 401);
+
+            else if (response.Code == 404)
+                throw new APIException(@"Not Found", 404);
+
+            else if (response.Code == 422)
+                throw new APIException(@"Unprocessable Entity", 422);
+
+            else if ((response.Code < 200) || (response.Code > 206)) //[200,206] = HTTP OK
+                throw new APIException(@"HTTP Response Not OK", response.Code);
+
+            return APIHelper.JsonDeserialize<DeleteCartItemWrapper>(response.Body);
+        }
+
+        /// <summary>
+        /// TODO: type endpoint description here
+        /// </summary>
+        /// <param name="userId">Required parameter: ID of a user</param>
+        /// <param name="cartId">Required parameter: ID if a cart</param>
+        /// <param name="storeId">Required parameter: ID if a store (check "Lookup" section, "v1/stores" endpoint)</param>
+        /// <return>Returns the ExecuteCartWrapper response from the API call</return>
+        public ExecuteCartWrapper UserCartsExecuteCart(
+                string userId,
+                string cartId,
+                int storeId)
+        {
+            //the base uri for api requests
+            string baseUri = Configuration.BaseUri;
+
+            //prepare query string for API call
+            StringBuilder queryBuilder = new StringBuilder(baseUri);
+            queryBuilder.Append("/users/{user_id}/carts/{cart_id}/stores/{store_id}");
+
+            //process optional template parameters
+            APIHelper.AppendUrlWithTemplateParameters(queryBuilder, new Dictionary<string, object>()
+                {
+                    { "user_id", userId },
+                    { "cart_id", cartId },
+                    { "store_id", storeId }
+                });
+
+            //process optional query parameters
+            APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
+                {
+                    { "client_id", clientId },
+                    { "client_secret", clientSecret }
+                });
+
+            //validate and preprocess url
+            string queryUrl = APIHelper.CleanUrl(queryBuilder);
+
+            //prepare and invoke the API call request to fetch the response
+            HttpRequest request = Unirest.get(queryUrl)
+                //append request with appropriate headers and parameters
+                .header("user-agent", "IAMDATA V1")
+                .header("accept", "application/json");
+
+            //invoke request and get response
+            HttpResponse<String> response = request.asString();
+
+            //Error handling using HTTP status codes
+            if (response.Code == 401)
+                throw new APIException(@"Unauthorized", 401);
+
+            else if (response.Code == 404)
+                throw new APIException(@"Not Found", 404);
+
+            else if (response.Code == 422)
+                throw new APIException(@"Unprocessable Entity", 422);
+
+            else if ((response.Code < 200) || (response.Code > 206)) //[200,206] = HTTP OK
+                throw new APIException(@"HTTP Response Not OK", response.Code);
+
+            return APIHelper.JsonDeserialize<ExecuteCartWrapper>(response.Body);
         }
 
     }
