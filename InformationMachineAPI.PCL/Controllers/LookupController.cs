@@ -14,18 +14,11 @@ using unirest_net.http;
 using unirest_net.request;
 using InformationMachineAPI.PCL;
 using InformationMachineAPI.PCL.Models;
- 
+
 namespace InformationMachineAPI.PCL.Controllers
 {
-    public class LookupController
+    public partial class LookupController
     {
-        //private fields for configuration
-
-        //Id of your app 
-        private string clientId;
-
-        //Secret key which authorizes you to use this API 
-        private string clientSecret;
         #region Singleton Pattern
 
         //private static variables for the singleton pattern
@@ -35,28 +28,18 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <summary>
         /// Singleton pattern implementation
         /// </summary>
-        public static LookupController GetInstance()
+        public static LookupController Instance
         {
-            lock (syncObject)
+            get
             {
-                if (null == instance)
+                lock (syncObject)
                 {
-                    throw new Exception ("Please initialize before accessing the singleton instance");
+                    if (null == instance)
+                    {
+                        instance = new LookupController();
+                    }
                 }
-            }
-            return instance;
-        }
-
-        /// <summary>
-        /// Initialize instance with authentication and configuration parameters
-        /// </summary>
-        public static void Initialize(string clientId, string clientSecret)
-        {
-            lock (syncObject)
-            {
-                instance = new LookupController();
-                instance.clientId = clientId;
-                instance.clientSecret = clientSecret;
+                return instance;
             }
         }
 
@@ -79,8 +62,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -125,8 +108,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -171,8 +154,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -217,8 +200,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -263,8 +246,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -309,8 +292,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url

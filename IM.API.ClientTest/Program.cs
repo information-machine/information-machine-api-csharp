@@ -1,4 +1,5 @@
-﻿using InformationMachineAPI.PCL.Controllers;
+﻿using InformationMachineAPI.PCL;
+using InformationMachineAPI.PCL.Controllers;
 using InformationMachineAPI.PCL.Models;
 using System;
 using System.Collections.Generic;
@@ -31,14 +32,14 @@ namespace IM.API.ClientTest
                 var supermarketName = config[2];
                 var username = config[3];
                 var password = config[4];
-                LookupController.Initialize(clientId, clientSecret);
-                ProductsController.Initialize(clientId, clientSecret);
+                Configuration.ClientId = clientId;
+                Configuration.ClientSecret = clientSecret;
 
-                var superMarketId = LookupControllerTest(LookupController.GetInstance(), supermarketName);
+                var superMarketId = LookupControllerTest(LookupController.Instance, supermarketName);
 
-                ProductsControllerTest(ProductsController.GetInstance());
+                ProductsControllerTest(ProductsController.Instance);
 
-                TestUserPurchase(ProductsController.GetInstance(), clientId, clientSecret, superMarketId, username, password);
+                TestUserPurchase(ProductsController.Instance, clientId, clientSecret, superMarketId, username, password);
 
                 Console.WriteLine("All tests passed");
             }
@@ -52,16 +53,11 @@ namespace IM.API.ClientTest
         {
             string email = "testuser@iamdata.co";
             string userId = "testuserId1234";
-
-            UserManagementController.Initialize(clientId, clientSecret);
-            UserStoresController.Initialize(clientId, clientSecret);
-            UserPurchasesController.Initialize(clientId, clientSecret);
-            UserScansController.Initialize(clientId, clientSecret);
-
-            UserManagementController usersController = UserManagementController.GetInstance();
-            UserStoresController storesController = UserStoresController.GetInstance();
-            UserPurchasesController purchasesController = UserPurchasesController.GetInstance();
-            UserScansController userScansController = UserScansController.GetInstance();
+            
+            UserManagementController usersController = UserManagementController.Instance;
+            UserStoresController storesController = UserStoresController.Instance;
+            UserPurchasesController purchasesController = UserPurchasesController.Instance;
+            UserScansController userScansController = UserScansController.Instance;
             
             UsersControllerTest(email, usersController, userId);
 

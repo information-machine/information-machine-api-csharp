@@ -24,7 +24,7 @@ namespace InformationMachineAPI.PCL.Models
         private int? totalCount;
         private string nextPage;
         private string lastPage;
-        private int? maxNumberOfRequestsPerMinute;
+        private int? maxNumberOfRequestsPerDay;
         private int? remainingNumberOfRequest;
         private double? timeInEpochSecondTillReset;
 
@@ -116,17 +116,17 @@ namespace InformationMachineAPI.PCL.Models
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("max_number_of_requests_per_minute")]
-        public int? MaxNumberOfRequestsPerMinute 
+        [JsonProperty("max_number_of_requests_per_day")]
+        public int? MaxNumberOfRequestsPerDay 
         { 
             get 
             {
-                return this.maxNumberOfRequestsPerMinute; 
+                return this.maxNumberOfRequestsPerDay; 
             } 
             set 
             {
-                this.maxNumberOfRequestsPerMinute = value;
-                onPropertyChanged("MaxNumberOfRequestsPerMinute");
+                this.maxNumberOfRequestsPerDay = value;
+                onPropertyChanged("MaxNumberOfRequestsPerDay");
             }
         }
 

@@ -19,24 +19,24 @@ namespace InformationMachineAPI.PCL.Models
     public class MetaBase : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private int? maxNumberOfRequestsPerMinute;
+        private int? maxNumberOfRequestsPerDay;
         private int? remainingNumberOfRequest;
         private double? timeInEpochSecondTillReset;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("max_number_of_requests_per_minute")]
-        public int? MaxNumberOfRequestsPerMinute 
+        [JsonProperty("max_number_of_requests_per_day")]
+        public int? MaxNumberOfRequestsPerDay 
         { 
             get 
             {
-                return this.maxNumberOfRequestsPerMinute; 
+                return this.maxNumberOfRequestsPerDay; 
             } 
             set 
             {
-                this.maxNumberOfRequestsPerMinute = value;
-                onPropertyChanged("MaxNumberOfRequestsPerMinute");
+                this.maxNumberOfRequestsPerDay = value;
+                onPropertyChanged("MaxNumberOfRequestsPerDay");
             }
         }
 

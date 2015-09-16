@@ -14,18 +14,11 @@ using unirest_net.http;
 using unirest_net.request;
 using InformationMachineAPI.PCL;
 using InformationMachineAPI.PCL.Models;
- 
+
 namespace InformationMachineAPI.PCL.Controllers
 {
-    public class UserManagementController
+    public partial class UserManagementController
     {
-        //private fields for configuration
-
-        //Id of your app 
-        private string clientId;
-
-        //Secret key which authorizes you to use this API 
-        private string clientSecret;
         #region Singleton Pattern
 
         //private static variables for the singleton pattern
@@ -35,28 +28,18 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <summary>
         /// Singleton pattern implementation
         /// </summary>
-        public static UserManagementController GetInstance()
+        public static UserManagementController Instance
         {
-            lock (syncObject)
+            get
             {
-                if (null == instance)
+                lock (syncObject)
                 {
-                    throw new Exception ("Please initialize before accessing the singleton instance");
+                    if (null == instance)
+                    {
+                        instance = new UserManagementController();
+                    }
                 }
-            }
-            return instance;
-        }
-
-        /// <summary>
-        /// Initialize instance with authentication and configuration parameters
-        /// </summary>
-        public static void Initialize(string clientId, string clientSecret)
-        {
-            lock (syncObject)
-            {
-                instance = new UserManagementController();
-                instance.clientId = clientId;
-                instance.clientSecret = clientSecret;
+                return instance;
             }
         }
 
@@ -85,8 +68,8 @@ namespace InformationMachineAPI.PCL.Controllers
                 {
                     { "page", page },
                     { "per_page", perPage },
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -133,8 +116,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -190,8 +173,8 @@ namespace InformationMachineAPI.PCL.Controllers
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
                     { "id", id },
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -243,8 +226,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url

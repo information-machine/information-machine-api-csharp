@@ -35,20 +35,20 @@ http://msdn.microsoft.com/en-us/library/vstudio/gg597391(v=vs.100).aspx
 
 The quickest way to see how you should use the API and library itself, set the IM.API.ClientTest project as a StartUp project and debug it to see how the api is used.
 
-The generated controller classes accept the client_id and client_secret key parameters in their
-respective constructors. An example of this is given below:
+Before you use any of the controllers you need to set authorization parameters in Configuration class as shown below:
 
 ```
-	ProductsController productsController = new ProductsController(clientId, clientSecret);
+	Configuration.ClientId = clientId;
+    Configuration.ClientSecret = clientSecret;
 ```
 
-Then you can use that to call methods such as:
+Then you can use controllers to call methods such as:
 
 ```
-	ProductData productFull = productsController.ProductsGetProduct("380728", true).Result;
-    List<ProductData> kaleProducts = productsController.ProductsGetProducts("Kale", null, 1, 25, true).Result;
+	ProductData productFull = ProductsController.Instance.ProductsGetProduct("380728", true).Result;
+    List<ProductData> kaleProducts = ProductsController.Instance.ProductsGetProducts("Kale", null, 1, 25, true).Result;
 ```
 
-All methods return wrapper object which contains meta information (number of available requests, maximum number of requests per minute) and result object. Additionally if the result is of an array type, meta object will contain paging information (current page, items per page, total number of items, url to next page if there is a next page).
+All methods return wrapper object which contains meta information (number of available requests, maximum number of requests per day) and result object. Additionally if the result is of an array type, meta object will contain paging information (current page, items per page, total number of items, url to next page if there is a next page).
 
-For more information on which methods are available please go to [Information Machine](http://iamdata.co/swagger/ui/index)
+For more information on which methods are available please go to [Information Machine](https://www.iamdata.co/docs)

@@ -14,18 +14,11 @@ using unirest_net.http;
 using unirest_net.request;
 using InformationMachineAPI.PCL;
 using InformationMachineAPI.PCL.Models;
- 
+
 namespace InformationMachineAPI.PCL.Controllers
 {
-    public class ProductsController
+    public partial class ProductsController
     {
-        //private fields for configuration
-
-        //Id of your app 
-        private string clientId;
-
-        //Secret key which authorizes you to use this API 
-        private string clientSecret;
         #region Singleton Pattern
 
         //private static variables for the singleton pattern
@@ -35,28 +28,18 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <summary>
         /// Singleton pattern implementation
         /// </summary>
-        public static ProductsController GetInstance()
+        public static ProductsController Instance
         {
-            lock (syncObject)
+            get
             {
-                if (null == instance)
+                lock (syncObject)
                 {
-                    throw new Exception ("Please initialize before accessing the singleton instance");
+                    if (null == instance)
+                    {
+                        instance = new ProductsController();
+                    }
                 }
-            }
-            return instance;
-        }
-
-        /// <summary>
-        /// Initialize instance with authentication and configuration parameters
-        /// </summary>
-        public static void Initialize(string clientId, string clientSecret)
-        {
-            lock (syncObject)
-            {
-                instance = new ProductsController();
-                instance.clientId = clientId;
-                instance.clientSecret = clientSecret;
+                return instance;
             }
         }
 
@@ -97,8 +80,8 @@ namespace InformationMachineAPI.PCL.Controllers
                     { "per_page", perPage },
                     { "request_data", requestData },
                     { "full_resp", fullResp },
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -153,8 +136,8 @@ namespace InformationMachineAPI.PCL.Controllers
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
                     { "full_resp", fullResp },
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -212,8 +195,8 @@ namespace InformationMachineAPI.PCL.Controllers
                 {
                     { "page", page },
                     { "per_page", perPage },
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -261,8 +244,8 @@ namespace InformationMachineAPI.PCL.Controllers
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
                     { "product_ids", productIds },
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -313,8 +296,8 @@ namespace InformationMachineAPI.PCL.Controllers
                 {
                     { "product_ids", productIds },
                     { "type_id", typeId },
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
@@ -381,8 +364,8 @@ namespace InformationMachineAPI.PCL.Controllers
                     { "per_page", perPage },
                     { "full_resp", fullResp },
                     { "food_only", foodOnly },
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret }
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
                 });
 
             //validate and preprocess url
