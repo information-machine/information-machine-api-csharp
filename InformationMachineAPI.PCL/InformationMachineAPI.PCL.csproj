@@ -1,4 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+ - InformationMachineAPI.PCL
+ -
+ - 
+-->
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <RootNamespace>InformationMachineAPI.PCL</RootNamespace>
@@ -38,7 +43,6 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net45+win8+wpa81\System.Net.Http.Extensions.dll</HintPath>
@@ -51,69 +55,83 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration.cs" />
-    <Compile Include="APIHelper.cs" />
-    <Compile Include="APIException.cs" />
+    <Compile Include="Models\GetProductAlternativeTypesWrapper.cs" />
+    <Compile Include="Models\ProductAlternativeTypeInfo.cs" />
+    <Compile Include="Models\MetaBase.cs" />
+    <Compile Include="Models\GetUOMsWrapper.cs" />
+    <Compile Include="Models\UOMInfo.cs" />
+    <Compile Include="Models\GetCategoriesWrapper.cs" />
+    <Compile Include="Models\CategoryInfo.cs" />
+    <Compile Include="Models\GetNutrientsWrapper.cs" />
+    <Compile Include="Models\NutrientInfo.cs" />
+    <Compile Include="Models\GetStoresWrapper.cs" />
+    <Compile Include="Models\StoreInfo.cs" />
+    <Compile Include="Models\GetTagsWrapper.cs" />
+    <Compile Include="Models\TagInfo.cs" />
+    <Compile Include="Models\GetProductsWrapper.cs" />
+    <Compile Include="Models\ProductData.cs" />
+    <Compile Include="Models\NutrientData.cs" />
+    <Compile Include="Models\MetaPaged.cs" />
+    <Compile Include="Models\GetProductWrapper.cs" />
+    <Compile Include="Models\GetProductPurchasesWrapper.cs" />
+    <Compile Include="Models\PurchasedProduct.cs" />
+    <Compile Include="Models\GetProductPricesWrapper.cs" />
+    <Compile Include="Models\PriceData.cs" />
+    <Compile Include="Models\PriceInfo.cs" />
+    <Compile Include="Models\GetProductsAlternativesWrapper.cs" />
+    <Compile Include="Models\ProductAlternativesRecord.cs" />
+    <Compile Include="Models\GetUserProducts.cs" />
+    <Compile Include="Models\AddCartRequest.cs" />
+    <Compile Include="Models\AddCartWrapper.cs" />
+    <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\GetCartsWrapper.cs" />
+    <Compile Include="Models\DeleteCartWrapper.cs" />
+    <Compile Include="Models\GetCartWrapper.cs" />
+    <Compile Include="Models\AddCartItemRequest.cs" />
+    <Compile Include="Models\AddCartItemWrapper.cs" />
+    <Compile Include="Models\DeleteCartItemWrapper.cs" />
+    <Compile Include="Models\ExecuteCartWrapper.cs" />
+    <Compile Include="Models\ExecuteCart.cs" />
+    <Compile Include="Models\RegisterUserRequest.cs" />
+    <Compile Include="Models\CreateUserWrapper.cs" />
+    <Compile Include="Models\RegisterUserResponse.cs" />
+    <Compile Include="Models\GetAllUsersWrapper.cs" />
+    <Compile Include="Models\UserData.cs" />
+    <Compile Include="Models\DeleteUserWrapper.cs" />
+    <Compile Include="Models\GetSingleUserWrapper.cs" />
+    <Compile Include="Models\GetSingleUserResponse.cs" />
+    <Compile Include="Models\GetAllUserPurchasesWrapper.cs" />
+    <Compile Include="Models\UserPurchase.cs" />
+    <Compile Include="Models\UserStore.cs" />
+    <Compile Include="Models\PurchaseItemData.cs" />
+    <Compile Include="Models\PurchaseItemProduct.cs" />
+    <Compile Include="Models\GetSingleUserPurchaseWrapper.cs" />
+    <Compile Include="Models\UploadBarcodeRequest.cs" />
+    <Compile Include="Models\UploadBarcodeWrapper.cs" />
+    <Compile Include="Models\UploadBarcodeResponse.cs" />
+    <Compile Include="Models\UploadReceiptRequest.cs" />
+    <Compile Include="Models\UploadReceiptWrapper.cs" />
+    <Compile Include="Models\ConnectUserStoreRequest.cs" />
+    <Compile Include="Models\ConnectStoreWrapper.cs" />
+    <Compile Include="Models\ConnectUserStoreResponse.cs" />
+    <Compile Include="Models\GetAllStoresWrapper.cs" />
+    <Compile Include="Models\GetSingleStoresWrapper.cs" />
+    <Compile Include="Models\GetSingleUserStoreResponse.cs" />
+    <Compile Include="Models\DeleteSingleStoreWrapper.cs" />
+    <Compile Include="Models\UpdateUserStoreRequest.cs" />
+    <Compile Include="Models\UpdateStoreConnectionWrapper.cs" />
     <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\UserCartsController.cs" />
     <Compile Include="Controllers\UserManagementController.cs" />
     <Compile Include="Controllers\UserPurchasesController.cs" />
     <Compile Include="Controllers\UserScansController.cs" />
     <Compile Include="Controllers\UserStoresController.cs" />
-    <Compile Include="Models\CategoryInfo.cs" />
-    <Compile Include="Models\ConnectStoreWrapper.cs" />
-    <Compile Include="Models\ConnectUserStoreRequest.cs" />
-    <Compile Include="Models\ConnectUserStoreResponse.cs" />
-    <Compile Include="Models\CreateUserWrapper.cs" />
-    <Compile Include="Models\DeleteSingleStoreWrapper.cs" />
-    <Compile Include="Models\DeleteUserWrapper.cs" />
-    <Compile Include="Models\GetAllStoresWrapper.cs" />
-    <Compile Include="Models\GetAllUserPurchasesWrapper.cs" />
-    <Compile Include="Models\GetAllUsersWrapper.cs" />
-    <Compile Include="Models\GetCategoriesWrapper.cs" />
-    <Compile Include="Models\GetNutrientsWrapper.cs" />
-    <Compile Include="Models\GetProductAlternativeTypesWrapper.cs" />
-    <Compile Include="Models\GetProductPricesWrapper.cs" />
-    <Compile Include="Models\GetProductPurchasesWrapper.cs" />
-    <Compile Include="Models\GetProductsAlternativesWrapper.cs" />
-    <Compile Include="Models\GetProductsWrapper.cs" />
-    <Compile Include="Models\GetProductWrapper.cs" />
-    <Compile Include="Models\GetSingleStoresWrapper.cs" />
-    <Compile Include="Models\GetSingleUserPurchaseWrapper.cs" />
-    <Compile Include="Models\GetSingleUserResponse.cs" />
-    <Compile Include="Models\GetSingleUserStoreResponse.cs" />
-    <Compile Include="Models\GetSingleUserWrapper.cs" />
-    <Compile Include="Models\GetStoresWrapper.cs" />
-    <Compile Include="Models\GetTagsWrapper.cs" />
-    <Compile Include="Models\GetUOMsWrapper.cs" />
-    <Compile Include="Models\GetUserProducts.cs" />
-    <Compile Include="Models\MetaBase.cs" />
-    <Compile Include="Models\MetaPaged.cs" />
-    <Compile Include="Models\NutrientData.cs" />
-    <Compile Include="Models\NutrientInfo.cs" />
-    <Compile Include="Models\PriceData.cs" />
-    <Compile Include="Models\PriceInfo.cs" />
-    <Compile Include="Models\ProductAlternativesRecord.cs" />
-    <Compile Include="Models\ProductAlternativeTypeInfo.cs" />
-    <Compile Include="Models\ProductData.cs" />
-    <Compile Include="Models\PurchasedProduct.cs" />
-    <Compile Include="Models\PurchaseItemData.cs" />
-    <Compile Include="Models\PurchaseItemProduct.cs" />
-    <Compile Include="Models\RegisterUserRequest.cs" />
-    <Compile Include="Models\RegisterUserResponse.cs" />
-    <Compile Include="Models\StoreInfo.cs" />
-    <Compile Include="Models\TagInfo.cs" />
-    <Compile Include="Models\UOMInfo.cs" />
-    <Compile Include="Models\UpdateStoreConnectionWrapper.cs" />
-    <Compile Include="Models\UpdateUserStoreRequest.cs" />
-    <Compile Include="Models\UploadBarcodeRequest.cs" />
-    <Compile Include="Models\UploadBarcodeResponse.cs" />
-    <Compile Include="Models\UploadBarcodeWrapper.cs" />
-    <Compile Include="Models\UploadReceiptRequest.cs" />
-    <Compile Include="Models\UploadReceiptWrapper.cs" />
-    <Compile Include="Models\UserData.cs" />
-    <Compile Include="Models\UserPurchase.cs" />
-    <Compile Include="Models\UserStore.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="APIHelper.cs" />
+    <Compile Include="APIException.cs" />
+    <Compile Include="InformationMachineAPIClient.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

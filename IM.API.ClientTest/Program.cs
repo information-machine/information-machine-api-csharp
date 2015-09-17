@@ -32,14 +32,13 @@ namespace IM.API.ClientTest
                 var supermarketName = config[2];
                 var username = config[3];
                 var password = config[4];
-                Configuration.ClientId = clientId;
-                Configuration.ClientSecret = clientSecret;
+                InformationMachineAPIClient client = new InformationMachineAPIClient(clientId, clientSecret);
 
-                var superMarketId = LookupControllerTest(LookupController.Instance, supermarketName);
+                var superMarketId = LookupControllerTest(client.Lookup, supermarketName);
 
-                ProductsControllerTest(ProductsController.Instance);
+                ProductsControllerTest(client.Products);
 
-                TestUserPurchase(ProductsController.Instance, clientId, clientSecret, superMarketId, username, password);
+                TestUserPurchase(client, clientId, clientSecret, superMarketId, username, password);
 
                 Console.WriteLine("All tests passed");
             }
@@ -49,15 +48,16 @@ namespace IM.API.ClientTest
             }
         }
 
-        private static void TestUserPurchase(ProductsController productsController, string clientId, string clientSecret, int superMarketId, string username, string password)
+        private static void TestUserPurchase(InformationMachineAPIClient client, string clientId, string clientSecret, int superMarketId, string username, string password)
         {
             string email = "testuser@iamdata.co";
             string userId = "testuserId1234";
-            
-            UserManagementController usersController = UserManagementController.Instance;
-            UserStoresController storesController = UserStoresController.Instance;
-            UserPurchasesController purchasesController = UserPurchasesController.Instance;
-            UserScansController userScansController = UserScansController.Instance;
+
+            ProductsController productsController = client.Products;
+            UserManagementController usersController = client.UserManagement;
+            UserStoresController storesController = client.UserStores;
+            UserPurchasesController purchasesController = client.UserPurchases;
+            UserScansController userScansController = client.UserScans;
             
             UsersControllerTest(email, usersController, userId);
 

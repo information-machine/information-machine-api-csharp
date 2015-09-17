@@ -35,18 +35,17 @@ http://msdn.microsoft.com/en-us/library/vstudio/gg597391(v=vs.100).aspx
 
 The quickest way to see how you should use the API and library itself, set the IM.API.ClientTest project as a StartUp project and debug it to see how the api is used.
 
-Before you use any of the controllers you need to set authorization parameters in Configuration class as shown below:
+Before you use any of the controllers you need to main client class with authorization parameters as shown below:
 
 ```
-	Configuration.ClientId = clientId;
-    Configuration.ClientSecret = clientSecret;
+	InformationMachineAPIClient client = new InformationMachineAPIClient(clientId, clientSecret);
 ```
 
 Then you can use controllers to call methods such as:
 
 ```
-	ProductData productFull = ProductsController.Instance.ProductsGetProduct("380728", true).Result;
-    List<ProductData> kaleProducts = ProductsController.Instance.ProductsGetProducts("Kale", null, 1, 25, true).Result;
+	ProductData productFull = client.Products.ProductsGetProduct("380728", true).Result;
+    List<ProductData> kaleProducts = client.Products.ProductsGetProducts("Kale", null, 1, 25, true).Result;
 ```
 
 All methods return wrapper object which contains meta information (number of available requests, maximum number of requests per day) and result object. Additionally if the result is of an array type, meta object will contain paging information (current page, items per page, total number of items, url to next page if there is a next page).

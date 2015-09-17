@@ -28,7 +28,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <summary>
         /// Singleton pattern implementation
         /// </summary>
-        public static UserStoresController Instance
+        internal static UserStoresController Instance
         {
             get
             {

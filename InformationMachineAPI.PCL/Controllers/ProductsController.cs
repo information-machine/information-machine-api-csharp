@@ -28,7 +28,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <summary>
         /// Singleton pattern implementation
         /// </summary>
-        public static ProductsController Instance
+        internal static ProductsController Instance
         {
             get
             {

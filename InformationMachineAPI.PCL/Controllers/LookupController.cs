@@ -28,7 +28,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <summary>
         /// Singleton pattern implementation
         /// </summary>
-        public static LookupController Instance
+        internal static LookupController Instance
         {
             get
             {
