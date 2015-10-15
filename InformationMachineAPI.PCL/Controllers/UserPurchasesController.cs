@@ -49,6 +49,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// Get history of purchases made by a specified user from connected stores, must specify "user_id".
         /// </summary>
         /// <param name="userId">Required parameter: TODO: type parameter description here</param>
+        /// <param name="storeId">Optional parameter: Check Lookup/Stores section for ID of all stores. E.g., Amazon = 4, Walmart = 3.</param>
         /// <param name="page">Optional parameter: default:1</param>
         /// <param name="perPage">Optional parameter: default:10, max:50</param>
         /// <param name="purchaseDateFrom">Optional parameter: Define multiple date ranges by specifying "from" range date components, separated by comma ",". Equal number of "from" and "to" parameters is mandatory. Expected format: "yyyy-MM-dd, yyyy-MM-dd"e.g., "2015-04-18, 2015-06-25"</param>
@@ -62,9 +63,11 @@ namespace InformationMachineAPI.PCL.Controllers
         /// <param name="fullResp">Optional parameter: default:false [Set true for response with purchase item details.]</param>
         /// <param name="foodOnly">Optional parameter: default:false [Filter out food purchase items.]</param>
         /// <param name="upcOnly">Optional parameter: default:false [Filter out purchase items with UPC.]</param>
+        /// <param name="upcResolvedAfter">Optional parameter: List only purchases having UPC resolved by IM after specified date. Expected format: "yyyy-MM-dd"</param>
         /// <return>Returns the GetAllUserPurchasesWrapper response from the API call</return>
         public GetAllUserPurchasesWrapper UserPurchasesGetAllUserPurchases(
                 string userId,
+                int? storeId = null,
                 int? page = null,
                 int? perPage = null,
                 string purchaseDateFrom = null,
@@ -77,7 +80,8 @@ namespace InformationMachineAPI.PCL.Controllers
                 double? purchaseTotalGreater = null,
                 bool? fullResp = null,
                 bool? foodOnly = null,
-                bool? upcOnly = null)
+                bool? upcOnly = null,
+                string upcResolvedAfter = null)
         {
             //the base uri for api requests
             string baseUri = Configuration.BaseUri;
@@ -95,6 +99,7 @@ namespace InformationMachineAPI.PCL.Controllers
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
                 {
+                    { "store_id", storeId },
                     { "page", page },
                     { "per_page", perPage },
                     { "purchase_date_from", purchaseDateFrom },
@@ -108,6 +113,7 @@ namespace InformationMachineAPI.PCL.Controllers
                     { "full_resp", fullResp },
                     { "food_only", foodOnly },
                     { "upc_only", upcOnly },
+                    { "upc_resolved_after", upcResolvedAfter },
                     { "client_id", Configuration.ClientId },
                     { "client_secret", Configuration.ClientSecret }
                 });
@@ -194,6 +200,77 @@ namespace InformationMachineAPI.PCL.Controllers
                 throw new APIException(@"HTTP Response Not OK", response.Code);
 
             return APIHelper.JsonDeserialize<GetSingleUserPurchaseWrapper>(response.Body);
+        }
+
+        /// <summary>
+        /// Get history of loyalty purchases made by a specified user from connected stores, must specify "user_id".
+        /// </summary>
+        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
+        /// <param name="storeId">Optional parameter: Check Lookup/Stores section for ID of all stores. E.g., Amazon = 4, Walmart = 3.</param>
+        /// <param name="page">Optional parameter: default:1</param>
+        /// <param name="perPage">Optional parameter: default:10, max:50</param>
+        /// <param name="foodOnly">Optional parameter: default:false [Filter out food purchase items.]</param>
+        /// <param name="upcOnly">Optional parameter: default:false [Filter out purchase items with UPC.]</param>
+        /// <param name="upcResolvedAfter">Optional parameter: List only purchases having UPC resolved by IM after specified date. Expected format: "yyyy-MM-dd"</param>
+        /// <return>Returns the GetAllUserLoyaltyPurchasesWrapper response from the API call</return>
+        public GetAllUserLoyaltyPurchasesWrapper UserPurchasesGetAllUserLoyaltyPurchases(
+                string userId,
+                int? storeId = null,
+                int? page = null,
+                int? perPage = null,
+                bool? foodOnly = null,
+                bool? upcOnly = null,
+                string upcResolvedAfter = null)
+        {
+            //the base uri for api requests
+            string baseUri = Configuration.BaseUri;
+
+            //prepare query string for API call
+            StringBuilder queryBuilder = new StringBuilder(baseUri);
+            queryBuilder.Append("/v1/users/{user_id}/loyalty_purchases");
+
+            //process optional template parameters
+            APIHelper.AppendUrlWithTemplateParameters(queryBuilder, new Dictionary<string, object>()
+                {
+                    { "user_id", userId }
+                });
+
+            //process optional query parameters
+            APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
+                {
+                    { "store_id", storeId },
+                    { "page", page },
+                    { "per_page", perPage },
+                    { "food_only", foodOnly },
+                    { "upc_only", upcOnly },
+                    { "upc_resolved_after", upcResolvedAfter },
+                    { "client_id", Configuration.ClientId },
+                    { "client_secret", Configuration.ClientSecret }
+                });
+
+            //validate and preprocess url
+            string queryUrl = APIHelper.CleanUrl(queryBuilder);
+
+            //prepare and invoke the API call request to fetch the response
+            HttpRequest request = Unirest.get(queryUrl)
+                //append request with appropriate headers and parameters
+                .header("user-agent", "IAMDATA V1")
+                .header("accept", "application/json");
+
+            //invoke request and get response
+            HttpResponse<String> response = request.asString();
+
+            //Error handling using HTTP status codes
+            if (response.Code == 404)
+                throw new APIException(@"Not Found", 404);
+
+            else if (response.Code == 401)
+                throw new APIException(@"Unauthorized", 401);
+
+            else if ((response.Code < 200) || (response.Code > 206)) //[200,206] = HTTP OK
+                throw new APIException(@"HTTP Response Not OK", response.Code);
+
+            return APIHelper.JsonDeserialize<GetAllUserLoyaltyPurchasesWrapper>(response.Body);
         }
 
     }

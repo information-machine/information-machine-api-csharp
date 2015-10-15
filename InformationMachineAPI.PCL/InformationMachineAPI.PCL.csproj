@@ -107,6 +107,9 @@
     <Compile Include="Models\PurchaseItemData.cs" />
     <Compile Include="Models\PurchaseItemProduct.cs" />
     <Compile Include="Models\GetSingleUserPurchaseWrapper.cs" />
+    <Compile Include="Models\GetAllUserLoyaltyPurchasesWrapper.cs" />
+    <Compile Include="Models\UserLoyaltyPurchase.cs" />
+    <Compile Include="Models\LoyaltyPurchaseItemData.cs" />
     <Compile Include="Models\UploadBarcodeRequest.cs" />
     <Compile Include="Models\UploadBarcodeWrapper.cs" />
     <Compile Include="Models\UploadBarcodeResponse.cs" />

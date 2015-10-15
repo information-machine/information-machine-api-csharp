@@ -112,7 +112,7 @@ namespace IM.API.ClientTest
                 throw new APITestException("Error: get user products");
             }
 
-            List<UserPurchase> userPurchases = purchasesController.UserPurchasesGetAllUserPurchases(userId, 1, 15, null, null, null, null, null, null, null, null, true).Result;
+            List<UserPurchase> userPurchases = purchasesController.UserPurchasesGetAllUserPurchases(userId, null, 1, 15, null, null, null, null, null, null, null, null, true).Result;
             if (userPurchases.Count == 0)
             {
                 throw new APITestException("Error: get all user purchases");

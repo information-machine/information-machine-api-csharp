@@ -168,7 +168,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// Get detailed information on a single user cart by specifying User ID and Cart ID. Cart items are included in response.
         /// </summary>
         /// <param name="userId">Required parameter: ID of a user</param>
-        /// <param name="cartId">Required parameter: ID if a cart</param>
+        /// <param name="cartId">Required parameter: ID of a cart</param>
         /// <return>Returns the GetCartWrapper response from the API call</return>
         public GetCartWrapper UserCartsGetCart(
                 string userId,
@@ -227,7 +227,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// Add item/product to a cart, must specify product UPC and Cart ID.
         /// </summary>
         /// <param name="userId">Required parameter: ID of a user</param>
-        /// <param name="cartId">Required parameter: ID if a cart</param>
+        /// <param name="cartId">Required parameter: ID of a cart</param>
         /// <param name="payload">Required parameter: TODO: type parameter description here</param>
         /// <return>Returns the AddCartItemWrapper response from the API call</return>
         public AddCartItemWrapper UserCartsAddCartItem(
@@ -293,7 +293,7 @@ namespace InformationMachineAPI.PCL.Controllers
         /// Use specified Cart ID to delete cart and all associated items in specified cart.
         /// </summary>
         /// <param name="userId">Required parameter: ID of a user</param>
-        /// <param name="cartId">Required parameter: ID if a cart</param>
+        /// <param name="cartId">Required parameter: ID of a cart</param>
         /// <return>Returns the DeleteCartWrapper response from the API call</return>
         public DeleteCartWrapper UserCartsDeleteCart(
                 string userId,
@@ -352,8 +352,8 @@ namespace InformationMachineAPI.PCL.Controllers
         /// Remove item/product from a cart, must specify Cart and Cart Item ID.
         /// </summary>
         /// <param name="userId">Required parameter: ID of a user</param>
-        /// <param name="cartId">Required parameter: ID if a cart</param>
-        /// <param name="cartItemId">Required parameter: ID if a cart item</param>
+        /// <param name="cartId">Required parameter: ID of a cart</param>
+        /// <param name="cartItemId">Required parameter: ID of a cart item</param>
         /// <return>Returns the DeleteCartItemWrapper response from the API call</return>
         public DeleteCartItemWrapper UserCartsRemoveCartItem(
                 string userId,
@@ -411,11 +411,11 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// TODO: type endpoint description here
+        /// Currently, only Amazon cart is supported.
         /// </summary>
         /// <param name="userId">Required parameter: ID of a user</param>
-        /// <param name="cartId">Required parameter: ID if a cart</param>
-        /// <param name="storeId">Required parameter: ID if a store (check "Lookup" section, "v1/stores" endpoint)</param>
+        /// <param name="cartId">Required parameter: ID of a cart</param>
+        /// <param name="storeId">Required parameter: ID of a store (check "Lookup" section, "v1/stores" endpoint)</param>
         /// <return>Returns the ExecuteCartWrapper response from the API call</return>
         public ExecuteCartWrapper UserCartsExecuteCart(
                 string userId,

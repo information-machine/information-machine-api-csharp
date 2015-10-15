@@ -26,6 +26,7 @@ namespace InformationMachineAPI.PCL.Models
         private string username;
         private string credentialsStatus;
         private string scrapeStatus;
+        private string type;
         private string createdAt;
         private string updatedAt;
 
@@ -145,6 +146,23 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.scrapeStatus = value;
                 onPropertyChanged("ScrapeStatus");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("type")]
+        public string Type 
+        { 
+            get 
+            {
+                return this.type; 
+            } 
+            set 
+            {
+                this.type = value;
+                onPropertyChanged("Type");
             }
         }
 

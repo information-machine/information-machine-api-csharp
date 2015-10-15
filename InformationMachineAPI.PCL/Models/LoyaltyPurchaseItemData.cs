@@ -16,16 +16,11 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class PurchaseItemData : INotifyPropertyChanged 
+    public class LoyaltyPurchaseItemData : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
         private int? id;
-        private int? purchaseId;
         private string name;
-        private double? quantity;
-        private double? price;
-        private double? discountedPrice;
-        private string unitOfMeasurement;
         private string upc;
         private string upcResolvedAt;
         private PurchaseItemProduct product;
@@ -50,23 +45,6 @@ namespace InformationMachineAPI.PCL.Models
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("purchase_id")]
-        public int? PurchaseId 
-        { 
-            get 
-            {
-                return this.purchaseId; 
-            } 
-            set 
-            {
-                this.purchaseId = value;
-                onPropertyChanged("PurchaseId");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
         [JsonProperty("name")]
         public string Name 
         { 
@@ -78,74 +56,6 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.name = value;
                 onPropertyChanged("Name");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("quantity")]
-        public double? Quantity 
-        { 
-            get 
-            {
-                return this.quantity; 
-            } 
-            set 
-            {
-                this.quantity = value;
-                onPropertyChanged("Quantity");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("price")]
-        public double? Price 
-        { 
-            get 
-            {
-                return this.price; 
-            } 
-            set 
-            {
-                this.price = value;
-                onPropertyChanged("Price");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("discounted_price")]
-        public double? DiscountedPrice 
-        { 
-            get 
-            {
-                return this.discountedPrice; 
-            } 
-            set 
-            {
-                this.discountedPrice = value;
-                onPropertyChanged("DiscountedPrice");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("unit_of_measurement")]
-        public string UnitOfMeasurement 
-        { 
-            get 
-            {
-                return this.unitOfMeasurement; 
-            } 
-            set 
-            {
-                this.unitOfMeasurement = value;
-                onPropertyChanged("UnitOfMeasurement");
             }
         }
 
