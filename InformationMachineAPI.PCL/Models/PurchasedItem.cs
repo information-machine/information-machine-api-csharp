@@ -16,97 +16,115 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class GetSingleUserResponse : INotifyPropertyChanged 
+    public class PurchasedItem : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private string email;
-        private string zip;
-        private string userId;
-        private string ownerAppId;
-        private string createdAt;
+        private int? productId;
+        private string name;
+        private List<PurchaseInfo> purchaseHistory;
+        private ProductTimestamps productTimestamps;
+        private ProductIdentifiers productIdentifiers;
+        private ProductData productDetails;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("email")]
-        public string Email 
+        [JsonProperty("product_id")]
+        public int? ProductId 
         { 
             get 
             {
-                return this.email; 
+                return this.productId; 
             } 
             set 
             {
-                this.email = value;
-                onPropertyChanged("Email");
+                this.productId = value;
+                onPropertyChanged("ProductId");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("zip")]
-        public string Zip 
+        [JsonProperty("name")]
+        public string Name 
         { 
             get 
             {
-                return this.zip; 
+                return this.name; 
             } 
             set 
             {
-                this.zip = value;
-                onPropertyChanged("Zip");
+                this.name = value;
+                onPropertyChanged("Name");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("user_id")]
-        public string UserId 
+        [JsonProperty("purchase_history")]
+        public List<PurchaseInfo> PurchaseHistory 
         { 
             get 
             {
-                return this.userId; 
+                return this.purchaseHistory; 
             } 
             set 
             {
-                this.userId = value;
-                onPropertyChanged("UserId");
+                this.purchaseHistory = value;
+                onPropertyChanged("PurchaseHistory");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("owner_app_id")]
-        public string OwnerAppId 
+        [JsonProperty("product_timestamps")]
+        public ProductTimestamps ProductTimestamps 
         { 
             get 
             {
-                return this.ownerAppId; 
+                return this.productTimestamps; 
             } 
             set 
             {
-                this.ownerAppId = value;
-                onPropertyChanged("OwnerAppId");
+                this.productTimestamps = value;
+                onPropertyChanged("ProductTimestamps");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("created_at")]
-        public string CreatedAt 
+        [JsonProperty("product_identifiers")]
+        public ProductIdentifiers ProductIdentifiers 
         { 
             get 
             {
-                return this.createdAt; 
+                return this.productIdentifiers; 
             } 
             set 
             {
-                this.createdAt = value;
-                onPropertyChanged("CreatedAt");
+                this.productIdentifiers = value;
+                onPropertyChanged("ProductIdentifiers");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("product_details")]
+        public ProductData ProductDetails 
+        { 
+            get 
+            {
+                return this.productDetails; 
+            } 
+            set 
+            {
+                this.productDetails = value;
+                onPropertyChanged("ProductDetails");
             }
         }
 

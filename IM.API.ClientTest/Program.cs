@@ -78,7 +78,7 @@ namespace IM.API.ClientTest
                 Password = password
             };
 
-            ConnectUserStoreResponse userStore = storesController.UserStoresConnectStore(storeConnect, userId).Result;
+            UserStore userStore = storesController.UserStoresConnectStore(storeConnect, userId).Result;
 
             bool storeConnectionValid = CheckStoreValidity(storesController, userId, userStore.Id.Value);
             if (!storeConnectionValid)
@@ -86,14 +86,6 @@ namespace IM.API.ClientTest
                 storesController.UserStoresDeleteSingleStore(userId, userStore.Id.Value);
                 throw new APITestException("Error: could not connect to store");
             }
-
-            UpdateUserStoreRequest updateUserStoreRequest = new UpdateUserStoreRequest()
-            {
-                Username = username,
-                Password = password
-            };
-
-            storesController.UserStoresUpdateStoreConnection(updateUserStoreRequest, userId, userStore.Id.Value);
 
             if (!WaitForScrapeToFinish(storesController, userId, userStore.Id.Value))
             {
@@ -118,6 +110,12 @@ namespace IM.API.ClientTest
                 throw new APITestException("Error: get all user purchases");
             }
 
+            PurchaseData purchaseHistory = purchasesController.UserPurchasesGetPurchaseHistoryUnified(userId, null, null, null, null, null, null).Result;
+            if (purchaseHistory.PurchasedItems.Count == 0)
+            {
+                throw new APITestException("Error: get purchase history");
+            }
+
             UserPurchase userPurchase = purchasesController.UserPurchasesGetSingleUserPurchase(userId, userPurchases[0].Id.ToString(), true).Result;
             if (userPurchase == null || userPurchase.Id != userPurchases[0].Id)
             {
@@ -136,7 +134,7 @@ namespace IM.API.ClientTest
                 throw new APITestException("Error: upload barcode");
             }
 
-            storesController.UserStoresDeleteSingleStore(userId, userStore.Id.Value);
+            storesController.UserStoresDeleteSingleStore(userId, 16317);
 
             usersController.UserManagementDeleteUser(userId);
         }
@@ -149,7 +147,7 @@ namespace IM.API.ClientTest
                 var connectedStore = storesController.UserStoresGetSingleStore(userIdentifier, storeId);
 
                 if (connectedStore != null &&
-                    connectedStore.Result.ScrapeStatus == "Done")
+                    (connectedStore.Result.ScrapeStatus == "Done" || connectedStore.Result.ScrapeStatus == "Done With Warning"))
                 {
                     return true;
                 }
@@ -167,17 +165,15 @@ namespace IM.API.ClientTest
             {
                 var connectedStore = storesController.UserStoresGetSingleStore(userIdentifier, storeId);
 
-                if (connectedStore != null)
+                if (connectedStore != null &&
+                    (connectedStore.Result.ScrapeStatus == "Done" || connectedStore.Result.ScrapeStatus == "Done With Warning" || connectedStore.Result.ScrapeStatus == "Scraping"))
                 {
                     if (connectedStore.Result.CredentialsStatus == "Verified")
                     {
                         return true;
                     }
 
-                    if (connectedStore.Result.CredentialsStatus == "Invalid")
-                    {
-                        return false;
-                    }
+                    return false;
                 }
 
                 Thread.Sleep(3000);

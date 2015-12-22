@@ -16,43 +16,43 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class GetSingleUserWrapper : INotifyPropertyChanged 
+    public class ProductIdentifiers : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private UserData result;
-        private MetaBase meta;
+        private List<string> upcs;
+        private List<string> plus;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("result")]
-        public UserData Result 
+        [JsonProperty("upcs")]
+        public List<string> Upcs 
         { 
             get 
             {
-                return this.result; 
+                return this.upcs; 
             } 
             set 
             {
-                this.result = value;
-                onPropertyChanged("Result");
+                this.upcs = value;
+                onPropertyChanged("Upcs");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("meta")]
-        public MetaBase Meta 
+        [JsonProperty("plus")]
+        public List<string> Plus 
         { 
             get 
             {
-                return this.meta; 
+                return this.plus; 
             } 
             set 
             {
-                this.meta = value;
-                onPropertyChanged("Meta");
+                this.plus = value;
+                onPropertyChanged("Plus");
             }
         }
 

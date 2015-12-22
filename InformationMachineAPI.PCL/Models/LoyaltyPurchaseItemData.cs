@@ -23,6 +23,7 @@ namespace InformationMachineAPI.PCL.Models
         private string name;
         private string upc;
         private string upcResolvedAt;
+        private string createdAt;
         private PurchaseItemProduct product;
 
         /// <summary>
@@ -90,6 +91,23 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.upcResolvedAt = value;
                 onPropertyChanged("UpcResolvedAt");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("created_at")]
+        public string CreatedAt 
+        { 
+            get 
+            {
+                return this.createdAt; 
+            } 
+            set 
+            {
+                this.createdAt = value;
+                onPropertyChanged("CreatedAt");
             }
         }
 

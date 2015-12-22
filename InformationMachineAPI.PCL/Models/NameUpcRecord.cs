@@ -16,97 +16,79 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class RegisterUserResponse : INotifyPropertyChanged 
+    public class NameUpcRecord : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private string email;
-        private string zip;
-        private string userId;
-        private string ownerAppId;
-        private string createdAt;
+        private string name;
+        private string store;
+        private string resolveStatus;
+        private List<string> upcs;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("email")]
-        public string Email 
+        [JsonProperty("name")]
+        public string Name 
         { 
             get 
             {
-                return this.email; 
+                return this.name; 
             } 
             set 
             {
-                this.email = value;
-                onPropertyChanged("Email");
+                this.name = value;
+                onPropertyChanged("Name");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("zip")]
-        public string Zip 
+        [JsonProperty("store")]
+        public string Store 
         { 
             get 
             {
-                return this.zip; 
+                return this.store; 
             } 
             set 
             {
-                this.zip = value;
-                onPropertyChanged("Zip");
+                this.store = value;
+                onPropertyChanged("Store");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("user_id")]
-        public string UserId 
+        [JsonProperty("resolve_status")]
+        public string ResolveStatus 
         { 
             get 
             {
-                return this.userId; 
+                return this.resolveStatus; 
             } 
             set 
             {
-                this.userId = value;
-                onPropertyChanged("UserId");
+                this.resolveStatus = value;
+                onPropertyChanged("ResolveStatus");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("owner_app_id")]
-        public string OwnerAppId 
+        [JsonProperty("upcs")]
+        public List<string> Upcs 
         { 
             get 
             {
-                return this.ownerAppId; 
+                return this.upcs; 
             } 
             set 
             {
-                this.ownerAppId = value;
-                onPropertyChanged("OwnerAppId");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("created_at")]
-        public string CreatedAt 
-        { 
-            get 
-            {
-                return this.createdAt; 
-            } 
-            set 
-            {
-                this.createdAt = value;
-                onPropertyChanged("CreatedAt");
+                this.upcs = value;
+                onPropertyChanged("Upcs");
             }
         }
 

@@ -27,6 +27,10 @@ namespace InformationMachineAPI.PCL.Models
         private string credentialsStatus;
         private string scrapeStatus;
         private string type;
+        private bool? accountLocked;
+        private string unlockUrl;
+        private string oauthProvider;
+        private string oauthAuthorizationUrl;
         private string createdAt;
         private string updatedAt;
 
@@ -163,6 +167,74 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.type = value;
                 onPropertyChanged("Type");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("account_locked")]
+        public bool? AccountLocked 
+        { 
+            get 
+            {
+                return this.accountLocked; 
+            } 
+            set 
+            {
+                this.accountLocked = value;
+                onPropertyChanged("AccountLocked");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("unlock_url")]
+        public string UnlockUrl 
+        { 
+            get 
+            {
+                return this.unlockUrl; 
+            } 
+            set 
+            {
+                this.unlockUrl = value;
+                onPropertyChanged("UnlockUrl");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("oauth_provider")]
+        public string OauthProvider 
+        { 
+            get 
+            {
+                return this.oauthProvider; 
+            } 
+            set 
+            {
+                this.oauthProvider = value;
+                onPropertyChanged("OauthProvider");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("oauth_authorization_url")]
+        public string OauthAuthorizationUrl 
+        { 
+            get 
+            {
+                return this.oauthAuthorizationUrl; 
+            } 
+            set 
+            {
+                this.oauthAuthorizationUrl = value;
+                onPropertyChanged("OauthAuthorizationUrl");
             }
         }
 

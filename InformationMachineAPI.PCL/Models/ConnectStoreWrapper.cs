@@ -19,14 +19,14 @@ namespace InformationMachineAPI.PCL.Models
     public class ConnectStoreWrapper : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private ConnectUserStoreResponse result;
+        private UserStore result;
         private MetaBase meta;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("result")]
-        public ConnectUserStoreResponse Result 
+        public UserStore Result 
         { 
             get 
             {

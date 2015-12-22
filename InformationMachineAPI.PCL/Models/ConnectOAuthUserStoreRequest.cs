@@ -16,43 +16,43 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class GetSingleUserWrapper : INotifyPropertyChanged 
+    public class ConnectOAuthUserStoreRequest : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private UserData result;
-        private MetaBase meta;
+        private int storeId;
+        private string oauthProvider;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("result")]
-        public UserData Result 
+        [JsonProperty("store_id")]
+        public int StoreId 
         { 
             get 
             {
-                return this.result; 
+                return this.storeId; 
             } 
             set 
             {
-                this.result = value;
-                onPropertyChanged("Result");
+                this.storeId = value;
+                onPropertyChanged("StoreId");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("meta")]
-        public MetaBase Meta 
+        [JsonProperty("oauth_provider")]
+        public string OauthProvider 
         { 
             get 
             {
-                return this.meta; 
+                return this.oauthProvider; 
             } 
             set 
             {
-                this.meta = value;
-                onPropertyChanged("Meta");
+                this.oauthProvider = value;
+                onPropertyChanged("OauthProvider");
             }
         }
 

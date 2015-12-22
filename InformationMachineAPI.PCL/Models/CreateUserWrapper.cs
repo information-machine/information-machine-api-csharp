@@ -19,14 +19,14 @@ namespace InformationMachineAPI.PCL.Models
     public class CreateUserWrapper : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private RegisterUserResponse result;
+        private UserData result;
         private MetaBase meta;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("result")]
-        public RegisterUserResponse Result 
+        public UserData Result 
         { 
             get 
             {

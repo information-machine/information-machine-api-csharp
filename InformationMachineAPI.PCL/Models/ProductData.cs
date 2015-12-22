@@ -21,6 +21,7 @@ namespace InformationMachineAPI.PCL.Models
         // These fields hold the values for the public properties.
         private List<NutrientData> nutrients;
         private List<string> recipes;
+        private List<string> plus;
         private int? visibilityCount;
         private double? score;
         private string amazonLink;
@@ -74,6 +75,23 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.recipes = value;
                 onPropertyChanged("Recipes");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("plus")]
+        public List<string> Plus 
+        { 
+            get 
+            {
+                return this.plus; 
+            } 
+            set 
+            {
+                this.plus = value;
+                onPropertyChanged("Plus");
             }
         }
 

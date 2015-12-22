@@ -21,7 +21,7 @@ namespace InformationMachineAPI.PCL.Models
         // These fields hold the values for the public properties.
         private int? page;
         private int? perPage;
-        private int? totalCount;
+        private int? totalNumberOfPages;
         private string nextPage;
         private string lastPage;
         private int? maxNumberOfRequestsPerDay;
@@ -65,17 +65,17 @@ namespace InformationMachineAPI.PCL.Models
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("total_count")]
-        public int? TotalCount 
+        [JsonProperty("total_number_of_pages")]
+        public int? TotalNumberOfPages 
         { 
             get 
             {
-                return this.totalCount; 
+                return this.totalNumberOfPages; 
             } 
             set 
             {
-                this.totalCount = value;
-                onPropertyChanged("TotalCount");
+                this.totalNumberOfPages = value;
+                onPropertyChanged("TotalNumberOfPages");
             }
         }
 

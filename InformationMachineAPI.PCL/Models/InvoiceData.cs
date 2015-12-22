@@ -16,35 +16,20 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class ConnectUserStoreResponse : INotifyPropertyChanged 
+    public class InvoiceData : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private UserData user;
         private int? id;
+        private int? storeId;
         private string storeName;
-        private string username;
-        private string credentialsStatus;
-        private string scrapeStatus;
-        private string type;
-        private string createdAt;
-        private string updatedAt;
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("user")]
-        public UserData User 
-        { 
-            get 
-            {
-                return this.user; 
-            } 
-            set 
-            {
-                this.user = value;
-                onPropertyChanged("User");
-            }
-        }
+        private double? total;
+        private double? totalWithoutTax;
+        private double? tax;
+        private string purchaseDate;
+        private string recordedAt;
+        private string orderNumber;
+        private string receiptId;
+        private string receiptImageUrl;
 
         /// <summary>
         /// TODO: Write general description for this method
@@ -60,6 +45,23 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.id = value;
                 onPropertyChanged("Id");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("store_id")]
+        public int? StoreId 
+        { 
+            get 
+            {
+                return this.storeId; 
+            } 
+            set 
+            {
+                this.storeId = value;
+                onPropertyChanged("StoreId");
             }
         }
 
@@ -83,102 +85,136 @@ namespace InformationMachineAPI.PCL.Models
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("username")]
-        public string Username 
+        [JsonProperty("total")]
+        public double? Total 
         { 
             get 
             {
-                return this.username; 
+                return this.total; 
             } 
             set 
             {
-                this.username = value;
-                onPropertyChanged("Username");
+                this.total = value;
+                onPropertyChanged("Total");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("credentials_status")]
-        public string CredentialsStatus 
+        [JsonProperty("total_without_tax")]
+        public double? TotalWithoutTax 
         { 
             get 
             {
-                return this.credentialsStatus; 
+                return this.totalWithoutTax; 
             } 
             set 
             {
-                this.credentialsStatus = value;
-                onPropertyChanged("CredentialsStatus");
+                this.totalWithoutTax = value;
+                onPropertyChanged("TotalWithoutTax");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("scrape_status")]
-        public string ScrapeStatus 
+        [JsonProperty("tax")]
+        public double? Tax 
         { 
             get 
             {
-                return this.scrapeStatus; 
+                return this.tax; 
             } 
             set 
             {
-                this.scrapeStatus = value;
-                onPropertyChanged("ScrapeStatus");
+                this.tax = value;
+                onPropertyChanged("Tax");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("type")]
-        public string Type 
+        [JsonProperty("purchase_date")]
+        public string PurchaseDate 
         { 
             get 
             {
-                return this.type; 
+                return this.purchaseDate; 
             } 
             set 
             {
-                this.type = value;
-                onPropertyChanged("Type");
+                this.purchaseDate = value;
+                onPropertyChanged("PurchaseDate");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("created_at")]
-        public string CreatedAt 
+        [JsonProperty("recorded_at")]
+        public string RecordedAt 
         { 
             get 
             {
-                return this.createdAt; 
+                return this.recordedAt; 
             } 
             set 
             {
-                this.createdAt = value;
-                onPropertyChanged("CreatedAt");
+                this.recordedAt = value;
+                onPropertyChanged("RecordedAt");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("updated_at")]
-        public string UpdatedAt 
+        [JsonProperty("order_number")]
+        public string OrderNumber 
         { 
             get 
             {
-                return this.updatedAt; 
+                return this.orderNumber; 
             } 
             set 
             {
-                this.updatedAt = value;
-                onPropertyChanged("UpdatedAt");
+                this.orderNumber = value;
+                onPropertyChanged("OrderNumber");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("receipt_id")]
+        public string ReceiptId 
+        { 
+            get 
+            {
+                return this.receiptId; 
+            } 
+            set 
+            {
+                this.receiptId = value;
+                onPropertyChanged("ReceiptId");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("receipt_image_url")]
+        public string ReceiptImageUrl 
+        { 
+            get 
+            {
+                return this.receiptImageUrl; 
+            } 
+            set 
+            {
+                this.receiptImageUrl = value;
+                onPropertyChanged("ReceiptImageUrl");
             }
         }
 

@@ -16,17 +16,17 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class GetSingleUserWrapper : INotifyPropertyChanged 
+    public class GetUPCsByNameResponseWrapper : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private UserData result;
+        private List<NameUpcRecord> result;
         private MetaBase meta;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("result")]
-        public UserData Result 
+        public List<NameUpcRecord> Result 
         { 
             get 
             {

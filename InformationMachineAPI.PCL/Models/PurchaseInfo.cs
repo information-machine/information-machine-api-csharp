@@ -16,50 +16,50 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class GetSingleUserStoreResponse : INotifyPropertyChanged 
+    public class PurchaseInfo : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private UserData user;
-        private int? id;
+        private int? invoiceId;
+        private int? storeId;
         private string storeName;
-        private string username;
-        private string credentialsStatus;
-        private string scrapeStatus;
-        private string type;
-        private string createdAt;
-        private string updatedAt;
+        private string harvestedName;
+        private double? quantity;
+        private double? price;
+        private double? unitPrice;
+        private string purchaseDate;
+        private string recordedAt;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("user")]
-        public UserData User 
+        [JsonProperty("invoice_id")]
+        public int? InvoiceId 
         { 
             get 
             {
-                return this.user; 
+                return this.invoiceId; 
             } 
             set 
             {
-                this.user = value;
-                onPropertyChanged("User");
+                this.invoiceId = value;
+                onPropertyChanged("InvoiceId");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("id")]
-        public int? Id 
+        [JsonProperty("store_id")]
+        public int? StoreId 
         { 
             get 
             {
-                return this.id; 
+                return this.storeId; 
             } 
             set 
             {
-                this.id = value;
-                onPropertyChanged("Id");
+                this.storeId = value;
+                onPropertyChanged("StoreId");
             }
         }
 
@@ -83,102 +83,102 @@ namespace InformationMachineAPI.PCL.Models
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("username")]
-        public string Username 
+        [JsonProperty("harvested_name")]
+        public string HarvestedName 
         { 
             get 
             {
-                return this.username; 
+                return this.harvestedName; 
             } 
             set 
             {
-                this.username = value;
-                onPropertyChanged("Username");
+                this.harvestedName = value;
+                onPropertyChanged("HarvestedName");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("credentials_status")]
-        public string CredentialsStatus 
+        [JsonProperty("quantity")]
+        public double? Quantity 
         { 
             get 
             {
-                return this.credentialsStatus; 
+                return this.quantity; 
             } 
             set 
             {
-                this.credentialsStatus = value;
-                onPropertyChanged("CredentialsStatus");
+                this.quantity = value;
+                onPropertyChanged("Quantity");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("scrape_status")]
-        public string ScrapeStatus 
+        [JsonProperty("price")]
+        public double? Price 
         { 
             get 
             {
-                return this.scrapeStatus; 
+                return this.price; 
             } 
             set 
             {
-                this.scrapeStatus = value;
-                onPropertyChanged("ScrapeStatus");
+                this.price = value;
+                onPropertyChanged("Price");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("type")]
-        public string Type 
+        [JsonProperty("unit_price")]
+        public double? UnitPrice 
         { 
             get 
             {
-                return this.type; 
+                return this.unitPrice; 
             } 
             set 
             {
-                this.type = value;
-                onPropertyChanged("Type");
+                this.unitPrice = value;
+                onPropertyChanged("UnitPrice");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("created_at")]
-        public string CreatedAt 
+        [JsonProperty("purchase_date")]
+        public string PurchaseDate 
         { 
             get 
             {
-                return this.createdAt; 
+                return this.purchaseDate; 
             } 
             set 
             {
-                this.createdAt = value;
-                onPropertyChanged("CreatedAt");
+                this.purchaseDate = value;
+                onPropertyChanged("PurchaseDate");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("updated_at")]
-        public string UpdatedAt 
+        [JsonProperty("recorded_at")]
+        public string RecordedAt 
         { 
             get 
             {
-                return this.updatedAt; 
+                return this.recordedAt; 
             } 
             set 
             {
-                this.updatedAt = value;
-                onPropertyChanged("UpdatedAt");
+                this.recordedAt = value;
+                onPropertyChanged("RecordedAt");
             }
         }
 

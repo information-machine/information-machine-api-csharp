@@ -10,14 +10,16 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using unirest_net.http;
-using unirest_net.request;
 using InformationMachineAPI.PCL;
+using InformationMachineAPI.PCL.Http.Request;
+using InformationMachineAPI.PCL.Http.Response;
+using InformationMachineAPI.PCL.Http.Client;
+
 using InformationMachineAPI.PCL.Models;
 
 namespace InformationMachineAPI.PCL.Controllers
 {
-    public partial class UserScansController
+    public partial class UserScansController: BaseController
     {
         #region Singleton Pattern
 
@@ -55,54 +57,68 @@ namespace InformationMachineAPI.PCL.Controllers
                 UploadBarcodeRequest payload,
                 string userId)
         {
-            //the base uri for api requests
-            string baseUri = Configuration.BaseUri;
+            //the base uri for api requestss
+            string _baseUri = Configuration.BaseUri;
 
             //prepare query string for API call
-            StringBuilder queryBuilder = new StringBuilder(baseUri);
-            queryBuilder.Append("/v1/users/{user_id}/barcode");
+            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            _queryBuilder.Append("/v1/users/{user_id}/barcode");
 
             //process optional template parameters
-            APIHelper.AppendUrlWithTemplateParameters(queryBuilder, new Dictionary<string, object>()
-                {
-                    { "user_id", userId }
-                });
+            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "user_id", userId }
+            });
 
             //process optional query parameters
-            APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
-                {
-                    { "client_id", Configuration.ClientId },
-                    { "client_secret", Configuration.ClientSecret }
-                });
+            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "client_id", Configuration.ClientId },
+                { "client_secret", Configuration.ClientSecret }
+            });
 
             //validate and preprocess url
-            string queryUrl = APIHelper.CleanUrl(queryBuilder);
+            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
 
-            //prepare and invoke the API call request to fetch the response
-            HttpRequest request = Unirest.post(queryUrl)
-                //append request with appropriate headers and parameters
-                .header("user-agent", "IAMDATA V1")
-                .header("accept", "application/json")
-                .header("content-type", "application/json; charset=utf-8")
-                .body(APIHelper.JsonSerialize(payload));
+            //append request with appropriate headers and parameters
+            var _headers = new Dictionary<string,string>()
+            {
+                {"user-agent", "IAMDATA V1"},
+                {"accept", "application/json"},
+                {"content-type", "application/json; charset=utf-8"}
+            };
+
+            //append body params
+            var _body = APIHelper.JsonSerialize(payload);
+
+            //prepare the API call request to fetch the response
+            HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
 
             //invoke request and get response
-            HttpResponse<String> response = request.asString();
+            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
+            HttpContext _context = new HttpContext(_request,_response);
 
             //Error handling using HTTP status codes
-            if (response.Code == 400)
-                throw new APIException(@"Bad request", 400);
+            if (_response.StatusCode == 400)
+                throw new APIException(@"Bad request", _context);
 
-            else if (response.Code == 401)
-                throw new APIException(@"Unauthorized", 401);
+            else if (_response.StatusCode == 401)
+                throw new APIException(@"Unauthorized", _context);
 
-            else if (response.Code == 500)
-                throw new APIException(@"Internal Server Error", 500);
+            else if (_response.StatusCode == 500)
+                throw new APIException(@"Internal Server Error", _context);
 
-            else if ((response.Code < 200) || (response.Code > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", response.Code);
+            else if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
+                throw new APIException(@"HTTP Response Not OK", _context);
 
-            return APIHelper.JsonDeserialize<UploadBarcodeWrapper>(response.Body);
+            try
+            {
+                return APIHelper.JsonDeserialize<UploadBarcodeWrapper>(_response.Body);
+            }
+            catch (Exception ex)
+            {
+                throw new APIException("Failed to parse the response: " + ex.Message, _context);
+            }
         }
 
         /// <summary>
@@ -115,54 +131,68 @@ namespace InformationMachineAPI.PCL.Controllers
                 UploadReceiptRequest payload,
                 string userId)
         {
-            //the base uri for api requests
-            string baseUri = Configuration.BaseUri;
+            //the base uri for api requestss
+            string _baseUri = Configuration.BaseUri;
 
             //prepare query string for API call
-            StringBuilder queryBuilder = new StringBuilder(baseUri);
-            queryBuilder.Append("/v1/users/{user_id}/receipt");
+            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            _queryBuilder.Append("/v1/users/{user_id}/receipt");
 
             //process optional template parameters
-            APIHelper.AppendUrlWithTemplateParameters(queryBuilder, new Dictionary<string, object>()
-                {
-                    { "user_id", userId }
-                });
+            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "user_id", userId }
+            });
 
             //process optional query parameters
-            APIHelper.AppendUrlWithQueryParameters(queryBuilder, new Dictionary<string, object>()
-                {
-                    { "client_id", Configuration.ClientId },
-                    { "client_secret", Configuration.ClientSecret }
-                });
+            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "client_id", Configuration.ClientId },
+                { "client_secret", Configuration.ClientSecret }
+            });
 
             //validate and preprocess url
-            string queryUrl = APIHelper.CleanUrl(queryBuilder);
+            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
 
-            //prepare and invoke the API call request to fetch the response
-            HttpRequest request = Unirest.post(queryUrl)
-                //append request with appropriate headers and parameters
-                .header("user-agent", "IAMDATA V1")
-                .header("accept", "application/json")
-                .header("content-type", "application/json; charset=utf-8")
-                .body(APIHelper.JsonSerialize(payload));
+            //append request with appropriate headers and parameters
+            var _headers = new Dictionary<string,string>()
+            {
+                {"user-agent", "IAMDATA V1"},
+                {"accept", "application/json"},
+                {"content-type", "application/json; charset=utf-8"}
+            };
+
+            //append body params
+            var _body = APIHelper.JsonSerialize(payload);
+
+            //prepare the API call request to fetch the response
+            HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
 
             //invoke request and get response
-            HttpResponse<String> response = request.asString();
+            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
+            HttpContext _context = new HttpContext(_request,_response);
 
             //Error handling using HTTP status codes
-            if (response.Code == 400)
-                throw new APIException(@"Bad request", 400);
+            if (_response.StatusCode == 400)
+                throw new APIException(@"Bad request", _context);
 
-            else if (response.Code == 401)
-                throw new APIException(@"Unauthorized", 401);
+            else if (_response.StatusCode == 401)
+                throw new APIException(@"Unauthorized", _context);
 
-            else if (response.Code == 500)
-                throw new APIException(@"Internal Server Error", 500);
+            else if (_response.StatusCode == 500)
+                throw new APIException(@"Internal Server Error", _context);
 
-            else if ((response.Code < 200) || (response.Code > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", response.Code);
+            else if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
+                throw new APIException(@"HTTP Response Not OK", _context);
 
-            return APIHelper.JsonDeserialize<UploadReceiptWrapper>(response.Body);
+            try
+            {
+                return APIHelper.JsonDeserialize<UploadReceiptWrapper>(_response.Body);
+            }
+            catch (Exception ex)
+            {
+                throw new APIException("Failed to parse the response: " + ex.Message, _context);
+            }
         }
 
     }

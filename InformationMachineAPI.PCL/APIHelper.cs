@@ -6,6 +6,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -26,10 +29,7 @@ namespace InformationMachineAPI.PCL
                 return null;
                 
             return JsonConvert.SerializeObject
-                (obj, Formatting.None, new JsonSerializerSettings() {
-                    Converters = new List<JsonConverter> {
-                        new Newtonsoft.Json.Converters.StringEnumConverter()
-                }});
+                (obj, Formatting.None);
         }
 
         /// <summary>
@@ -229,33 +229,93 @@ namespace InformationMachineAPI.PCL
         }
 
         /// <summary>
-        /// Prepares Array style form fields from a given array of values
+        /// Prepares the object as form fields using the provided name.
         /// </summary>
-        /// <param name="name">Name of the form field</param>
-        /// <param name="values">Values for the array form field</param>
-        /// <returns>Dictionary of form fields created from array elements</returns>
-        internal static Dictionary<string, object> PrepareFormFieldsFromArray(string name, ICollection values)
+        /// <param name="name">root name for the variable</param>
+        /// <param name="value">form field value</param>
+        /// <param name="keys">Contains a flattend and form friendly values</param>
+        /// <returns>Contains a flattend and form friendly values</returns>
+        public static Dictionary<string, object> PrepareFormFieldsFromObject(String name, Object value,
+            Dictionary<String, Object> keys = null)
         {
-            Dictionary<string, object> formFields = new Dictionary<string, object>();
+            keys = keys ?? new Dictionary<string, object>();
 
-            //counter for array index
-            int index = 0;
-
-            //iterate over all elements and create form array fields
-            foreach (object element in values)
+            if (value == null)
             {
-                string elemValue = null;
-
-                //replace null values with empty string to maintain index order
-                if (null == element)
-                    elemValue = string.Empty;
-                else
-                    elemValue = element.ToString();
-                    
-                formFields.Add(string.Format("{0}[{1}]", name, index++), elemValue);
+                return keys;
             }
+            if (value is Stream)
+            {
+                keys[name] = value;
+                return keys;
+            }
+            if (value is IList)
+            {
+                int i = 0;
+                var enumerator = ((IEnumerable)value).GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    var subValue = enumerator.Current;
+                    if(subValue == null) continue;
+                    var fullSubName = name + '[' + i + ']';
+                    PrepareFormFieldsFromObject(fullSubName, subValue, keys);
+                    i++;
+                }
+            }
+			else if (value is Enum)
+            {
+                var isStringEnum = value.GetType().GetCustomAttributes(false).FirstOrDefault(a => a is JsonConverterAttribute)!=null;
+                if (isStringEnum) value = JsonConvert.SerializeObject(value).Trim('"');
+                else value = (int)value;
+                keys[name] = value;
 
-            return formFields;
+            }
+            else if (value is IDictionary)
+            {
+                var obj = (IDictionary) value;
+                foreach (var sName in obj.Keys)
+                {
+                    var subName = sName.ToString();
+                    var subValue = obj[subName];
+                    string fullSubName = string.IsNullOrWhiteSpace(name) ? subName : name + '[' + subName + ']';
+                    PrepareFormFieldsFromObject(fullSubName, subValue, keys);
+                }
+            }
+            else if (!(value.GetType().Namespace.StartsWith("System")))
+            {
+                //Custom object Iterate through its properties
+                var enumerator = value.GetType().GetProperties().GetEnumerator();
+                PropertyInfo pInfo = null;
+                var t = new JsonPropertyAttribute().GetType();
+                while (enumerator.MoveNext())
+                {
+                    pInfo = enumerator.Current as PropertyInfo;
+
+                    var jsonProperty = (JsonPropertyAttribute) pInfo.GetCustomAttributes(t, true).FirstOrDefault();
+                    var subName = (jsonProperty != null) ? jsonProperty.PropertyName : pInfo.Name;
+                    string fullSubName = string.IsNullOrWhiteSpace(name) ? subName : name + '[' + subName + ']';
+                    var subValue = pInfo.GetValue(value,null);
+                    PrepareFormFieldsFromObject(fullSubName, subValue, keys);
+                }
+            }
+            else
+            {
+                keys[name] = value;
+            }
+            return keys;
+        }
+
+		/// <summary>
+        /// Add/update entries with the new dictionary.
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <param name="dictionary2"></param>
+        public static void Add(this Dictionary<String,Object> dictionary, Dictionary<String,object> dictionary2 )
+        {
+            foreach (var kvp in dictionary2)
+            {
+                dictionary[kvp.Key] = kvp.Value;
+            }
         }
     }
 }

@@ -16,43 +16,43 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class GetSingleUserWrapper : INotifyPropertyChanged 
+    public class PurchaseData : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private UserData result;
-        private MetaBase meta;
+        private List<PurchasedItem> purchasedItems;
+        private List<InvoiceData> invoices;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("result")]
-        public UserData Result 
+        [JsonProperty("purchased_items")]
+        public List<PurchasedItem> PurchasedItems 
         { 
             get 
             {
-                return this.result; 
+                return this.purchasedItems; 
             } 
             set 
             {
-                this.result = value;
-                onPropertyChanged("Result");
+                this.purchasedItems = value;
+                onPropertyChanged("PurchasedItems");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("meta")]
-        public MetaBase Meta 
+        [JsonProperty("invoices")]
+        public List<InvoiceData> Invoices 
         { 
             get 
             {
-                return this.meta; 
+                return this.invoices; 
             } 
             set 
             {
-                this.meta = value;
-                onPropertyChanged("Meta");
+                this.invoices = value;
+                onPropertyChanged("Invoices");
             }
         }
 

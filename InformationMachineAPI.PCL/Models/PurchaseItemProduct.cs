@@ -23,6 +23,7 @@ namespace InformationMachineAPI.PCL.Models
         private string name;
         private string upc;
         private int? categoryId;
+        private List<string> plus;
 
         /// <summary>
         /// TODO: Write general description for this method
@@ -89,6 +90,23 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.categoryId = value;
                 onPropertyChanged("CategoryId");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("plus")]
+        public List<string> Plus 
+        { 
+            get 
+            {
+                return this.plus; 
+            } 
+            set 
+            {
+                this.plus = value;
+                onPropertyChanged("Plus");
             }
         }
 
