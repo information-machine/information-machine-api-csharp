@@ -10,10 +10,11 @@ namespace InformationMachineAPI.PCL.Http.Response
         /// HTTP Status code of the http response
         /// </summary>
         public int StatusCode { get; set; }
+
         /// <summary>
         /// Headers of the http response
         /// </summary>
-        public Dictionary<String,String> Headers { get; set; }
+        public Dictionary<string,string> Headers { get; set; }
 
         /// <summary>
         /// Stream of the body

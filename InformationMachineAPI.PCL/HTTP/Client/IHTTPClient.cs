@@ -41,32 +41,35 @@ namespace InformationMachineAPI.PCL.Http.Client
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <returns>HttpRequest initialised with the url specified</returns>
-        HttpRequest Get(String queryUrl);
+        HttpRequest Get(string queryUrl);
+
         /// <summary>
         /// Create a simple HTTP POST request given the URL
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <returns> HttpRequest initialised with the url specified</returns>
-        HttpRequest Post(String queryUrl);
+        HttpRequest Post(string queryUrl);
+
         /// <summary>
         /// Create a simple HTTP PUT request given the URL
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <returns> HttpRequest initialised with the url specified</returns>
-        HttpRequest Put(String queryUrl);
+        HttpRequest Put(string queryUrl);
+
         /// <summary>
         /// Create a simple HTTP DELETE request given the URL
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <returns> HttpRequest initialised with the url specified</returns>
-        HttpRequest Delete(String queryUrl);
+        HttpRequest Delete(string queryUrl);
 
         /// <summary>
         /// Create a simple HTTP PATCH request given the URL
         /// </summary>
         /// <param name="queryUrl">Url the request should be sent to</param>
         /// <returns> HttpRequest initialised with the url specified</returns>
-        HttpRequest Patch(String queryUrl);
+        HttpRequest Patch(string queryUrl);
 
         /// <summary>
         /// Create a simple HTTP GET request given relavent parameters
@@ -76,7 +79,7 @@ namespace InformationMachineAPI.PCL.Http.Client
         /// <param name="username">Basic Auth username</param>
         /// <param name="password">Basic Auth password</param>
         /// <returns> HttpRequest initialised with the http parameters specified</returns>
-        HttpRequest Get(String queryUrl, Dictionary<String, String> headers, String username = null, String password = null);
+        HttpRequest Get(string queryUrl, Dictionary<string, string> headers, string username = null, string password = null);
 
         /// <summary>
         ///  Create a simple HTTP POST request given relavent parameters
@@ -87,8 +90,8 @@ namespace InformationMachineAPI.PCL.Http.Client
         /// <param name="username">Basic Auth username</param>
         /// <param name="password">Basic Auth password</param>
         /// <returns> HttpRequest initialised with the http parameters specified</returns>
-        HttpRequest Post(String queryUrl, Dictionary<String, String> headers, Dictionary<String, Object> formParameters,
-           String username = null, String password = null);
+        HttpRequest Post(string queryUrl, Dictionary<string, string> headers, Dictionary<string, Object> formParameters,
+           string username = null, string password = null);
 
         /// <summary>
         /// Create a simple HTTP POST with a body request given relavent parameters
@@ -99,8 +102,8 @@ namespace InformationMachineAPI.PCL.Http.Client
         /// <param name="username">Basic Auth username</param>
         /// <param name="password">Basic Auth password</param>
         /// <returns> HttpRequest initialised with the http parameters specified</returns>
-        HttpRequest PostBody(String queryUrl, Dictionary<String, String> headers, String body,
-          String username = null, String password = null);
+        HttpRequest PostBody(string queryUrl, Dictionary<string, string> headers, string body,
+            string username = null, string password = null);
 
         /// <summary>
         ///  Create a simple HTTP PUT request given relavent parameters
@@ -111,8 +114,8 @@ namespace InformationMachineAPI.PCL.Http.Client
         /// <param name="username">Basic Auth username</param>
         /// <param name="password">Basic Auth password</param>
         /// <returns> HttpRequest initialised with the http parameters specified</returns>
-        HttpRequest Put(String queryUrl, Dictionary<String, String> headers, Dictionary<String, Object> formParameters,
-          String username = null, String password = null);
+        HttpRequest Put(string queryUrl, Dictionary<string, string> headers, Dictionary<string, Object> formParameters,
+            string username = null, string password = null);
 
         /// <summary>
         /// Create a simple HTTP PUT with a body request given relavent parameters
@@ -123,8 +126,8 @@ namespace InformationMachineAPI.PCL.Http.Client
         /// <param name="username">Basic Auth username</param>
         /// <param name="password">Basic Auth password</param>
         /// <returns> HttpRequest initialised with the http parameters specified</returns>
-        HttpRequest PutBody(String queryUrl, Dictionary<String, String> headers, String body,
-         String username = null, String password = null);
+        HttpRequest PutBody(string queryUrl, Dictionary<string, string> headers, string body,
+            string username = null, string password = null);
 
         /// <summary>
         ///  Create a simple HTTP PATCH request given relavent parameters
@@ -135,8 +138,8 @@ namespace InformationMachineAPI.PCL.Http.Client
         /// <param name="username">Basic Auth username</param>
         /// <param name="password">Basic Auth password</param>
         /// <returns> HttpRequest initialised with the http parameters specified</returns>
-        HttpRequest Patch(String queryUrl, Dictionary<String, String> headers, Dictionary<String, Object> formParameters,
-         String username = null, String password = null);
+        HttpRequest Patch(string queryUrl, Dictionary<string, string> headers, Dictionary<string, Object> formParameters,
+            string username = null, string password = null);
 
         /// <summary>
         /// Create a simple HTTP Patch with a body request given relavent parameters
@@ -147,8 +150,8 @@ namespace InformationMachineAPI.PCL.Http.Client
         /// <param name="username">Basic Auth username</param>
         /// <param name="password">Basic Auth password</param>
         /// <returns> HttpRequest initialised with the http parameters specified</returns>
-        HttpRequest PatchBody(String queryUrl, Dictionary<String, String> headers, String body,
-         String username = null, String password = null);
+        HttpRequest PatchBody(string queryUrl, Dictionary<string, string> headers, string body,
+            string username = null, string password = null);
 
         /// <summary>
         ///  Create a simple HTTP DELETE request given relavent parameters
@@ -159,8 +162,8 @@ namespace InformationMachineAPI.PCL.Http.Client
         /// <param name="username">Basic Auth username</param>
         /// <param name="password">Basic Auth password</param>
         /// <returns> HttpRequest initialised with the http parameters specified</returns>
-        HttpRequest Delete(String queryUrl, Dictionary<String, String> headers, Dictionary<String, Object> formParameters,
-          String username = null, String password = null);
+        HttpRequest Delete(string queryUrl, Dictionary<string, string> headers, Dictionary<string, Object> formParameters,
+            string username = null, string password = null);
 
         /// <summary>
         /// Create a simple HTTP Delete with a body request given relavent parameters
@@ -171,8 +174,8 @@ namespace InformationMachineAPI.PCL.Http.Client
         /// <param name="username">Basic Auth username</param>
         /// <param name="password">Basic Auth password</param>
         /// <returns> HttpRequest initialised with the http parameters specified</returns>
-        HttpRequest DeleteBody(String queryUrl, Dictionary<String, String> headers, String body,
-          String username = null, String password = null);
+        HttpRequest DeleteBody(string queryUrl, Dictionary<string, string> headers, string body,
+            string username = null, string password = null);
     }
 }
 

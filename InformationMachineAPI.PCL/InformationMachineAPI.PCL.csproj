@@ -128,20 +128,20 @@
     <Compile Include="Models\ProductTimestamps.cs" />
     <Compile Include="Models\ProductIdentifiers.cs" />
     <Compile Include="Models\InvoiceData.cs" />
-    <Compile Include="Models\GetSingleUserPurchaseWrapper.cs" />
+    <Compile Include="Models\GetAllUserPurchasesWrapper.cs" />
     <Compile Include="Models\UserPurchase.cs" />
     <Compile Include="Models\UserStore.cs" />
     <Compile Include="Models\PurchaseItemData.cs" />
-    <Compile Include="Models\PurchaseItemProduct.cs" />
-    <Compile Include="Models\GetAllUserPurchasesWrapper.cs" />
     <Compile Include="Models\GetAllUserLoyaltyPurchasesWrapper.cs" />
     <Compile Include="Models\UserLoyaltyPurchase.cs" />
     <Compile Include="Models\LoyaltyPurchaseItemData.cs" />
+    <Compile Include="Models\GetSingleUserPurchaseWrapper.cs" />
+    <Compile Include="Models\UploadReceiptRequest.cs" />
+    <Compile Include="Models\UploadReceiptWrapper.cs" />
+    <Compile Include="Models\UploadReceiptStatusWrapper.cs" />
     <Compile Include="Models\UploadBarcodeRequest.cs" />
     <Compile Include="Models\UploadBarcodeWrapper.cs" />
     <Compile Include="Models\UploadBarcodeResponse.cs" />
-    <Compile Include="Models\UploadReceiptRequest.cs" />
-    <Compile Include="Models\UploadReceiptWrapper.cs" />
     <Compile Include="Models\ConnectUserStoreRequest.cs" />
     <Compile Include="Models\ConnectStoreWrapper.cs" />
     <Compile Include="Models\GetAllStoresWrapper.cs" />
@@ -157,21 +157,23 @@
     <Compile Include="Controllers\UserPurchasesController.cs" />
     <Compile Include="Controllers\UserScansController.cs" />
     <Compile Include="Controllers\UserStoresController.cs" />
-    <Compile Include="HTTP\Client\IHTTPClient.cs" />
-    <Compile Include="HTTP\Client\UnirestClient.cs" />
-    <Compile Include="HTTP\Client\HttpContext.cs" />
-    <Compile Include="HTTP\Request\HttpRequest.cs" />
-    <Compile Include="HTTP\Request\HttpMethod.cs" />
-    <Compile Include="HTTP\Response\HttpResponse.cs" />
-    <Compile Include="HTTP\Response\HttpStringResponse.cs" />
-    <Compile Include="HTTP\Client\FileStreamInfo.cs" />
+    <Compile Include="Http\Client\IHTTPClient.cs" />
+    <Compile Include="Http\Client\UnirestClient.cs" />
+    <Compile Include="Http\Client\HttpContext.cs" />
+    <Compile Include="Http\Request\HttpRequest.cs" />
+    <Compile Include="Http\Request\HttpMethod.cs" />
+    <Compile Include="Http\Response\HttpResponse.cs" />
+    <Compile Include="Http\Response\HttpStringResponse.cs" />
+    <Compile Include="Http\Client\FileStreamInfo.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="APIHelper.cs" />
     <Compile Include="APIException.cs" />
     <Compile Include="InformationMachineAPIClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('$(SolutionDir)\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

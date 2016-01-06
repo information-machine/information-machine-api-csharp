@@ -38,7 +38,7 @@ namespace IM.API.ClientTest
 
                 ProductsControllerTest(client.Products);
 
-                TestUserPurchase(client, clientId, clientSecret, superMarketId, username, password);
+                TestUserPurchase(client, superMarketId, username, password);
 
                 Console.WriteLine("All tests passed");
             }
@@ -48,7 +48,7 @@ namespace IM.API.ClientTest
             }
         }
 
-        private static void TestUserPurchase(InformationMachineAPIClient client, string clientId, string clientSecret, int superMarketId, string username, string password)
+        private static void TestUserPurchase(InformationMachineAPIClient client, int superMarketId, string username, string password)
         {
             string email = "testuser@iamdata.co";
             string userId = "testuserId1234";
@@ -134,7 +134,7 @@ namespace IM.API.ClientTest
                 throw new APITestException("Error: upload barcode");
             }
 
-            storesController.UserStoresDeleteSingleStore(userId, 16317);
+            storesController.UserStoresDeleteSingleStore(userId, userStore.Id.Value);
 
             usersController.UserManagementDeleteUser(userId);
         }

@@ -1,6 +1,6 @@
 namespace InformationMachineAPI.PCL.Http.Request
 {
-     public enum HttpMethod
+    public enum HttpMethod
     {
         Get,
         Post,

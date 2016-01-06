@@ -24,7 +24,7 @@ namespace InformationMachineAPI.PCL.Models
         private string upc;
         private string upcResolvedAt;
         private string createdAt;
-        private PurchaseItemProduct product;
+        private ProductData product;
 
         /// <summary>
         /// TODO: Write general description for this method
@@ -115,7 +115,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("product")]
-        public PurchaseItemProduct Product 
+        public ProductData Product 
         { 
             get 
             {

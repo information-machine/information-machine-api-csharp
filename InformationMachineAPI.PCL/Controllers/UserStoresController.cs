@@ -87,8 +87,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                {"user-agent", "IAMDATA V1"},
-                {"accept", "application/json"}
+                { "user-agent", "IAMDATA V1" },
+                { "accept", "application/json" }
             };
 
             //prepare the API call request to fetch the response
@@ -105,8 +105,8 @@ namespace InformationMachineAPI.PCL.Controllers
             else if (_response.StatusCode == 404)
                 throw new APIException(@"Not Found", _context);
 
-            else if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", _context);
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
 
             try
             {
@@ -154,9 +154,9 @@ namespace InformationMachineAPI.PCL.Controllers
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                {"user-agent", "IAMDATA V1"},
-                {"accept", "application/json"},
-                {"content-type", "application/json; charset=utf-8"}
+                { "user-agent", "IAMDATA V1" },
+                { "accept", "application/json" },
+                { "content-type", "application/json; charset=utf-8" }
             };
 
             //append body params
@@ -182,8 +182,8 @@ namespace InformationMachineAPI.PCL.Controllers
             else if (_response.StatusCode == 500)
                 throw new APIException(@"Internal Server Error", _context);
 
-            else if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", _context);
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
 
             try
             {
@@ -231,9 +231,9 @@ namespace InformationMachineAPI.PCL.Controllers
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                {"user-agent", "IAMDATA V1"},
-                {"accept", "application/json"},
-                {"content-type", "application/json; charset=utf-8"}
+                { "user-agent", "IAMDATA V1" },
+                { "accept", "application/json" },
+                { "content-type", "application/json; charset=utf-8" }
             };
 
             //append body params
@@ -259,8 +259,8 @@ namespace InformationMachineAPI.PCL.Controllers
             else if (_response.StatusCode == 500)
                 throw new APIException(@"Internal Server Error", _context);
 
-            else if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", _context);
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
 
             try
             {
@@ -309,8 +309,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                {"user-agent", "IAMDATA V1"},
-                {"accept", "application/json"}
+                { "user-agent", "IAMDATA V1" },
+                { "accept", "application/json" }
             };
 
             //prepare the API call request to fetch the response
@@ -327,8 +327,8 @@ namespace InformationMachineAPI.PCL.Controllers
             else if (_response.StatusCode == 404)
                 throw new APIException(@"Not Found", _context);
 
-            else if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", _context);
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
 
             try
             {
@@ -379,9 +379,9 @@ namespace InformationMachineAPI.PCL.Controllers
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                {"user-agent", "IAMDATA V1"},
-                {"accept", "application/json"},
-                {"content-type", "application/json; charset=utf-8"}
+                { "user-agent", "IAMDATA V1" },
+                { "accept", "application/json" },
+                { "content-type", "application/json; charset=utf-8" }
             };
 
             //append body params
@@ -404,8 +404,8 @@ namespace InformationMachineAPI.PCL.Controllers
             else if (_response.StatusCode == 500)
                 throw new APIException(@"Internal Server Error", _context);
 
-            else if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", _context);
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
 
             try
             {
@@ -454,8 +454,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                {"user-agent", "IAMDATA V1"},
-                {"accept", "application/json"}
+                { "user-agent", "IAMDATA V1" },
+                { "accept", "application/json" }
             };
 
             //prepare the API call request to fetch the response
@@ -472,8 +472,8 @@ namespace InformationMachineAPI.PCL.Controllers
             else if (_response.StatusCode == 500)
                 throw new APIException(@"Internal Server Error", _context);
 
-            else if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", _context);
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
 
             try
             {

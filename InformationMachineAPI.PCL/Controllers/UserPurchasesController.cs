@@ -72,7 +72,7 @@ namespace InformationMachineAPI.PCL.Controllers
 
             //prepare query string for API call
             StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/users/{user_id}/purchase_history");
+            _queryBuilder.Append("/v1/users/{user_id}/purchases_product_based");
 
             //process optional template parameters
             APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
@@ -99,8 +99,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                {"user-agent", "IAMDATA V1"},
-                {"accept", "application/json"}
+                { "user-agent", "IAMDATA V1" },
+                { "accept", "application/json" }
             };
 
             //prepare the API call request to fetch the response
@@ -117,8 +117,8 @@ namespace InformationMachineAPI.PCL.Controllers
             else if (_response.StatusCode == 401)
                 throw new APIException(@"Unauthorized", _context);
 
-            else if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", _context);
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
 
             try
             {
@@ -131,78 +131,7 @@ namespace InformationMachineAPI.PCL.Controllers
         }
 
         /// <summary>
-        /// Get details about an identified purchase (specify "purchase_id") made my a specific user (specify "user_id").
-        /// </summary>
-        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
-        /// <param name="purchaseId">Required parameter: TODO: type parameter description here</param>
-        /// <param name="fullResp">Optional parameter: default:false (set true for response with purchase item details)</param>
-        /// <return>Returns the GetSingleUserPurchaseWrapper response from the API call</return>
-        public GetSingleUserPurchaseWrapper UserPurchasesGetSingleUserPurchase(
-                string userId,
-                string purchaseId,
-                bool? fullResp = null)
-        {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/users/{user_id}/purchases/{purchase_id}");
-
-            //process optional template parameters
-            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
-            {
-                { "user_id", userId },
-                { "purchase_id", purchaseId }
-            });
-
-            //process optional query parameters
-            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
-            {
-                { "full_resp", fullResp },
-                { "client_id", Configuration.ClientId },
-                { "client_secret", Configuration.ClientSecret }
-            });
-
-            //validate and preprocess url
-            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
-
-            //append request with appropriate headers and parameters
-            var _headers = new Dictionary<string,string>()
-            {
-                {"user-agent", "IAMDATA V1"},
-                {"accept", "application/json"}
-            };
-
-            //prepare the API call request to fetch the response
-            HttpRequest _request = ClientInstance.Get(_queryUrl,_headers);
-
-            //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
-            HttpContext _context = new HttpContext(_request,_response);
-
-            //Error handling using HTTP status codes
-            if (_response.StatusCode == 404)
-                throw new APIException(@"Not Found", _context);
-
-            else if (_response.StatusCode == 401)
-                throw new APIException(@"Unauthorized", _context);
-
-            else if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", _context);
-
-            try
-            {
-                return APIHelper.JsonDeserialize<GetSingleUserPurchaseWrapper>(_response.Body);
-            }
-            catch (Exception ex)
-            {
-                throw new APIException("Failed to parse the response: " + ex.Message, _context);
-            }
-        }
-
-        /// <summary>
-        /// This endpoint is obsolete. Consider using "users/{user_id}/purchase_history/".   Get history of purchases made by a specified user from connected stores, must specify "user_id".
+        /// Get history of purchases made by a specified user from connected stores, must specify "user_id".
         /// </summary>
         /// <param name="userId">Required parameter: TODO: type parameter description here</param>
         /// <param name="storeId">Optional parameter: Check Lookup/Stores section for ID of all stores. E.g., Amazon = 4, Walmart = 3.</param>
@@ -246,7 +175,7 @@ namespace InformationMachineAPI.PCL.Controllers
 
             //prepare query string for API call
             StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/users/{user_id}/purchases");
+            _queryBuilder.Append("/v1/users/{user_id}/purchases_invoice_based");
 
             //process optional template parameters
             APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
@@ -283,8 +212,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                {"user-agent", "IAMDATA V1"},
-                {"accept", "application/json"}
+                { "user-agent", "IAMDATA V1" },
+                { "accept", "application/json" }
             };
 
             //prepare the API call request to fetch the response
@@ -301,8 +230,8 @@ namespace InformationMachineAPI.PCL.Controllers
             else if (_response.StatusCode == 401)
                 throw new APIException(@"Unauthorized", _context);
 
-            else if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", _context);
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
 
             try
             {
@@ -369,8 +298,8 @@ namespace InformationMachineAPI.PCL.Controllers
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                {"user-agent", "IAMDATA V1"},
-                {"accept", "application/json"}
+                { "user-agent", "IAMDATA V1" },
+                { "accept", "application/json" }
             };
 
             //prepare the API call request to fetch the response
@@ -387,12 +316,83 @@ namespace InformationMachineAPI.PCL.Controllers
             else if (_response.StatusCode == 401)
                 throw new APIException(@"Unauthorized", _context);
 
-            else if ((_response.StatusCode < 200) || (_response.StatusCode > 206)) //[200,206] = HTTP OK
-                throw new APIException(@"HTTP Response Not OK", _context);
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
 
             try
             {
                 return APIHelper.JsonDeserialize<GetAllUserLoyaltyPurchasesWrapper>(_response.Body);
+            }
+            catch (Exception ex)
+            {
+                throw new APIException("Failed to parse the response: " + ex.Message, _context);
+            }
+        }
+
+        /// <summary>
+        /// Get details about an identified purchase (specify "purchase_id") made my a specific user (specify "user_id").
+        /// </summary>
+        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
+        /// <param name="purchaseId">Required parameter: TODO: type parameter description here</param>
+        /// <param name="fullResp">Optional parameter: default:false (set true for response with purchase item details)</param>
+        /// <return>Returns the GetSingleUserPurchaseWrapper response from the API call</return>
+        public GetSingleUserPurchaseWrapper UserPurchasesGetSingleUserPurchase(
+                string userId,
+                string purchaseId,
+                bool? fullResp = null)
+        {
+            //the base uri for api requestss
+            string _baseUri = Configuration.BaseUri;
+
+            //prepare query string for API call
+            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            _queryBuilder.Append("/v1/users/{user_id}/purchases/{purchase_id}");
+
+            //process optional template parameters
+            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "user_id", userId },
+                { "purchase_id", purchaseId }
+            });
+
+            //process optional query parameters
+            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "full_resp", fullResp },
+                { "client_id", Configuration.ClientId },
+                { "client_secret", Configuration.ClientSecret }
+            });
+
+            //validate and preprocess url
+            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
+
+            //append request with appropriate headers and parameters
+            var _headers = new Dictionary<string,string>()
+            {
+                { "user-agent", "IAMDATA V1" },
+                { "accept", "application/json" }
+            };
+
+            //prepare the API call request to fetch the response
+            HttpRequest _request = ClientInstance.Get(_queryUrl,_headers);
+
+            //invoke request and get response
+            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
+            HttpContext _context = new HttpContext(_request,_response);
+
+            //Error handling using HTTP status codes
+            if (_response.StatusCode == 404)
+                throw new APIException(@"Not Found", _context);
+
+            else if (_response.StatusCode == 401)
+                throw new APIException(@"Unauthorized", _context);
+
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
+
+            try
+            {
+                return APIHelper.JsonDeserialize<GetSingleUserPurchaseWrapper>(_response.Body);
             }
             catch (Exception ex)
             {

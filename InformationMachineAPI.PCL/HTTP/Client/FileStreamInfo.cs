@@ -8,10 +8,22 @@ namespace InformationMachineAPI.PCL.Http.Client
     /// </summary>
     public class FileStreamInfo
     {
+        /// <summary>
+        /// The stream object with read access to the file data
+        /// </summary>
         public Stream FileStream { get; set; }
-        public String FileName { get; set; }
 
-        public FileStreamInfo(Stream stream, String fileName = null)
+        /// <summary>
+        /// Name of the file associated with the stream
+        /// </summary>
+        public string FileName { get; set; }
+
+        /// <summary>
+        /// Constructor to initialize the object with optional file name
+        /// </summary>
+        /// <param name="stream">The stream object with read access to the file data</param>
+        /// <param name="fileName">Optional file name associated with the stream</param>
+        public FileStreamInfo(Stream stream, string fileName = null)
         {
             FileStream = stream;
             FileName = fileName;
