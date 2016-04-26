@@ -147,7 +147,7 @@ namespace IM.API.ClientTest
                 var connectedStore = storesController.UserStoresGetSingleStore(userIdentifier, storeId);
 
                 if (connectedStore != null &&
-                    (connectedStore.Result.ScrapeStatus == "Done" || connectedStore.Result.ScrapeStatus == "Done With Warning"))
+                    (connectedStore.Result.ScrapeStatus == "Done" || connectedStore.Result.ScrapeStatus == "DoneWithWarning"))
                 {
                     return true;
                 }
@@ -166,7 +166,7 @@ namespace IM.API.ClientTest
                 var connectedStore = storesController.UserStoresGetSingleStore(userIdentifier, storeId);
 
                 if (connectedStore != null &&
-                    (connectedStore.Result.ScrapeStatus == "Done" || connectedStore.Result.ScrapeStatus == "Done With Warning" || connectedStore.Result.ScrapeStatus == "Scraping"))
+                    (connectedStore.Result.ScrapeStatus == "Done" || connectedStore.Result.ScrapeStatus == "DoneWithWarning" || connectedStore.Result.ScrapeStatus == "Scraping"))
                 {
                     if (connectedStore.Result.CredentialsStatus == "Verified")
                     {
