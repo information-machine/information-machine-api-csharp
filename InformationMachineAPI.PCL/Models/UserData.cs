@@ -19,45 +19,11 @@ namespace InformationMachineAPI.PCL.Models
     public class UserData : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private string email;
-        private string zip;
         private string userId;
         private string ownerAppId;
-        private string createdAt;
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("email")]
-        public string Email 
-        { 
-            get 
-            {
-                return this.email; 
-            } 
-            set 
-            {
-                this.email = value;
-                onPropertyChanged("Email");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("zip")]
-        public string Zip 
-        { 
-            get 
-            {
-                return this.zip; 
-            } 
-            set 
-            {
-                this.zip = value;
-                onPropertyChanged("Zip");
-            }
-        }
+        private string email;
+        private string zip;
+        private DateTime? createdAt;
 
         /// <summary>
         /// TODO: Write general description for this method
@@ -96,8 +62,42 @@ namespace InformationMachineAPI.PCL.Models
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
+        [JsonProperty("email")]
+        public string Email 
+        { 
+            get 
+            {
+                return this.email; 
+            } 
+            set 
+            {
+                this.email = value;
+                onPropertyChanged("Email");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("zip")]
+        public string Zip 
+        { 
+            get 
+            {
+                return this.zip; 
+            } 
+            set 
+            {
+                this.zip = value;
+                onPropertyChanged("Zip");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
         [JsonProperty("created_at")]
-        public string CreatedAt 
+        public DateTime? CreatedAt 
         { 
             get 
             {

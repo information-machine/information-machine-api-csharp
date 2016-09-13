@@ -19,10 +19,27 @@ namespace InformationMachineAPI.PCL.Models
     public class NutrientData : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
+        private int id;
         private double? dvp;
         private double? mvalue;
         private string name;
-        private int? id;
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("id")]
+        public int Id 
+        { 
+            get 
+            {
+                return this.id; 
+            } 
+            set 
+            {
+                this.id = value;
+                onPropertyChanged("Id");
+            }
+        }
 
         /// <summary>
         /// TODO: Write general description for this method
@@ -72,23 +89,6 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.name = value;
                 onPropertyChanged("Name");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("id")]
-        public int? Id 
-        { 
-            get 
-            {
-                return this.id; 
-            } 
-            set 
-            {
-                this.id = value;
-                onPropertyChanged("Id");
             }
         }
 

@@ -19,9 +19,26 @@ namespace InformationMachineAPI.PCL.Models
     public class RegisterUserRequest : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
+        private string userId;
         private string email;
         private string zip;
-        private string userId;
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("user_id")]
+        public string UserId 
+        { 
+            get 
+            {
+                return this.userId; 
+            } 
+            set 
+            {
+                this.userId = value;
+                onPropertyChanged("UserId");
+            }
+        }
 
         /// <summary>
         /// TODO: Write general description for this method
@@ -54,23 +71,6 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.zip = value;
                 onPropertyChanged("Zip");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("user_id")]
-        public string UserId 
-        { 
-            get 
-            {
-                return this.userId; 
-            } 
-            set 
-            {
-                this.userId = value;
-                onPropertyChanged("UserId");
             }
         }
 

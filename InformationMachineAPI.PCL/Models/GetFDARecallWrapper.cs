@@ -16,79 +16,43 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class NameUpcRecord : INotifyPropertyChanged 
+    public class GetFDARecallWrapper : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private string name;
-        private string store;
-        private string resolveStatus;
-        private List<string> upcs;
+        private List<FdaRecallData> result;
+        private MetaBase meta;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("name")]
-        public string Name 
+        [JsonProperty("result")]
+        public List<FdaRecallData> Result 
         { 
             get 
             {
-                return this.name; 
+                return this.result; 
             } 
             set 
             {
-                this.name = value;
-                onPropertyChanged("Name");
+                this.result = value;
+                onPropertyChanged("Result");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("store")]
-        public string Store 
+        [JsonProperty("meta")]
+        public MetaBase Meta 
         { 
             get 
             {
-                return this.store; 
+                return this.meta; 
             } 
             set 
             {
-                this.store = value;
-                onPropertyChanged("Store");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("resolve_status")]
-        public string ResolveStatus 
-        { 
-            get 
-            {
-                return this.resolveStatus; 
-            } 
-            set 
-            {
-                this.resolveStatus = value;
-                onPropertyChanged("ResolveStatus");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("upcs")]
-        public List<string> Upcs 
-        { 
-            get 
-            {
-                return this.upcs; 
-            } 
-            set 
-            {
-                this.upcs = value;
-                onPropertyChanged("Upcs");
+                this.meta = value;
+                onPropertyChanged("Meta");
             }
         }
 

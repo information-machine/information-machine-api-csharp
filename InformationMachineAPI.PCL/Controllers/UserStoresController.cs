@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ using InformationMachineAPI.PCL;
 using InformationMachineAPI.PCL.Http.Request;
 using InformationMachineAPI.PCL.Http.Response;
 using InformationMachineAPI.PCL.Http.Client;
-
+using InformationMachineAPI.PCL.Exceptions;
 using InformationMachineAPI.PCL.Models;
 
 namespace InformationMachineAPI.PCL.Controllers
@@ -48,16 +49,454 @@ namespace InformationMachineAPI.PCL.Controllers
         #endregion Singleton Pattern
 
         /// <summary>
-        /// Get all store connections for a specified user, must identify user by "user_id". Note: Within response focus on the following  properties: "scrape_status" and "credentials_status". Possible values for "scrape_status": "Not defined""Pending" - (scraping request is in queue and waiting to be processed)"Scraping" - (scraping is in progress)"Done" - (scraping is finished)"Done With Warning" - (not all purchases were scraped)Possible values for "credentials_status":"Not defined""Verified" - (scraping bots are able to log in to store site)"Invalid" - (supplied user name or password are not valid)"Unknown" - (user name or password are not know)"Checking" - (credentials verification is in progress)To get the value of credentials_status first check if scrape_status is one of the following: "Scraping", "Done", "Done With Warning"Sometimes the account can be locked because a security question, image captcha or sms verification code is needed in order to proceed with scraping.You can check whether the account is locked if property account_locked is set to true. To unlock the store connection visit the url the can be found in unlock_url property.For more information on this please visit the <a href="https://www.iamdata.co/docs?section=user-stores-section#userstoreunlock">docs</a> page.
+        /// Delete user store connection
         /// </summary>
-        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
-        /// <param name="page">Optional parameter: TODO: type parameter description here</param>
-        /// <param name="perPage">Optional parameter: TODO: type parameter description here</param>
+        /// <param name="userId">Required parameter: Example: </param>
+        /// <param name="id">Required parameter: Example: </param>
+        /// <return>Returns the DeleteSingleStoreWrapper response from the API call</return>
+        public DeleteSingleStoreWrapper UserStoresDeleteSingleStore(string userId, long id)
+        {
+            Task<DeleteSingleStoreWrapper> t = UserStoresDeleteSingleStoreAsync(userId, id);
+            Task.WaitAll(t);
+            return t.Result;
+        }
+
+        /// <summary>
+        /// Delete user store connection
+        /// </summary>
+        /// <param name="userId">Required parameter: Example: </param>
+        /// <param name="id">Required parameter: Example: </param>
+        /// <return>Returns the DeleteSingleStoreWrapper response from the API call</return>
+        public async Task<DeleteSingleStoreWrapper> UserStoresDeleteSingleStoreAsync(string userId, long id)
+        {
+            //the base uri for api requestss
+            string _baseUri = Configuration.BaseUri;
+
+            //prepare query string for API call
+            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            _queryBuilder.Append("/v1/users/{user_id}/stores/{id}");
+
+            //process optional template parameters
+            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "user_id", userId },
+                { "id", id }
+            });
+
+            //process optional query parameters
+            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "client_id", Configuration.ClientId },
+                { "client_secret", Configuration.ClientSecret }
+            });
+
+
+            //validate and preprocess url
+            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
+
+            //append request with appropriate headers and parameters
+            var _headers = new Dictionary<string,string>()
+            {
+                { "user-agent", "" },
+                { "accept", "application/json" }
+            };
+
+            //prepare the API call request to fetch the response
+            HttpRequest _request = ClientInstance.Delete(_queryUrl, _headers, null);
+
+            //invoke request and get response
+            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
+            HttpContext _context = new HttpContext(_request,_response);
+
+            //Error handling using HTTP status codes
+            if (_response.StatusCode == 401)
+                throw new APIException(@"Unauthorized", _context);
+
+            else if (_response.StatusCode == 500)
+                throw new APIException(@"Internal Server Error", _context);
+
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
+
+            try
+            {
+                return APIHelper.JsonDeserialize<DeleteSingleStoreWrapper>(_response.Body);
+            }
+            catch (Exception _ex)
+            {
+                throw new APIException("Failed to parse the response: " + _ex.Message, _context);
+            }
+        }
+
+        /// <summary>
+        /// Update a user's store connection credentials
+        /// </summary>
+        /// <param name="payload">Required parameter: Example: </param>
+        /// <param name="userId">Required parameter: Example: </param>
+        /// <param name="id">Required parameter: Example: </param>
+        /// <return>Returns the UpdateStoreConnectionWrapper response from the API call</return>
+        public UpdateStoreConnectionWrapper UserStoresUpdateStoreConnection(UpdateUserStoreRequest payload, string userId, long id)
+        {
+            Task<UpdateStoreConnectionWrapper> t = UserStoresUpdateStoreConnectionAsync(payload, userId, id);
+            Task.WaitAll(t);
+            return t.Result;
+        }
+
+        /// <summary>
+        /// Update a user's store connection credentials
+        /// </summary>
+        /// <param name="payload">Required parameter: Example: </param>
+        /// <param name="userId">Required parameter: Example: </param>
+        /// <param name="id">Required parameter: Example: </param>
+        /// <return>Returns the UpdateStoreConnectionWrapper response from the API call</return>
+        public async Task<UpdateStoreConnectionWrapper> UserStoresUpdateStoreConnectionAsync(UpdateUserStoreRequest payload, string userId, long id)
+        {
+            //the base uri for api requestss
+            string _baseUri = Configuration.BaseUri;
+
+            //prepare query string for API call
+            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            _queryBuilder.Append("/v1/users/{user_id}/stores/{id}");
+
+            //process optional template parameters
+            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "user_id", userId },
+                { "id", id }
+            });
+
+            //process optional query parameters
+            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "client_id", Configuration.ClientId },
+                { "client_secret", Configuration.ClientSecret }
+            });
+
+
+            //validate and preprocess url
+            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
+
+            //append request with appropriate headers and parameters
+            var _headers = new Dictionary<string,string>()
+            {
+                { "user-agent", "" },
+                { "accept", "application/json" },
+                { "content-type", "application/json; charset=utf-8" }
+            };
+
+            //append body params
+            var _body = APIHelper.JsonSerialize(payload);
+
+            //prepare the API call request to fetch the response
+            HttpRequest _request = ClientInstance.PutBody(_queryUrl, _headers, _body);
+
+            //invoke request and get response
+            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
+            HttpContext _context = new HttpContext(_request,_response);
+
+            //Error handling using HTTP status codes
+            if (_response.StatusCode == 401)
+                throw new APIException(@"Unauthorized", _context);
+
+            else if (_response.StatusCode == 404)
+                throw new APIException(@"Not Found", _context);
+
+            else if (_response.StatusCode == 500)
+                throw new APIException(@"Internal Server Error", _context);
+
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
+
+            try
+            {
+                return APIHelper.JsonDeserialize<UpdateStoreConnectionWrapper>(_response.Body);
+            }
+            catch (Exception _ex)
+            {
+                throw new APIException("Failed to parse the response: " + _ex.Message, _context);
+            }
+        }
+
+        /// <summary>
+        /// Get user store connection information
+        /// </summary>
+        /// <param name="userId">Required parameter: Example: </param>
+        /// <param name="id">Required parameter: Example: </param>
+        /// <return>Returns the GetSingleStoresWrapper response from the API call</return>
+        public GetSingleStoresWrapper UserStoresGetSingleStore(string userId, long id)
+        {
+            Task<GetSingleStoresWrapper> t = UserStoresGetSingleStoreAsync(userId, id);
+            Task.WaitAll(t);
+            return t.Result;
+        }
+
+        /// <summary>
+        /// Get user store connection information
+        /// </summary>
+        /// <param name="userId">Required parameter: Example: </param>
+        /// <param name="id">Required parameter: Example: </param>
+        /// <return>Returns the GetSingleStoresWrapper response from the API call</return>
+        public async Task<GetSingleStoresWrapper> UserStoresGetSingleStoreAsync(string userId, long id)
+        {
+            //the base uri for api requestss
+            string _baseUri = Configuration.BaseUri;
+
+            //prepare query string for API call
+            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            _queryBuilder.Append("/v1/users/{user_id}/stores/{id}");
+
+            //process optional template parameters
+            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "user_id", userId },
+                { "id", id }
+            });
+
+            //process optional query parameters
+            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "client_id", Configuration.ClientId },
+                { "client_secret", Configuration.ClientSecret }
+            });
+
+
+            //validate and preprocess url
+            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
+
+            //append request with appropriate headers and parameters
+            var _headers = new Dictionary<string,string>()
+            {
+                { "user-agent", "" },
+                { "accept", "application/json" }
+            };
+
+            //prepare the API call request to fetch the response
+            HttpRequest _request = ClientInstance.Get(_queryUrl,_headers);
+
+            //invoke request and get response
+            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
+            HttpContext _context = new HttpContext(_request,_response);
+
+            //Error handling using HTTP status codes
+            if (_response.StatusCode == 401)
+                throw new APIException(@"Unauthorized", _context);
+
+            else if (_response.StatusCode == 404)
+                throw new APIException(@"Not Found", _context);
+
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
+
+            try
+            {
+                return APIHelper.JsonDeserialize<GetSingleStoresWrapper>(_response.Body);
+            }
+            catch (Exception _ex)
+            {
+                throw new APIException("Failed to parse the response: " + _ex.Message, _context);
+            }
+        }
+
+        /// <summary>
+        /// Connect store for specified user
+        /// </summary>
+        /// <param name="payload">Required parameter: Example: </param>
+        /// <param name="userId">Required parameter: Example: </param>
+        /// <return>Returns the ConnectStoreWrapper response from the API call</return>
+        public ConnectStoreWrapper UserStoresConnectOAuthStore(ConnectOAuthUserStoreRequest payload, string userId)
+        {
+            Task<ConnectStoreWrapper> t = UserStoresConnectOAuthStoreAsync(payload, userId);
+            Task.WaitAll(t);
+            return t.Result;
+        }
+
+        /// <summary>
+        /// Connect store for specified user
+        /// </summary>
+        /// <param name="payload">Required parameter: Example: </param>
+        /// <param name="userId">Required parameter: Example: </param>
+        /// <return>Returns the ConnectStoreWrapper response from the API call</return>
+        public async Task<ConnectStoreWrapper> UserStoresConnectOAuthStoreAsync(ConnectOAuthUserStoreRequest payload, string userId)
+        {
+            //the base uri for api requestss
+            string _baseUri = Configuration.BaseUri;
+
+            //prepare query string for API call
+            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            _queryBuilder.Append("/v1/users/{user_id}/stores/oauth");
+
+            //process optional template parameters
+            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "user_id", userId }
+            });
+
+            //process optional query parameters
+            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "client_id", Configuration.ClientId },
+                { "client_secret", Configuration.ClientSecret }
+            });
+
+
+            //validate and preprocess url
+            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
+
+            //append request with appropriate headers and parameters
+            var _headers = new Dictionary<string,string>()
+            {
+                { "user-agent", "" },
+                { "accept", "application/json" },
+                { "content-type", "application/json; charset=utf-8" }
+            };
+
+            //append body params
+            var _body = APIHelper.JsonSerialize(payload);
+
+            //prepare the API call request to fetch the response
+            HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
+
+            //invoke request and get response
+            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
+            HttpContext _context = new HttpContext(_request,_response);
+
+            //Error handling using HTTP status codes
+            if (_response.StatusCode == 400)
+                throw new APIException(@"Bad request", _context);
+
+            else if (_response.StatusCode == 401)
+                throw new APIException(@"Unauthorized", _context);
+
+            else if (_response.StatusCode == 404)
+                throw new APIException(@"Not Found", _context);
+
+            else if (_response.StatusCode == 500)
+                throw new APIException(@"Internal Server Error", _context);
+
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
+
+            try
+            {
+                return APIHelper.JsonDeserialize<ConnectStoreWrapper>(_response.Body);
+            }
+            catch (Exception _ex)
+            {
+                throw new APIException("Failed to parse the response: " + _ex.Message, _context);
+            }
+        }
+
+        /// <summary>
+        /// Connect store for specified user
+        /// </summary>
+        /// <param name="payload">Required parameter: Example: </param>
+        /// <param name="userId">Required parameter: Example: </param>
+        /// <return>Returns the ConnectStoreWrapper response from the API call</return>
+        public ConnectStoreWrapper UserStoresConnectStore(ConnectUserStoreRequest payload, string userId)
+        {
+            Task<ConnectStoreWrapper> t = UserStoresConnectStoreAsync(payload, userId);
+            Task.WaitAll(t);
+            return t.Result;
+        }
+
+        /// <summary>
+        /// Connect store for specified user
+        /// </summary>
+        /// <param name="payload">Required parameter: Example: </param>
+        /// <param name="userId">Required parameter: Example: </param>
+        /// <return>Returns the ConnectStoreWrapper response from the API call</return>
+        public async Task<ConnectStoreWrapper> UserStoresConnectStoreAsync(ConnectUserStoreRequest payload, string userId)
+        {
+            //the base uri for api requestss
+            string _baseUri = Configuration.BaseUri;
+
+            //prepare query string for API call
+            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
+            _queryBuilder.Append("/v1/users/{user_id}/stores");
+
+            //process optional template parameters
+            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "user_id", userId }
+            });
+
+            //process optional query parameters
+            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
+            {
+                { "client_id", Configuration.ClientId },
+                { "client_secret", Configuration.ClientSecret }
+            });
+
+
+            //validate and preprocess url
+            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
+
+            //append request with appropriate headers and parameters
+            var _headers = new Dictionary<string,string>()
+            {
+                { "user-agent", "" },
+                { "accept", "application/json" },
+                { "content-type", "application/json; charset=utf-8" }
+            };
+
+            //append body params
+            var _body = APIHelper.JsonSerialize(payload);
+
+            //prepare the API call request to fetch the response
+            HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
+
+            //invoke request and get response
+            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
+            HttpContext _context = new HttpContext(_request,_response);
+
+            //Error handling using HTTP status codes
+            if (_response.StatusCode == 400)
+                throw new APIException(@"Bad request", _context);
+
+            else if (_response.StatusCode == 401)
+                throw new APIException(@"Unauthorized", _context);
+
+            else if (_response.StatusCode == 404)
+                throw new APIException(@"Not Found", _context);
+
+            else if (_response.StatusCode == 500)
+                throw new APIException(@"Internal Server Error", _context);
+
+            //handle errors defined at the API level
+            base.ValidateResponse(_response, _context);
+
+            try
+            {
+                return APIHelper.JsonDeserialize<ConnectStoreWrapper>(_response.Body);
+            }
+            catch (Exception _ex)
+            {
+                throw new APIException("Failed to parse the response: " + _ex.Message, _context);
+            }
+        }
+
+        /// <summary>
+        /// Get all store connections associated with a user
+        /// </summary>
+        /// <param name="userId">Required parameter: Example: </param>
+        /// <param name="page">Optional parameter: Example: </param>
+        /// <param name="perPage">Optional parameter: Example: </param>
         /// <return>Returns the GetAllStoresWrapper response from the API call</return>
-        public GetAllStoresWrapper UserStoresGetAllStores(
-                string userId,
-                int? page = null,
-                int? perPage = null)
+        public GetAllStoresWrapper UserStoresGetAllUserStores(string userId, int? page = null, int? perPage = null)
+        {
+            Task<GetAllStoresWrapper> t = UserStoresGetAllUserStoresAsync(userId, page, perPage);
+            Task.WaitAll(t);
+            return t.Result;
+        }
+
+        /// <summary>
+        /// Get all store connections associated with a user
+        /// </summary>
+        /// <param name="userId">Required parameter: Example: </param>
+        /// <param name="page">Optional parameter: Example: </param>
+        /// <param name="perPage">Optional parameter: Example: </param>
+        /// <return>Returns the GetAllStoresWrapper response from the API call</return>
+        public async Task<GetAllStoresWrapper> UserStoresGetAllUserStoresAsync(string userId, int? page = null, int? perPage = null)
         {
             //the base uri for api requestss
             string _baseUri = Configuration.BaseUri;
@@ -81,13 +520,14 @@ namespace InformationMachineAPI.PCL.Controllers
                 { "client_secret", Configuration.ClientSecret }
             });
 
+
             //validate and preprocess url
             string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
 
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                { "user-agent", "IAMDATA V1" },
+                { "user-agent", "" },
                 { "accept", "application/json" }
             };
 
@@ -95,7 +535,7 @@ namespace InformationMachineAPI.PCL.Controllers
             HttpRequest _request = ClientInstance.Get(_queryUrl,_headers);
 
             //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
+            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
             HttpContext _context = new HttpContext(_request,_response);
 
             //Error handling using HTTP status codes
@@ -112,41 +552,73 @@ namespace InformationMachineAPI.PCL.Controllers
             {
                 return APIHelper.JsonDeserialize<GetAllStoresWrapper>(_response.Body);
             }
-            catch (Exception ex)
+            catch (Exception _ex)
             {
-                throw new APIException("Failed to parse the response: " + ex.Message, _context);
+                throw new APIException("Failed to parse the response: " + _ex.Message, _context);
             }
         }
 
         /// <summary>
-        /// Connect a user's store by specifying the user ID ("user_id"), store ID ("store_id") and user's credentials for specified store ("username" and "password"). You can find store IDs in Lookup/Stores section above or in this <a href="http://api.iamdata.co/docs/storeids" target="blank">LINK</a>. Note: Within response you should focus on the following properties: "scrape_status" and "credentials_status". Possible values for "scrape_status": "Not defined""Pending" - (scraping request is in queue and waiting to be processed)"Scraping" - (scraping is in progress, credentials are set)"Done" - (scraping is finished)"Done With Warning" - (not all purchases were scraped)Possible values for "credentials_status":"Not defined""Verified" - (scraping bots are able to log in to store site)"Invalid" - (supplied user name or password are not valid)"Unknown" - (user name or password are not know)"Checking" - (credentials verification is in progress)To get the value of credentials_status first check if scrape_status is one of the following: "Scraping", "Done", "DoneWithWarning"
+        /// Get all store connections associated with a API owner account
         /// </summary>
-        /// <param name="payload">Required parameter: TODO: type parameter description here</param>
-        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
-        /// <return>Returns the ConnectStoreWrapper response from the API call</return>
-        public ConnectStoreWrapper UserStoresConnectStore(
-                ConnectUserStoreRequest payload,
-                string userId)
+        /// <param name="page">Optional parameter: default:1</param>
+        /// <param name="perPage">Optional parameter: default:1000</param>
+        /// <param name="accountLocked">Optional parameter: Filter out locked store connections.</param>
+        /// <param name="accountLockedDateAfter">Optional parameter: Filter out store connections locked after specified date. Expected format: yyyy-MM-dd HH:mm:ss<br />[e.g., 2016-06-14 16:29:23]</param>
+        /// <param name="connectionLost">Optional parameter: Filter out store connections that lost credentials status "Verified".</param>
+        /// <param name="connectionLostDateAfter">Optional parameter: Filter out store connections that lost credentials status "Verified" after specified date. Expected format: yyyy-MM-dd HH:mm:ss<br />[e.g., 2016-06-14 16:29:23]</param>
+        /// <return>Returns the GetAllStoresWrapper response from the API call</return>
+        public GetAllStoresWrapper UserStoresGetAllAPIAccountStores(
+                int? page = null,
+                int? perPage = null,
+                bool? accountLocked = null,
+                DateTime? accountLockedDateAfter = null,
+                bool? connectionLost = null,
+                DateTime? connectionLostDateAfter = null)
+        {
+            Task<GetAllStoresWrapper> t = UserStoresGetAllAPIAccountStoresAsync(page, perPage, accountLocked, accountLockedDateAfter, connectionLost, connectionLostDateAfter);
+            Task.WaitAll(t);
+            return t.Result;
+        }
+
+        /// <summary>
+        /// Get all store connections associated with a API owner account
+        /// </summary>
+        /// <param name="page">Optional parameter: default:1</param>
+        /// <param name="perPage">Optional parameter: default:1000</param>
+        /// <param name="accountLocked">Optional parameter: Filter out locked store connections.</param>
+        /// <param name="accountLockedDateAfter">Optional parameter: Filter out store connections locked after specified date. Expected format: yyyy-MM-dd HH:mm:ss<br />[e.g., 2016-06-14 16:29:23]</param>
+        /// <param name="connectionLost">Optional parameter: Filter out store connections that lost credentials status "Verified".</param>
+        /// <param name="connectionLostDateAfter">Optional parameter: Filter out store connections that lost credentials status "Verified" after specified date. Expected format: yyyy-MM-dd HH:mm:ss<br />[e.g., 2016-06-14 16:29:23]</param>
+        /// <return>Returns the GetAllStoresWrapper response from the API call</return>
+        public async Task<GetAllStoresWrapper> UserStoresGetAllAPIAccountStoresAsync(
+                int? page = null,
+                int? perPage = null,
+                bool? accountLocked = null,
+                DateTime? accountLockedDateAfter = null,
+                bool? connectionLost = null,
+                DateTime? connectionLostDateAfter = null)
         {
             //the base uri for api requestss
             string _baseUri = Configuration.BaseUri;
 
             //prepare query string for API call
             StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/users/{user_id}/stores");
-
-            //process optional template parameters
-            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
-            {
-                { "user_id", userId }
-            });
+            _queryBuilder.Append("/v1/store_connections");
 
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
             {
+                { "page", page },
+                { "per_page", perPage },
+                { "account_locked", accountLocked },
+                { "account_locked_date_after", accountLockedDateAfter },
+                { "connection_lost", connectionLost },
+                { "connection_lost_date_after", connectionLostDateAfter },
                 { "client_id", Configuration.ClientId },
                 { "client_secret", Configuration.ClientSecret }
             });
+
 
             //validate and preprocess url
             string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
@@ -154,162 +626,7 @@ namespace InformationMachineAPI.PCL.Controllers
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                { "user-agent", "IAMDATA V1" },
-                { "accept", "application/json" },
-                { "content-type", "application/json; charset=utf-8" }
-            };
-
-            //append body params
-            var _body = APIHelper.JsonSerialize(payload);
-
-            //prepare the API call request to fetch the response
-            HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
-
-            //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
-            HttpContext _context = new HttpContext(_request,_response);
-
-            //Error handling using HTTP status codes
-            if (_response.StatusCode == 400)
-                throw new APIException(@"Bad request", _context);
-
-            else if (_response.StatusCode == 401)
-                throw new APIException(@"Unauthorized", _context);
-
-            else if (_response.StatusCode == 404)
-                throw new APIException(@"Not Found", _context);
-
-            else if (_response.StatusCode == 500)
-                throw new APIException(@"Internal Server Error", _context);
-
-            //handle errors defined at the API level
-            base.ValidateResponse(_response, _context);
-
-            try
-            {
-                return APIHelper.JsonDeserialize<ConnectStoreWrapper>(_response.Body);
-            }
-            catch (Exception ex)
-            {
-                throw new APIException("Failed to parse the response: " + ex.Message, _context);
-            }
-        }
-
-        /// <summary>
-        /// Connect a user's store by specifying the user ID ("user_id"), store ID ("store_id") and OAuth2 provider (such as GMailAPI) You can find store IDs in Lookup/Stores section above or in this <a href="http://api.iamdata.co/docs/storeids" target="blank">LINK</a>. Note: Within response you should focus on the following properties: "scrape_status", "credentials_status" and OAuth providers where you will find a url link for authorization. Possible values for "scrape_status": "Not defined""Pending" - (scraping request is in queue and waiting to be processed)"Scraping" - (scraping is in progress)"Done" - (scraping is finished)"Done With Warning" - (not all purchases were scraped)Possible values for "credentials_status":"Not defined""Verified" - (scraping bots are able to log in to store site)"Invalid" - (supplied user name or password are not valid)"Unknown" - (user name or password are not know)"Checking" - (credentials verification is in progress)To get the value of credentials_status first check if scrape_status is one of the following: "Scraping", "Done", "DoneWithWarning"
-        /// </summary>
-        /// <param name="payload">Required parameter: TODO: type parameter description here</param>
-        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
-        /// <return>Returns the ConnectStoreWrapper response from the API call</return>
-        public ConnectStoreWrapper UserStoresConnectOAuthStore(
-                ConnectOAuthUserStoreRequest payload,
-                string userId)
-        {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/users/{user_id}/stores/oauth");
-
-            //process optional template parameters
-            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
-            {
-                { "user_id", userId }
-            });
-
-            //process optional query parameters
-            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
-            {
-                { "client_id", Configuration.ClientId },
-                { "client_secret", Configuration.ClientSecret }
-            });
-
-            //validate and preprocess url
-            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
-
-            //append request with appropriate headers and parameters
-            var _headers = new Dictionary<string,string>()
-            {
-                { "user-agent", "IAMDATA V1" },
-                { "accept", "application/json" },
-                { "content-type", "application/json; charset=utf-8" }
-            };
-
-            //append body params
-            var _body = APIHelper.JsonSerialize(payload);
-
-            //prepare the API call request to fetch the response
-            HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
-
-            //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
-            HttpContext _context = new HttpContext(_request,_response);
-
-            //Error handling using HTTP status codes
-            if (_response.StatusCode == 400)
-                throw new APIException(@"Bad request", _context);
-
-            else if (_response.StatusCode == 401)
-                throw new APIException(@"Unauthorized", _context);
-
-            else if (_response.StatusCode == 404)
-                throw new APIException(@"Not Found", _context);
-
-            else if (_response.StatusCode == 500)
-                throw new APIException(@"Internal Server Error", _context);
-
-            //handle errors defined at the API level
-            base.ValidateResponse(_response, _context);
-
-            try
-            {
-                return APIHelper.JsonDeserialize<ConnectStoreWrapper>(_response.Body);
-            }
-            catch (Exception ex)
-            {
-                throw new APIException("Failed to parse the response: " + ex.Message, _context);
-            }
-        }
-
-        /// <summary>
-        /// Get single store connection by specifying user ("user_id") and store connection ID ("id" - generated upon successful store connection). Note: Within response focus on the following properties: "scrape_status" and "credentials_status". Possible values for "scrape_status": "Not defined""Pending" - (scraping request is in queue and waiting to be processed)"Scraping" - (scraping is in progress)"Done" - (scraping is finished)"Done With Warning" - (not all purchases were scraped)Possible values for "credentials_status":"Not defined""Verified" - (scraping bots are able to log in to store site)"Invalid" - (supplied user name or password are not valid)"Unknown" - (user name or password are not know)"Checking" - (credentials verification is in progress)To get the value of credentials_status first check if scrape_status is one of the following: "Scraping", "Done", "Done With Warning"Sometimes the account can be locked because a security question, image captcha or sms verification code is needed in order to proceed with scraping.You can check whether the account is locked if property account_locked is set to true. To unlock the store connection visit the url the can be found in unlock_url property.For more information on this please visit the <a href="https://www.iamdata.co/docs?section=user-stores-section#userstoreunlock">docs</a> page.
-        /// </summary>
-        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
-        /// <param name="id">Required parameter: TODO: type parameter description here</param>
-        /// <return>Returns the GetSingleStoresWrapper response from the API call</return>
-        public GetSingleStoresWrapper UserStoresGetSingleStore(
-                string userId,
-                int id)
-        {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/users/{user_id}/stores/{id}");
-
-            //process optional template parameters
-            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
-            {
-                { "user_id", userId },
-                { "id", id }
-            });
-
-            //process optional query parameters
-            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
-            {
-                { "client_id", Configuration.ClientId },
-                { "client_secret", Configuration.ClientSecret }
-            });
-
-            //validate and preprocess url
-            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
-
-            //append request with appropriate headers and parameters
-            var _headers = new Dictionary<string,string>()
-            {
-                { "user-agent", "IAMDATA V1" },
+                { "user-agent", "" },
                 { "accept", "application/json" }
             };
 
@@ -317,7 +634,7 @@ namespace InformationMachineAPI.PCL.Controllers
             HttpRequest _request = ClientInstance.Get(_queryUrl,_headers);
 
             //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
+            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
             HttpContext _context = new HttpContext(_request,_response);
 
             //Error handling using HTTP status codes
@@ -332,156 +649,11 @@ namespace InformationMachineAPI.PCL.Controllers
 
             try
             {
-                return APIHelper.JsonDeserialize<GetSingleStoresWrapper>(_response.Body);
+                return APIHelper.JsonDeserialize<GetAllStoresWrapper>(_response.Body);
             }
-            catch (Exception ex)
+            catch (Exception _ex)
             {
-                throw new APIException("Failed to parse the response: " + ex.Message, _context);
-            }
-        }
-
-        /// <summary>
-        /// Update username and/or password of existing store connection, for a specified user ID ("user_id") and user store ID ("user_store_id"  - generated on store connect).
-        /// </summary>
-        /// <param name="payload">Required parameter: TODO: type parameter description here</param>
-        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
-        /// <param name="id">Required parameter: TODO: type parameter description here</param>
-        /// <return>Returns the UpdateStoreConnectionWrapper response from the API call</return>
-        public UpdateStoreConnectionWrapper UserStoresUpdateStoreConnection(
-                UpdateUserStoreRequest payload,
-                string userId,
-                int id)
-        {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/users/{user_id}/stores/{id}");
-
-            //process optional template parameters
-            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
-            {
-                { "user_id", userId },
-                { "id", id }
-            });
-
-            //process optional query parameters
-            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
-            {
-                { "client_id", Configuration.ClientId },
-                { "client_secret", Configuration.ClientSecret }
-            });
-
-            //validate and preprocess url
-            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
-
-            //append request with appropriate headers and parameters
-            var _headers = new Dictionary<string,string>()
-            {
-                { "user-agent", "IAMDATA V1" },
-                { "accept", "application/json" },
-                { "content-type", "application/json; charset=utf-8" }
-            };
-
-            //append body params
-            var _body = APIHelper.JsonSerialize(payload);
-
-            //prepare the API call request to fetch the response
-            HttpRequest _request = ClientInstance.PutBody(_queryUrl, _headers, _body);
-
-            //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
-            HttpContext _context = new HttpContext(_request,_response);
-
-            //Error handling using HTTP status codes
-            if (_response.StatusCode == 401)
-                throw new APIException(@"Unauthorized", _context);
-
-            else if (_response.StatusCode == 404)
-                throw new APIException(@"Not Found", _context);
-
-            else if (_response.StatusCode == 500)
-                throw new APIException(@"Internal Server Error", _context);
-
-            //handle errors defined at the API level
-            base.ValidateResponse(_response, _context);
-
-            try
-            {
-                return APIHelper.JsonDeserialize<UpdateStoreConnectionWrapper>(_response.Body);
-            }
-            catch (Exception ex)
-            {
-                throw new APIException("Failed to parse the response: " + ex.Message, _context);
-            }
-        }
-
-        /// <summary>
-        /// Delete store connection for a specified user ("user_id") and specified store ("user_store_id"  - generated on store connect).
-        /// </summary>
-        /// <param name="userId">Required parameter: TODO: type parameter description here</param>
-        /// <param name="id">Required parameter: TODO: type parameter description here</param>
-        /// <return>Returns the DeleteSingleStoreWrapper response from the API call</return>
-        public DeleteSingleStoreWrapper UserStoresDeleteSingleStore(
-                string userId,
-                int id)
-        {
-            //the base uri for api requestss
-            string _baseUri = Configuration.BaseUri;
-
-            //prepare query string for API call
-            StringBuilder _queryBuilder = new StringBuilder(_baseUri);
-            _queryBuilder.Append("/v1/users/{user_id}/stores/{id}");
-
-            //process optional template parameters
-            APIHelper.AppendUrlWithTemplateParameters(_queryBuilder, new Dictionary<string, object>()
-            {
-                { "user_id", userId },
-                { "id", id }
-            });
-
-            //process optional query parameters
-            APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
-            {
-                { "client_id", Configuration.ClientId },
-                { "client_secret", Configuration.ClientSecret }
-            });
-
-            //validate and preprocess url
-            string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
-
-            //append request with appropriate headers and parameters
-            var _headers = new Dictionary<string,string>()
-            {
-                { "user-agent", "IAMDATA V1" },
-                { "accept", "application/json" }
-            };
-
-            //prepare the API call request to fetch the response
-            HttpRequest _request = ClientInstance.Delete(_queryUrl, _headers, null);
-
-            //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
-            HttpContext _context = new HttpContext(_request,_response);
-
-            //Error handling using HTTP status codes
-            if (_response.StatusCode == 401)
-                throw new APIException(@"Unauthorized", _context);
-
-            else if (_response.StatusCode == 500)
-                throw new APIException(@"Internal Server Error", _context);
-
-            //handle errors defined at the API level
-            base.ValidateResponse(_response, _context);
-
-            try
-            {
-                return APIHelper.JsonDeserialize<DeleteSingleStoreWrapper>(_response.Body);
-            }
-            catch (Exception ex)
-            {
-                throw new APIException("Failed to parse the response: " + ex.Message, _context);
+                throw new APIException("Failed to parse the response: " + _ex.Message, _context);
             }
         }
 

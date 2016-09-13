@@ -19,17 +19,17 @@ namespace InformationMachineAPI.PCL.Models
     public class CartItem : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private string cartItemId;
+        private Guid cartItemId;
         private string upc;
-        private int? quantity;
-        private string createdAt;
-        private string updatedAt;
+        private int quantity;
+        private DateTime createdAt;
+        private DateTime updatedAt;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("cart_item_id")]
-        public string CartItemId 
+        public Guid CartItemId 
         { 
             get 
             {
@@ -63,7 +63,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("quantity")]
-        public int? Quantity 
+        public int Quantity 
         { 
             get 
             {
@@ -80,7 +80,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("created_at")]
-        public string CreatedAt 
+        public DateTime CreatedAt 
         { 
             get 
             {
@@ -97,7 +97,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("updated_at")]
-        public string UpdatedAt 
+        public DateTime UpdatedAt 
         { 
             get 
             {

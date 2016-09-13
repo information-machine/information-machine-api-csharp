@@ -19,23 +19,24 @@ namespace InformationMachineAPI.PCL.Models
     public class InvoiceData : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private int? id;
-        private int? storeId;
+        private long id;
+        private long storeId;
         private string storeName;
         private double? total;
         private double? totalWithoutTax;
         private double? tax;
-        private string purchaseDate;
-        private string recordedAt;
+        private DateTime? purchaseDate;
+        private DateTime? recordedAt;
         private string orderNumber;
         private string receiptId;
         private string receiptImageUrl;
+        private List<string> receiptImageUrls;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("id")]
-        public int? Id 
+        public long Id 
         { 
             get 
             {
@@ -52,7 +53,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("store_id")]
-        public int? StoreId 
+        public long StoreId 
         { 
             get 
             {
@@ -137,7 +138,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("purchase_date")]
-        public string PurchaseDate 
+        public DateTime? PurchaseDate 
         { 
             get 
             {
@@ -154,7 +155,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("recorded_at")]
-        public string RecordedAt 
+        public DateTime? RecordedAt 
         { 
             get 
             {
@@ -215,6 +216,23 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.receiptImageUrl = value;
                 onPropertyChanged("ReceiptImageUrl");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("receipt_image_urls")]
+        public List<string> ReceiptImageUrls 
+        { 
+            get 
+            {
+                return this.receiptImageUrls; 
+            } 
+            set 
+            {
+                this.receiptImageUrls = value;
+                onPropertyChanged("ReceiptImageUrls");
             }
         }
 

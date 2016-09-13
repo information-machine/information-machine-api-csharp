@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
  - InformationMachineAPI.PCL
  -
@@ -10,7 +10,7 @@
     <AssemblyName>InformationMachineAPI.PCL</AssemblyName>
     <OutputType>Library</OutputType>
     <OutputPath>bin/DEBUG/</OutputPath>
-    <ProjectGuid>{F9F70CD0-956C-4921-B60C-3BB70574D6AC}</ProjectGuid>
+    <ProjectGuid>{f2666e2a-163f-4cfc-b0b5-dfe7f17e95c7}</ProjectGuid>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <NuGetPackageImportStamp>ee2bb91c</NuGetPackageImportStamp>
@@ -18,9 +18,9 @@
   <PropertyGroup>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>  
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile92</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -48,7 +48,7 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\portable-net40+sl4+win8+wp71+wpa81\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.IO">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+win8+wp8+wpa81\System.IO.dll</HintPath>
@@ -69,54 +69,11 @@
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+win8+wp8+wpa81\System.Threading.Tasks.dll</HintPath>
     </Reference>
     <Reference Include="unirest-net">
-      <HintPath>..\packages\Unirest-APIMATIC.1.0.0.2\lib\unirest-net.dll</HintPath>
+      <HintPath>..\packages\Unirest-APIMATIC.1.0.1.26\lib\portable-net40+sl5+wp80+win8+wpa81\unirest-net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\GetProductAlternativeTypesWrapper.cs" />
-    <Compile Include="Models\ProductAlternativeTypeInfo.cs" />
-    <Compile Include="Models\MetaBase.cs" />
-    <Compile Include="Models\GetUOMsWrapper.cs" />
-    <Compile Include="Models\UOMInfo.cs" />
-    <Compile Include="Models\GetCategoriesWrapper.cs" />
-    <Compile Include="Models\CategoryInfo.cs" />
-    <Compile Include="Models\GetNutrientsWrapper.cs" />
-    <Compile Include="Models\NutrientInfo.cs" />
-    <Compile Include="Models\GetStoresWrapper.cs" />
-    <Compile Include="Models\StoreInfo.cs" />
-    <Compile Include="Models\GetTagsWrapper.cs" />
-    <Compile Include="Models\TagInfo.cs" />
-    <Compile Include="Models\GetProductsWrapper.cs" />
-    <Compile Include="Models\ProductData.cs" />
-    <Compile Include="Models\NutrientData.cs" />
-    <Compile Include="Models\MetaPaged.cs" />
-    <Compile Include="Models\GetProductWrapper.cs" />
-    <Compile Include="Models\GetProductPurchasesWrapper.cs" />
-    <Compile Include="Models\PurchasedProduct.cs" />
-    <Compile Include="Models\GetProductPricesWrapper.cs" />
-    <Compile Include="Models\PriceData.cs" />
-    <Compile Include="Models\PriceInfo.cs" />
-    <Compile Include="Models\GetProductsAlternativesWrapper.cs" />
-    <Compile Include="Models\ProductAlternativesRecord.cs" />
-    <Compile Include="Models\GetUserProducts.cs" />
-    <Compile Include="Models\NameResolveRequest.cs" />
-    <Compile Include="Models\GetUPCsByNameRequestWrapper.cs" />
-    <Compile Include="Models\GetUPCsByNameResponseWrapper.cs" />
-    <Compile Include="Models\NameUpcRecord.cs" />
-    <Compile Include="Models\AddCartRequest.cs" />
-    <Compile Include="Models\AddCartWrapper.cs" />
-    <Compile Include="Models\Cart.cs" />
-    <Compile Include="Models\CartItem.cs" />
-    <Compile Include="Models\GetCartsWrapper.cs" />
-    <Compile Include="Models\DeleteCartWrapper.cs" />
-    <Compile Include="Models\GetCartWrapper.cs" />
-    <Compile Include="Models\AddCartItemRequest.cs" />
-    <Compile Include="Models\AddCartItemWrapper.cs" />
-    <Compile Include="Models\DeleteCartItemWrapper.cs" />
-    <Compile Include="Models\ExecuteCartWrapper.cs" />
-    <Compile Include="Models\ExecuteCart.cs" />
-    <Compile Include="Models\RegisterUserRequest.cs" />
-    <Compile Include="Models\CreateUserWrapper.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Models\GetAllUsersWrapper.cs" />
     <Compile Include="Models\DeleteUserWrapper.cs" />
@@ -128,14 +85,10 @@
     <Compile Include="Models\ProductTimestamps.cs" />
     <Compile Include="Models\ProductIdentifiers.cs" />
     <Compile Include="Models\InvoiceData.cs" />
-    <Compile Include="Models\GetAllUserPurchasesWrapper.cs" />
+    <Compile Include="Models\GetSingleUserPurchaseWrapper.cs" />
     <Compile Include="Models\UserPurchase.cs" />
     <Compile Include="Models\UserStore.cs" />
-    <Compile Include="Models\PurchaseItemData.cs" />
-    <Compile Include="Models\GetAllUserLoyaltyPurchasesWrapper.cs" />
-    <Compile Include="Models\UserLoyaltyPurchase.cs" />
-    <Compile Include="Models\LoyaltyPurchaseItemData.cs" />
-    <Compile Include="Models\GetSingleUserPurchaseWrapper.cs" />
+    <Compile Include="Models\ReceiptImage.cs" />
     <Compile Include="Models\UploadReceiptRequest.cs" />
     <Compile Include="Models\UploadReceiptWrapper.cs" />
     <Compile Include="Models\UploadReceiptStatusWrapper.cs" />
@@ -150,15 +103,52 @@
     <Compile Include="Models\DeleteSingleStoreWrapper.cs" />
     <Compile Include="Models\UpdateUserStoreRequest.cs" />
     <Compile Include="Models\UpdateStoreConnectionWrapper.cs" />
-    <Compile Include="Controllers\LookupController.cs" />
-    <Compile Include="Controllers\ProductsController.cs" />
-    <Compile Include="Controllers\UserCartsController.cs" />
+    <Compile Include="Models\CreateUserWrapper.cs" />
+    <Compile Include="Models\RegisterUserRequest.cs" />
+    <Compile Include="Models\ExecuteCart.cs" />
+    <Compile Include="Models\ExecuteCartWrapper.cs" />
+    <Compile Include="Models\ProductAlternativeTypeInfo.cs" />
+    <Compile Include="Models\MetaBase.cs" />
+    <Compile Include="Models\GetUOMsWrapper.cs" />
+    <Compile Include="Models\UOMInfo.cs" />
+    <Compile Include="Models\GetCategoriesWrapper.cs" />
+    <Compile Include="Models\CategoryInfo.cs" />
+    <Compile Include="Models\GetNutrientsWrapper.cs" />
+    <Compile Include="Models\NutrientInfo.cs" />
+    <Compile Include="Models\GetStoresWrapper.cs" />
+    <Compile Include="Models\StoreInfo.cs" />
+    <Compile Include="Models\GetTagsWrapper.cs" />
+    <Compile Include="Models\TagInfo.cs" />
+    <Compile Include="Models\GetProductsWrapper.cs" />
+    <Compile Include="Models\ProductData.cs" />
+    <Compile Include="Models\FdaResult.cs" />
+    <Compile Include="Models\NutrientData.cs" />
+    <Compile Include="Models\GetProductWrapper.cs" />
+    <Compile Include="Models\GetFDARecallWrapper.cs" />
+    <Compile Include="Models\FdaRecallData.cs" />
+    <Compile Include="Models\RecalledProductPurchaseData.cs" />
+    <Compile Include="Models\AddCartRequest.cs" />
+    <Compile Include="Models\AddCartWrapper.cs" />
+    <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\GetCartsWrapper.cs" />
+    <Compile Include="Models\DeleteCartWrapper.cs" />
+    <Compile Include="Models\GetCartWrapper.cs" />
+    <Compile Include="Models\AddCartItemRequest.cs" />
+    <Compile Include="Models\AddCartItemWrapper.cs" />
+    <Compile Include="Models\DeleteCartItemWrapper.cs" />
+    <Compile Include="Models\MetaPaged.cs" />
+    <Compile Include="Models\PurchaseItemData.cs" />
     <Compile Include="Controllers\UserManagementController.cs" />
-    <Compile Include="Controllers\UserPurchasesController.cs" />
-    <Compile Include="Controllers\UserScansController.cs" />
+    <Compile Include="Controllers\UserCartsController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\UserStoresController.cs" />
+    <Compile Include="Controllers\UserScansController.cs" />
+    <Compile Include="Controllers\UserPurchasesController.cs" />
     <Compile Include="Http\Client\IHTTPClient.cs" />
     <Compile Include="Http\Client\UnirestClient.cs" />
+    <Compile Include="Http\Client\HttpEventHandlers.cs" />
     <Compile Include="Http\Client\HttpContext.cs" />
     <Compile Include="Http\Request\HttpRequest.cs" />
     <Compile Include="Http\Request\HttpMethod.cs" />
@@ -168,10 +158,11 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="APIHelper.cs" />
-    <Compile Include="APIException.cs" />
+    <Compile Include="Exceptions\APIException.cs" />
     <Compile Include="InformationMachineAPIClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="packages.config">
+    <None Include="packages.config" />
+    <None Include="InformationMachineAPI.PCL.nuspec">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -180,7 +171,7 @@
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
+    </PropertyGroup>    
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

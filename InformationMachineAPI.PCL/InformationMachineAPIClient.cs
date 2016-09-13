@@ -5,6 +5,7 @@
  */
 using System;
 using InformationMachineAPI.PCL.Controllers;
+using InformationMachineAPI.PCL.Http.Client;
 
 namespace InformationMachineAPI.PCL
 {
@@ -12,24 +13,13 @@ namespace InformationMachineAPI.PCL
     {
 
         /// <summary>
-        /// Singleton access to Lookup controller
+        /// Singleton access to UserManagement controller
         /// </summary>
-        public LookupController Lookup
+        public UserManagementController UserManagement
         {
             get
             {
-                return LookupController.Instance;
-            }
-        }
-
-        /// <summary>
-        /// Singleton access to Products controller
-        /// </summary>
-        public ProductsController Products
-        {
-            get
-            {
-                return ProductsController.Instance;
+                return InformationMachineAPI.PCL.Controllers.UserManagementController.Instance;
             }
         }
 
@@ -40,40 +30,29 @@ namespace InformationMachineAPI.PCL
         {
             get
             {
-                return UserCartsController.Instance;
+                return InformationMachineAPI.PCL.Controllers.UserCartsController.Instance;
             }
         }
 
         /// <summary>
-        /// Singleton access to UserManagement controller
+        /// Singleton access to Products controller
         /// </summary>
-        public UserManagementController UserManagement
+        public ProductsController Products
         {
             get
             {
-                return UserManagementController.Instance;
+                return InformationMachineAPI.PCL.Controllers.ProductsController.Instance;
             }
         }
 
         /// <summary>
-        /// Singleton access to UserPurchases controller
+        /// Singleton access to Lookup controller
         /// </summary>
-        public UserPurchasesController UserPurchases
+        public LookupController Lookup
         {
             get
             {
-                return UserPurchasesController.Instance;
-            }
-        }
-
-        /// <summary>
-        /// Singleton access to UserScans controller
-        /// </summary>
-        public UserScansController UserScans
-        {
-            get
-            {
-                return UserScansController.Instance;
+                return InformationMachineAPI.PCL.Controllers.LookupController.Instance;
             }
         }
 
@@ -84,12 +63,54 @@ namespace InformationMachineAPI.PCL
         {
             get
             {
-                return UserStoresController.Instance;
+                return InformationMachineAPI.PCL.Controllers.UserStoresController.Instance;
             }
         }
 
         /// <summary>
-        /// Client constructor
+        /// Singleton access to UserScans controller
+        /// </summary>
+        public UserScansController UserScans
+        {
+            get
+            {
+                return InformationMachineAPI.PCL.Controllers.UserScansController.Instance;
+            }
+        }
+
+        /// <summary>
+        /// Singleton access to UserPurchases controller
+        /// </summary>
+        public UserPurchasesController UserPurchases
+        {
+            get
+            {
+                return InformationMachineAPI.PCL.Controllers.UserPurchasesController.Instance;
+            }
+        }
+
+        /// <summary>
+        /// The shared http client to use for all API calls
+        /// </summary>
+        public IHttpClient SharedHttpClient
+        {
+            get
+            {
+                return BaseController.ClientInstance;
+            }
+            set
+            {
+                BaseController.ClientInstance = value;
+            }        
+        }
+        
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public InformationMachineAPIClient() { }
+
+        /// <summary>
+        /// Client initialization constructor
         /// </summary>
         public InformationMachineAPIClient(string clientId, string clientSecret)
         {

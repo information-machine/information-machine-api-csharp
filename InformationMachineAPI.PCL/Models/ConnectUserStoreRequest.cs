@@ -19,7 +19,7 @@ namespace InformationMachineAPI.PCL.Models
     public class ConnectUserStoreRequest : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private int storeId;
+        private long storeId;
         private string username;
         private string password;
 
@@ -27,7 +27,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("store_id")]
-        public int StoreId 
+        public long StoreId 
         { 
             get 
             {

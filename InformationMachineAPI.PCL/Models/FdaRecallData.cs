@@ -16,43 +16,61 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class GetUserProducts : INotifyPropertyChanged 
+    public class FdaRecallData : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private List<ProductData> result;
-        private MetaPaged meta;
+        private FdaResult recall;
+        private ProductData product;
+        private List<RecalledProductPurchaseData> recallPurchases;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("result")]
-        public List<ProductData> Result 
+        [JsonProperty("recall")]
+        public FdaResult Recall 
         { 
             get 
             {
-                return this.result; 
+                return this.recall; 
             } 
             set 
             {
-                this.result = value;
-                onPropertyChanged("Result");
+                this.recall = value;
+                onPropertyChanged("Recall");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("meta")]
-        public MetaPaged Meta 
+        [JsonProperty("product")]
+        public ProductData Product 
         { 
             get 
             {
-                return this.meta; 
+                return this.product; 
             } 
             set 
             {
-                this.meta = value;
-                onPropertyChanged("Meta");
+                this.product = value;
+                onPropertyChanged("Product");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("recall_purchases")]
+        public List<RecalledProductPurchaseData> RecallPurchases 
+        { 
+            get 
+            {
+                return this.recallPurchases; 
+            } 
+            set 
+            {
+                this.recallPurchases = value;
+                onPropertyChanged("RecallPurchases");
             }
         }
 

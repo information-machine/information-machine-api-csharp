@@ -19,22 +19,22 @@ namespace InformationMachineAPI.PCL.Models
     public class PurchaseItemData : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private int? id;
-        private int? purchaseId;
+        private long id;
+        private long purchaseId;
         private string name;
         private double? quantity;
         private double? price;
         private double? discountedPrice;
         private string unitOfMeasurement;
         private string upc;
-        private string upcResolvedAt;
+        private DateTime? upcResolvedAt;
         private ProductData product;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("id")]
-        public int? Id 
+        public long Id 
         { 
             get 
             {
@@ -51,7 +51,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("purchase_id")]
-        public int? PurchaseId 
+        public long PurchaseId 
         { 
             get 
             {
@@ -170,7 +170,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("upc_resolved_at")]
-        public string UpcResolvedAt 
+        public DateTime? UpcResolvedAt 
         { 
             get 
             {

@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ using InformationMachineAPI.PCL;
 using InformationMachineAPI.PCL.Http.Request;
 using InformationMachineAPI.PCL.Http.Response;
 using InformationMachineAPI.PCL.Http.Client;
-
+using InformationMachineAPI.PCL.Exceptions;
 using InformationMachineAPI.PCL.Models;
 
 namespace InformationMachineAPI.PCL.Controllers
@@ -48,14 +49,23 @@ namespace InformationMachineAPI.PCL.Controllers
         #endregion Singleton Pattern
 
         /// <summary>
-        /// Get all users associated with your account.
+        /// Delete user
         /// </summary>
-        /// <param name="page">Optional parameter: TODO: type parameter description here</param>
-        /// <param name="perPage">Optional parameter: default:10, max:50</param>
-        /// <return>Returns the GetAllUsersWrapper response from the API call</return>
-        public GetAllUsersWrapper UserManagementGetAllUsers(
-                int? page = null,
-                int? perPage = null)
+        /// <param name="id">Required parameter: Example: </param>
+        /// <return>Returns the DeleteUserWrapper response from the API call</return>
+        public DeleteUserWrapper UserManagementDeleteUser(string id)
+        {
+            Task<DeleteUserWrapper> t = UserManagementDeleteUserAsync(id);
+            Task.WaitAll(t);
+            return t.Result;
+        }
+
+        /// <summary>
+        /// Delete user
+        /// </summary>
+        /// <param name="id">Required parameter: Example: </param>
+        /// <return>Returns the DeleteUserWrapper response from the API call</return>
+        public async Task<DeleteUserWrapper> UserManagementDeleteUserAsync(string id)
         {
             //the base uri for api requestss
             string _baseUri = Configuration.BaseUri;
@@ -64,15 +74,14 @@ namespace InformationMachineAPI.PCL.Controllers
             StringBuilder _queryBuilder = new StringBuilder(_baseUri);
             _queryBuilder.Append("/v1/users");
 
-
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
             {
-                { "page", page },
-                { "per_page", perPage },
+                { "id", id },
                 { "client_id", Configuration.ClientId },
                 { "client_secret", Configuration.ClientSecret }
             });
+
 
             //validate and preprocess url
             string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
@@ -80,20 +89,20 @@ namespace InformationMachineAPI.PCL.Controllers
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                { "user-agent", "IAMDATA V1" },
+                { "user-agent", "" },
                 { "accept", "application/json" }
             };
 
             //prepare the API call request to fetch the response
-            HttpRequest _request = ClientInstance.Get(_queryUrl,_headers);
+            HttpRequest _request = ClientInstance.Delete(_queryUrl, _headers, null);
 
             //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
+            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
             HttpContext _context = new HttpContext(_request,_response);
 
             //Error handling using HTTP status codes
-            if (_response.StatusCode == 400)
-                throw new APIException(@"Bad request", _context);
+            if (_response.StatusCode == 404)
+                throw new APIException(@"Not found", _context);
 
             else if (_response.StatusCode == 401)
                 throw new APIException(@"Unauthorized", _context);
@@ -103,21 +112,32 @@ namespace InformationMachineAPI.PCL.Controllers
 
             try
             {
-                return APIHelper.JsonDeserialize<GetAllUsersWrapper>(_response.Body);
+                return APIHelper.JsonDeserialize<DeleteUserWrapper>(_response.Body);
             }
-            catch (Exception ex)
+            catch (Exception _ex)
             {
-                throw new APIException("Failed to parse the response: " + ex.Message, _context);
+                throw new APIException("Failed to parse the response: " + _ex.Message, _context);
             }
         }
 
         /// <summary>
-        /// Register a new user by specifying "email", "zip" and "user_id". The "user_id" is mandatory and it represents the identifier you will use to identify your user in the IM API infrastructure.Note: The following characters are restricted within "user_id" string ---&gt; { '/', '^', '[',  '\\', 'w', '.', ']', '+', '$', '/' }
+        /// Register new user
         /// </summary>
-        /// <param name="payload">Required parameter: TODO: type parameter description here</param>
+        /// <param name="payload">Required parameter: Example: </param>
         /// <return>Returns the CreateUserWrapper response from the API call</return>
-        public CreateUserWrapper UserManagementCreateUser(
-                RegisterUserRequest payload)
+        public CreateUserWrapper UserManagementCreateUser(RegisterUserRequest payload)
+        {
+            Task<CreateUserWrapper> t = UserManagementCreateUserAsync(payload);
+            Task.WaitAll(t);
+            return t.Result;
+        }
+
+        /// <summary>
+        /// Register new user
+        /// </summary>
+        /// <param name="payload">Required parameter: Example: </param>
+        /// <return>Returns the CreateUserWrapper response from the API call</return>
+        public async Task<CreateUserWrapper> UserManagementCreateUserAsync(RegisterUserRequest payload)
         {
             //the base uri for api requestss
             string _baseUri = Configuration.BaseUri;
@@ -126,7 +146,6 @@ namespace InformationMachineAPI.PCL.Controllers
             StringBuilder _queryBuilder = new StringBuilder(_baseUri);
             _queryBuilder.Append("/v1/users");
 
-
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
             {
@@ -134,13 +153,14 @@ namespace InformationMachineAPI.PCL.Controllers
                 { "client_secret", Configuration.ClientSecret }
             });
 
+
             //validate and preprocess url
             string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
 
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                { "user-agent", "IAMDATA V1" },
+                { "user-agent", "" },
                 { "accept", "application/json" },
                 { "content-type", "application/json; charset=utf-8" }
             };
@@ -152,7 +172,7 @@ namespace InformationMachineAPI.PCL.Controllers
             HttpRequest _request = ClientInstance.PostBody(_queryUrl, _headers, _body);
 
             //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
+            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
             HttpContext _context = new HttpContext(_request,_response);
 
             //Error handling using HTTP status codes
@@ -175,19 +195,32 @@ namespace InformationMachineAPI.PCL.Controllers
             {
                 return APIHelper.JsonDeserialize<CreateUserWrapper>(_response.Body);
             }
-            catch (Exception ex)
+            catch (Exception _ex)
             {
-                throw new APIException("Failed to parse the response: " + ex.Message, _context);
+                throw new APIException("Failed to parse the response: " + _ex.Message, _context);
             }
         }
 
         /// <summary>
-        /// Delete a user from the IM API infrastructure by specifying user's "id".
+        /// Get all users details
         /// </summary>
-        /// <param name="id">Required parameter: TODO: type parameter description here</param>
-        /// <return>Returns the DeleteUserWrapper response from the API call</return>
-        public DeleteUserWrapper UserManagementDeleteUser(
-                string id)
+        /// <param name="page">Optional parameter: Example: </param>
+        /// <param name="perPage">Optional parameter: default:10, max:50</param>
+        /// <return>Returns the GetAllUsersWrapper response from the API call</return>
+        public GetAllUsersWrapper UserManagementGetAllUsers(int? page = null, int? perPage = null)
+        {
+            Task<GetAllUsersWrapper> t = UserManagementGetAllUsersAsync(page, perPage);
+            Task.WaitAll(t);
+            return t.Result;
+        }
+
+        /// <summary>
+        /// Get all users details
+        /// </summary>
+        /// <param name="page">Optional parameter: Example: </param>
+        /// <param name="perPage">Optional parameter: default:10, max:50</param>
+        /// <return>Returns the GetAllUsersWrapper response from the API call</return>
+        public async Task<GetAllUsersWrapper> UserManagementGetAllUsersAsync(int? page = null, int? perPage = null)
         {
             //the base uri for api requestss
             string _baseUri = Configuration.BaseUri;
@@ -196,14 +229,15 @@ namespace InformationMachineAPI.PCL.Controllers
             StringBuilder _queryBuilder = new StringBuilder(_baseUri);
             _queryBuilder.Append("/v1/users");
 
-
             //process optional query parameters
             APIHelper.AppendUrlWithQueryParameters(_queryBuilder, new Dictionary<string, object>()
             {
-                { "id", id },
+                { "page", page },
+                { "per_page", perPage },
                 { "client_id", Configuration.ClientId },
                 { "client_secret", Configuration.ClientSecret }
             });
+
 
             //validate and preprocess url
             string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
@@ -211,20 +245,20 @@ namespace InformationMachineAPI.PCL.Controllers
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                { "user-agent", "IAMDATA V1" },
+                { "user-agent", "" },
                 { "accept", "application/json" }
             };
 
             //prepare the API call request to fetch the response
-            HttpRequest _request = ClientInstance.Delete(_queryUrl, _headers, null);
+            HttpRequest _request = ClientInstance.Get(_queryUrl,_headers);
 
             //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
+            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
             HttpContext _context = new HttpContext(_request,_response);
 
             //Error handling using HTTP status codes
-            if (_response.StatusCode == 404)
-                throw new APIException(@"Not found", _context);
+            if (_response.StatusCode == 400)
+                throw new APIException(@"Bad request", _context);
 
             else if (_response.StatusCode == 401)
                 throw new APIException(@"Unauthorized", _context);
@@ -234,21 +268,32 @@ namespace InformationMachineAPI.PCL.Controllers
 
             try
             {
-                return APIHelper.JsonDeserialize<DeleteUserWrapper>(_response.Body);
+                return APIHelper.JsonDeserialize<GetAllUsersWrapper>(_response.Body);
             }
-            catch (Exception ex)
+            catch (Exception _ex)
             {
-                throw new APIException("Failed to parse the response: " + ex.Message, _context);
+                throw new APIException("Failed to parse the response: " + _ex.Message, _context);
             }
         }
 
         /// <summary>
-        /// Get user associated with your account specifying "id" of a user.
+        /// Get single user details
         /// </summary>
-        /// <param name="id">Required parameter: TODO: type parameter description here</param>
+        /// <param name="id">Required parameter: Example: </param>
         /// <return>Returns the GetSingleUserWrapper response from the API call</return>
-        public GetSingleUserWrapper UserManagementGetSingleUser(
-                string id)
+        public GetSingleUserWrapper UserManagementGetSingleUser(string id)
+        {
+            Task<GetSingleUserWrapper> t = UserManagementGetSingleUserAsync(id);
+            Task.WaitAll(t);
+            return t.Result;
+        }
+
+        /// <summary>
+        /// Get single user details
+        /// </summary>
+        /// <param name="id">Required parameter: Example: </param>
+        /// <return>Returns the GetSingleUserWrapper response from the API call</return>
+        public async Task<GetSingleUserWrapper> UserManagementGetSingleUserAsync(string id)
         {
             //the base uri for api requestss
             string _baseUri = Configuration.BaseUri;
@@ -270,13 +315,14 @@ namespace InformationMachineAPI.PCL.Controllers
                 { "client_secret", Configuration.ClientSecret }
             });
 
+
             //validate and preprocess url
             string _queryUrl = APIHelper.CleanUrl(_queryBuilder);
 
             //append request with appropriate headers and parameters
             var _headers = new Dictionary<string,string>()
             {
-                { "user-agent", "IAMDATA V1" },
+                { "user-agent", "" },
                 { "accept", "application/json" }
             };
 
@@ -284,7 +330,7 @@ namespace InformationMachineAPI.PCL.Controllers
             HttpRequest _request = ClientInstance.Get(_queryUrl,_headers);
 
             //invoke request and get response
-            HttpStringResponse _response = (HttpStringResponse) ClientInstance.ExecuteAsString(_request);
+            HttpStringResponse _response = (HttpStringResponse) await ClientInstance.ExecuteAsStringAsync(_request);
             HttpContext _context = new HttpContext(_request,_response);
 
             //Error handling using HTTP status codes
@@ -301,9 +347,9 @@ namespace InformationMachineAPI.PCL.Controllers
             {
                 return APIHelper.JsonDeserialize<GetSingleUserWrapper>(_response.Body);
             }
-            catch (Exception ex)
+            catch (Exception _ex)
             {
-                throw new APIException("Failed to parse the response: " + ex.Message, _context);
+                throw new APIException("Failed to parse the response: " + _ex.Message, _context);
             }
         }
 

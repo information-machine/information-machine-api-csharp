@@ -19,26 +19,9 @@ namespace InformationMachineAPI.PCL.Models
     public class ProductAlternativeTypeInfo : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private string description;
         private string name;
-        private int? id;
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("description")]
-        public string Description 
-        { 
-            get 
-            {
-                return this.description; 
-            } 
-            set 
-            {
-                this.description = value;
-                onPropertyChanged("Description");
-            }
-        }
+        private int id;
+        private string description;
 
         /// <summary>
         /// TODO: Write general description for this method
@@ -61,7 +44,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("id")]
-        public int? Id 
+        public int Id 
         { 
             get 
             {
@@ -71,6 +54,23 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.id = value;
                 onPropertyChanged("Id");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("description")]
+        public string Description 
+        { 
+            get 
+            {
+                return this.description; 
+            } 
+            set 
+            {
+                this.description = value;
+                onPropertyChanged("Description");
             }
         }
 

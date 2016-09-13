@@ -19,15 +19,15 @@ namespace InformationMachineAPI.PCL.Models
     public class MetaBase : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private int? maxNumberOfRequestsPerDay;
-        private int? remainingNumberOfRequest;
-        private double? timeInEpochSecondTillReset;
+        private int maxNumberOfRequestsPerDay;
+        private int remainingNumberOfRequest;
+        private double timeInEpochSecondTillReset;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("max_number_of_requests_per_day")]
-        public int? MaxNumberOfRequestsPerDay 
+        public int MaxNumberOfRequestsPerDay 
         { 
             get 
             {
@@ -44,7 +44,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("remaining_number_of_request")]
-        public int? RemainingNumberOfRequest 
+        public int RemainingNumberOfRequest 
         { 
             get 
             {
@@ -61,7 +61,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("time_in_epoch_second_till_reset")]
-        public double? TimeInEpochSecondTillReset 
+        public double TimeInEpochSecondTillReset 
         { 
             get 
             {

@@ -19,16 +19,16 @@ namespace InformationMachineAPI.PCL.Models
     public class CategoryInfo : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private int? id;
+        private int id;
         private string name;
+        private bool grocery;
         private int? parentId;
-        private bool? grocery;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("id")]
-        public int? Id 
+        public int Id 
         { 
             get 
             {
@@ -61,6 +61,23 @@ namespace InformationMachineAPI.PCL.Models
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
+        [JsonProperty("grocery")]
+        public bool Grocery 
+        { 
+            get 
+            {
+                return this.grocery; 
+            } 
+            set 
+            {
+                this.grocery = value;
+                onPropertyChanged("Grocery");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
         [JsonProperty("parent_id")]
         public int? ParentId 
         { 
@@ -72,23 +89,6 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.parentId = value;
                 onPropertyChanged("ParentId");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("grocery")]
-        public bool? Grocery 
-        { 
-            get 
-            {
-                return this.grocery; 
-            } 
-            set 
-            {
-                this.grocery = value;
-                onPropertyChanged("Grocery");
             }
         }
 

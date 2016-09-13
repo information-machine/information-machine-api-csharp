@@ -19,17 +19,19 @@ namespace InformationMachineAPI.PCL.Models
     public class StoreInfo : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private int? id;
+        private long id;
         private string name;
-        private bool? restaurant;
-        private bool? canScrape;
+        private bool restaurant;
+        private bool canScrape;
         private string imageLink;
+        private string url;
+        private string type;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("id")]
-        public int? Id 
+        public long Id 
         { 
             get 
             {
@@ -63,7 +65,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("restaurant")]
-        public bool? Restaurant 
+        public bool Restaurant 
         { 
             get 
             {
@@ -80,7 +82,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("can_scrape")]
-        public bool? CanScrape 
+        public bool CanScrape 
         { 
             get 
             {
@@ -107,6 +109,40 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.imageLink = value;
                 onPropertyChanged("ImageLink");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("url")]
+        public string Url 
+        { 
+            get 
+            {
+                return this.url; 
+            } 
+            set 
+            {
+                this.url = value;
+                onPropertyChanged("Url");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("type")]
+        public string Type 
+        { 
+            get 
+            {
+                return this.type; 
+            } 
+            set 
+            {
+                this.type = value;
+                onPropertyChanged("Type");
             }
         }
 

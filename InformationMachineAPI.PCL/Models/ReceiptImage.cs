@@ -16,43 +16,25 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class GetAllUserLoyaltyPurchasesWrapper : INotifyPropertyChanged 
+    public class ReceiptImage : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private List<UserLoyaltyPurchase> result;
-        private MetaPaged meta;
+        private string url;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("result")]
-        public List<UserLoyaltyPurchase> Result 
+        [JsonProperty("url")]
+        public string Url 
         { 
             get 
             {
-                return this.result; 
+                return this.url; 
             } 
             set 
             {
-                this.result = value;
-                onPropertyChanged("Result");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("meta")]
-        public MetaPaged Meta 
-        { 
-            get 
-            {
-                return this.meta; 
-            } 
-            set 
-            {
-                this.meta = value;
-                onPropertyChanged("Meta");
+                this.url = value;
+                onPropertyChanged("Url");
             }
         }
 

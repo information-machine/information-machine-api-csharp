@@ -19,7 +19,7 @@ namespace InformationMachineAPI.PCL.Models
     public class TagInfo : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private int? id;
+        private int id;
         private string name;
         private string description;
 
@@ -27,7 +27,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("id")]
-        public int? Id 
+        public int Id 
         { 
             get 
             {

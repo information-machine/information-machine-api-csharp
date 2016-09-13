@@ -19,43 +19,28 @@ namespace InformationMachineAPI.PCL.Models
     public class UserStore : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
+        private long id;
+        private long supermarketId;
         private UserData user;
-        private int? id;
-        private int? supermarketId;
         private string storeName;
         private string username;
         private string credentialsStatus;
         private string scrapeStatus;
         private string type;
         private bool? accountLocked;
+        private string accountLockCode;
         private string unlockUrl;
         private string oauthProvider;
         private string oauthAuthorizationUrl;
-        private string createdAt;
-        private string updatedAt;
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("user")]
-        public UserData User 
-        { 
-            get 
-            {
-                return this.user; 
-            } 
-            set 
-            {
-                this.user = value;
-                onPropertyChanged("User");
-            }
-        }
+        private DateTime? createdAt;
+        private DateTime? updatedAt;
+        private double? totalSpent;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("id")]
-        public int? Id 
+        public long Id 
         { 
             get 
             {
@@ -72,7 +57,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("supermarket_id")]
-        public int? SupermarketId 
+        public long SupermarketId 
         { 
             get 
             {
@@ -82,6 +67,23 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.supermarketId = value;
                 onPropertyChanged("SupermarketId");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("user")]
+        public UserData User 
+        { 
+            get 
+            {
+                return this.user; 
+            } 
+            set 
+            {
+                this.user = value;
+                onPropertyChanged("User");
             }
         }
 
@@ -190,6 +192,23 @@ namespace InformationMachineAPI.PCL.Models
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
+        [JsonProperty("account_lock_code")]
+        public string AccountLockCode 
+        { 
+            get 
+            {
+                return this.accountLockCode; 
+            } 
+            set 
+            {
+                this.accountLockCode = value;
+                onPropertyChanged("AccountLockCode");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
         [JsonProperty("unlock_url")]
         public string UnlockUrl 
         { 
@@ -242,7 +261,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("created_at")]
-        public string CreatedAt 
+        public DateTime? CreatedAt 
         { 
             get 
             {
@@ -259,7 +278,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("updated_at")]
-        public string UpdatedAt 
+        public DateTime? UpdatedAt 
         { 
             get 
             {
@@ -269,6 +288,23 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.updatedAt = value;
                 onPropertyChanged("UpdatedAt");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("total_spent")]
+        public double? TotalSpent 
+        { 
+            get 
+            {
+                return this.totalSpent; 
+            } 
+            set 
+            {
+                this.totalSpent = value;
+                onPropertyChanged("TotalSpent");
             }
         }
 

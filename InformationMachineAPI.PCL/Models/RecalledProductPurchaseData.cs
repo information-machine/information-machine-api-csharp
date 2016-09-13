@@ -16,19 +16,38 @@ using InformationMachineAPI.PCL;
 
 namespace InformationMachineAPI.PCL.Models
 {
-    public class UserPurchase : INotifyPropertyChanged 
+    public class RecalledProductPurchaseData : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
+        private long productId;
         private long id;
-        private UserStore userStore;
-        private List<PurchaseItemData> purchaseItems;
-        private DateTime? date;
-        private double? total;
-        private double? totalWithoutTax;
-        private double? tax;
+        private long storeId;
+        private string storeName;
+        private DateTime? orderPurchaseDate;
+        private DateTime? orderRecordedAt;
         private string orderNumber;
-        private string receiptId;
-        private List<ReceiptImage> receiptImageUrls;
+        private string email;
+        private string zip;
+        private string userId;
+        private string clientId;
+        private DateTime? userCreatedAt;
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("product_id")]
+        public long ProductId 
+        { 
+            get 
+            {
+                return this.productId; 
+            } 
+            set 
+            {
+                this.productId = value;
+                onPropertyChanged("ProductId");
+            }
+        }
 
         /// <summary>
         /// TODO: Write general description for this method
@@ -50,102 +69,68 @@ namespace InformationMachineAPI.PCL.Models
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("user_store")]
-        public UserStore UserStore 
+        [JsonProperty("store_id")]
+        public long StoreId 
         { 
             get 
             {
-                return this.userStore; 
+                return this.storeId; 
             } 
             set 
             {
-                this.userStore = value;
-                onPropertyChanged("UserStore");
+                this.storeId = value;
+                onPropertyChanged("StoreId");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("purchase_items")]
-        public List<PurchaseItemData> PurchaseItems 
+        [JsonProperty("store_name")]
+        public string StoreName 
         { 
             get 
             {
-                return this.purchaseItems; 
+                return this.storeName; 
             } 
             set 
             {
-                this.purchaseItems = value;
-                onPropertyChanged("PurchaseItems");
+                this.storeName = value;
+                onPropertyChanged("StoreName");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("date")]
-        public DateTime? Date 
+        [JsonProperty("order_purchase_date")]
+        public DateTime? OrderPurchaseDate 
         { 
             get 
             {
-                return this.date; 
+                return this.orderPurchaseDate; 
             } 
             set 
             {
-                this.date = value;
-                onPropertyChanged("Date");
+                this.orderPurchaseDate = value;
+                onPropertyChanged("OrderPurchaseDate");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("total")]
-        public double? Total 
+        [JsonProperty("order_recorded_at")]
+        public DateTime? OrderRecordedAt 
         { 
             get 
             {
-                return this.total; 
+                return this.orderRecordedAt; 
             } 
             set 
             {
-                this.total = value;
-                onPropertyChanged("Total");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("total_without_tax")]
-        public double? TotalWithoutTax 
-        { 
-            get 
-            {
-                return this.totalWithoutTax; 
-            } 
-            set 
-            {
-                this.totalWithoutTax = value;
-                onPropertyChanged("TotalWithoutTax");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("tax")]
-        public double? Tax 
-        { 
-            get 
-            {
-                return this.tax; 
-            } 
-            set 
-            {
-                this.tax = value;
-                onPropertyChanged("Tax");
+                this.orderRecordedAt = value;
+                onPropertyChanged("OrderRecordedAt");
             }
         }
 
@@ -169,34 +154,85 @@ namespace InformationMachineAPI.PCL.Models
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("receipt_id")]
-        public string ReceiptId 
+        [JsonProperty("email")]
+        public string Email 
         { 
             get 
             {
-                return this.receiptId; 
+                return this.email; 
             } 
             set 
             {
-                this.receiptId = value;
-                onPropertyChanged("ReceiptId");
+                this.email = value;
+                onPropertyChanged("Email");
             }
         }
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
-        [JsonProperty("receipt_image_urls")]
-        public List<ReceiptImage> ReceiptImageUrls 
+        [JsonProperty("zip")]
+        public string Zip 
         { 
             get 
             {
-                return this.receiptImageUrls; 
+                return this.zip; 
             } 
             set 
             {
-                this.receiptImageUrls = value;
-                onPropertyChanged("ReceiptImageUrls");
+                this.zip = value;
+                onPropertyChanged("Zip");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("user_id")]
+        public string UserId 
+        { 
+            get 
+            {
+                return this.userId; 
+            } 
+            set 
+            {
+                this.userId = value;
+                onPropertyChanged("UserId");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("client_id")]
+        public string ClientId 
+        { 
+            get 
+            {
+                return this.clientId; 
+            } 
+            set 
+            {
+                this.clientId = value;
+                onPropertyChanged("ClientId");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("user_created_at")]
+        public DateTime? UserCreatedAt 
+        { 
+            get 
+            {
+                return this.userCreatedAt; 
+            } 
+            set 
+            {
+                this.userCreatedAt = value;
+                onPropertyChanged("UserCreatedAt");
             }
         }
 

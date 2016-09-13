@@ -19,21 +19,21 @@ namespace InformationMachineAPI.PCL.Models
     public class PurchaseInfo : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private int? invoiceId;
-        private int? storeId;
+        private long invoiceId;
+        private long storeId;
         private string storeName;
         private string harvestedName;
         private double? quantity;
         private double? price;
         private double? unitPrice;
-        private string purchaseDate;
-        private string recordedAt;
+        private DateTime? purchaseDate;
+        private DateTime? recordedAt;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("invoice_id")]
-        public int? InvoiceId 
+        public long InvoiceId 
         { 
             get 
             {
@@ -50,7 +50,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("store_id")]
-        public int? StoreId 
+        public long StoreId 
         { 
             get 
             {
@@ -152,7 +152,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("purchase_date")]
-        public string PurchaseDate 
+        public DateTime? PurchaseDate 
         { 
             get 
             {
@@ -169,7 +169,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("recorded_at")]
-        public string RecordedAt 
+        public DateTime? RecordedAt 
         { 
             get 
             {

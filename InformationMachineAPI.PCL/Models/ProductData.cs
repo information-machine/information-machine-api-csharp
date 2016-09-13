@@ -19,10 +19,11 @@ namespace InformationMachineAPI.PCL.Models
     public class ProductData : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
+        private long id;
         private List<NutrientData> nutrients;
         private List<string> recipes;
         private List<string> plus;
-        private int? visibilityCount;
+        private long? visibilityCount;
         private double? score;
         private string amazonLink;
         private string manufacturer;
@@ -42,7 +43,23 @@ namespace InformationMachineAPI.PCL.Models
         private string category;
         private int? categoryId;
         private string name;
-        private int? id;
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("id")]
+        public long Id 
+        { 
+            get 
+            {
+                return this.id; 
+            } 
+            set 
+            {
+                this.id = value;
+                onPropertyChanged("Id");
+            }
+        }
 
         /// <summary>
         /// TODO: Write general description for this method
@@ -99,7 +116,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("visibility_count")]
-        public int? VisibilityCount 
+        public long? VisibilityCount 
         { 
             get 
             {
@@ -432,23 +449,6 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.name = value;
                 onPropertyChanged("Name");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("id")]
-        public int? Id 
-        { 
-            get 
-            {
-                return this.id; 
-            } 
-            set 
-            {
-                this.id = value;
-                onPropertyChanged("Id");
             }
         }
 

@@ -19,14 +19,14 @@ namespace InformationMachineAPI.PCL.Models
     public class ConnectOAuthUserStoreRequest : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private int storeId;
+        private long storeId;
         private string oauthProvider;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("store_id")]
-        public int StoreId 
+        public long StoreId 
         { 
             get 
             {

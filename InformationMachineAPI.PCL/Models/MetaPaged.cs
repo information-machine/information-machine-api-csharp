@@ -19,20 +19,20 @@ namespace InformationMachineAPI.PCL.Models
     public class MetaPaged : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private int? page;
-        private int? perPage;
-        private int? totalNumberOfPages;
+        private int page;
+        private int perPage;
+        private int totalNumberOfPages;
+        private int maxNumberOfRequestsPerDay;
+        private int remainingNumberOfRequest;
+        private double timeInEpochSecondTillReset;
         private string nextPage;
         private string lastPage;
-        private int? maxNumberOfRequestsPerDay;
-        private int? remainingNumberOfRequest;
-        private double? timeInEpochSecondTillReset;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("page")]
-        public int? Page 
+        public int Page 
         { 
             get 
             {
@@ -49,7 +49,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("per_page")]
-        public int? PerPage 
+        public int PerPage 
         { 
             get 
             {
@@ -66,7 +66,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("total_number_of_pages")]
-        public int? TotalNumberOfPages 
+        public int TotalNumberOfPages 
         { 
             get 
             {
@@ -76,6 +76,57 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.totalNumberOfPages = value;
                 onPropertyChanged("TotalNumberOfPages");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("max_number_of_requests_per_day")]
+        public int MaxNumberOfRequestsPerDay 
+        { 
+            get 
+            {
+                return this.maxNumberOfRequestsPerDay; 
+            } 
+            set 
+            {
+                this.maxNumberOfRequestsPerDay = value;
+                onPropertyChanged("MaxNumberOfRequestsPerDay");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("remaining_number_of_request")]
+        public int RemainingNumberOfRequest 
+        { 
+            get 
+            {
+                return this.remainingNumberOfRequest; 
+            } 
+            set 
+            {
+                this.remainingNumberOfRequest = value;
+                onPropertyChanged("RemainingNumberOfRequest");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Write general description for this method
+        /// </summary>
+        [JsonProperty("time_in_epoch_second_till_reset")]
+        public double TimeInEpochSecondTillReset 
+        { 
+            get 
+            {
+                return this.timeInEpochSecondTillReset; 
+            } 
+            set 
+            {
+                this.timeInEpochSecondTillReset = value;
+                onPropertyChanged("TimeInEpochSecondTillReset");
             }
         }
 
@@ -110,57 +161,6 @@ namespace InformationMachineAPI.PCL.Models
             {
                 this.lastPage = value;
                 onPropertyChanged("LastPage");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("max_number_of_requests_per_day")]
-        public int? MaxNumberOfRequestsPerDay 
-        { 
-            get 
-            {
-                return this.maxNumberOfRequestsPerDay; 
-            } 
-            set 
-            {
-                this.maxNumberOfRequestsPerDay = value;
-                onPropertyChanged("MaxNumberOfRequestsPerDay");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("remaining_number_of_request")]
-        public int? RemainingNumberOfRequest 
-        { 
-            get 
-            {
-                return this.remainingNumberOfRequest; 
-            } 
-            set 
-            {
-                this.remainingNumberOfRequest = value;
-                onPropertyChanged("RemainingNumberOfRequest");
-            }
-        }
-
-        /// <summary>
-        /// TODO: Write general description for this method
-        /// </summary>
-        [JsonProperty("time_in_epoch_second_till_reset")]
-        public double? TimeInEpochSecondTillReset 
-        { 
-            get 
-            {
-                return this.timeInEpochSecondTillReset; 
-            } 
-            set 
-            {
-                this.timeInEpochSecondTillReset = value;
-                onPropertyChanged("TimeInEpochSecondTillReset");
             }
         }
 

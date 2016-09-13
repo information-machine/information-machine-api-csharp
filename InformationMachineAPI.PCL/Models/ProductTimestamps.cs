@@ -19,14 +19,14 @@ namespace InformationMachineAPI.PCL.Models
     public class ProductTimestamps : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private string upcResolvedAt;
-        private string recordedAt;
+        private DateTime? upcResolvedAt;
+        private DateTime? recordedAt;
 
         /// <summary>
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("upc_resolved_at")]
-        public string UpcResolvedAt 
+        public DateTime? UpcResolvedAt 
         { 
             get 
             {
@@ -43,7 +43,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("recorded_at")]
-        public string RecordedAt 
+        public DateTime? RecordedAt 
         { 
             get 
             {

@@ -19,7 +19,7 @@ namespace InformationMachineAPI.PCL.Models
     public class PurchasedItem : INotifyPropertyChanged 
     {
         // These fields hold the values for the public properties.
-        private int? productId;
+        private long productId;
         private string name;
         private List<PurchaseInfo> purchaseHistory;
         private ProductTimestamps productTimestamps;
@@ -30,7 +30,7 @@ namespace InformationMachineAPI.PCL.Models
         /// TODO: Write general description for this method
         /// </summary>
         [JsonProperty("product_id")]
-        public int? ProductId 
+        public long ProductId 
         { 
             get 
             {
